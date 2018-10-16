@@ -50,7 +50,7 @@ public class LoginActivity extends Activity {                 //登录界面活�
         loginSuccessShow=(TextView) findViewById(R.id.login_success_show);
         editName = (EditText) findViewById(R.id.login_edit_account);
         editPw = (EditText) findViewById(R.id.login_edit_pwd);
-
+        login_sp = getSharedPreferences("userInfo", 0);
         mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
         mLoginButton.setOnClickListener(mListener);
     }
@@ -86,7 +86,6 @@ public class LoginActivity extends Activity {                 //登录界面活�
                 Toast.makeText(LoginActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
-                        Toast.makeText(LoginActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
                         Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent_login_success);
                         finish();
