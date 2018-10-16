@@ -4,6 +4,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import android.util.DisplayMetrics;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -26,6 +27,15 @@ public class PhotoUtil {
     public static final int PICTURE_WIDTH = 500;
     public static String imageName;
 
+    /**
+     * 得到界面的宽度和高度
+     * @param context
+     */
+    public static DisplayMetrics getScreenWH(Context context) {
+        DisplayMetrics dMetrics = new DisplayMetrics();
+        dMetrics = context.getResources().getDisplayMetrics();
+        return dMetrics;
+    }
     /**
      * 从系统相册中选取照片上传
      * @param activity
