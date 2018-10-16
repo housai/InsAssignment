@@ -32,6 +32,8 @@ public class LoginActivity extends Activity {                 //登录界面活�
     private View loginView;                           //登录
     private View loginSuccessView;
     private TextView loginSuccessShow;
+    private EditText editName;
+    private EditText editPw;
     private String name;
     private String pwd;
 
@@ -46,13 +48,14 @@ public class LoginActivity extends Activity {                 //登录界面活�
         loginView=findViewById(R.id.login_view);
         loginSuccessView=findViewById(R.id.login_success_view);
         loginSuccessShow=(TextView) findViewById(R.id.login_success_show);
+        editName = (EditText) findViewById(R.id.login_edit_account);
+        editPw = (EditText) findViewById(R.id.login_edit_pwd);
 
 
 
         login_sp = getSharedPreferences("userInfo", 0);
         name=login_sp.getString("USER_NAME", "");
         pwd =login_sp.getString("PASSWORD", "");
-
 
         mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
         mLoginButton.setOnClickListener(mListener);
@@ -67,6 +70,8 @@ public class LoginActivity extends Activity {                 //登录界面活�
                     break;
                 case R.id.login_btn_login:
                     //登录界面的登录按钮
+                    name = editName.getText().toString();
+                    pwd = editPw.getText().toString();
                     login();
                     break;
             }
@@ -88,6 +93,9 @@ public class LoginActivity extends Activity {                 //登录界面活�
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
                         Toast.makeText(LoginActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
+                        Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent_login_success);
+                        finish();
                     }else{
                         Toast.makeText(LoginActivity.this,"飒飒的是",Toast.LENGTH_LONG).show();
                     }
