@@ -8,9 +8,6 @@ package com.burhanrashid52.imageeditor.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.burhanrashid52.imageeditor.R;
-import com.burhanrashid52.imageeditor.user.Login;
-import com.burhanrashid52.imageeditor.user.UserData;
-import com.burhanrashid52.imageeditor.user.UserDataManager;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
