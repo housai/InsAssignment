@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+div{
+	width:20%;
+	margin:0 auto;
+	background:#87CEFF;
+	padding:1%;
+	border-radius:5px;
+	min-width:800px;
+}
+div p{
+	text-align:left;
+	width:width:100%;
+	position:relative;
+}
+div input{
+	border:none;
+	height:1.2rem;
+	border-radius:5px;
+	margin-left:9rem;;
+}
+p span{
+width:5rem;
+height:1.2rem;
+position:absolute;
+}
+
+</style>
+<body>
+<div>
+<form action="http://localhost:8080/hspt/buyControllerAPI/buySubmitInformation" method="post">
+		<p style="color:red">帮我送信息提交：</p>
+		<p><span>userId:</span><input type="text" name="userId"></p>
+		<p><span>number</span><input type="text" name="number"></p>
+		<p><span>describes:</span><input type="text" name="describes"></p>
+		<p><span>isBuyInsurance:</span><input type="text" name="isBuyInsurance"></p>
+		<p><span>policyNo:</span><input type="text" name="policyNo"></p>
+		<p><span>receivingPhone:</span><input type="text" name="receivingPhone"></p>
+		<p><span>receivingContact:</span><input type="text" name="receivingContact"></p>
+		<p><span>receivingAddress:</span><input type="text" name="receivingAddress"></p>
+		<p><span>isUrgent:</span><input type="text" name="isUrgent"></p>
+		<p><span>pod:</span><input type="text" name="pod"></p>
+		<p><span>wentOnCost:</span><input type="text" name="wentOnCost"></p>
+		
+	   <p style="text-align:center"><input type="submit" name="提交" style="width:10rem;height:2rem;border:none;border-radius:5px;margin:0;"></p>
+	</form>
+	</div>
+</body>
+</html>
