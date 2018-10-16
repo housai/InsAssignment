@@ -8,6 +8,8 @@ package com.burhanrashid52.imageeditor.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.burhanrashid52.imageeditor.R;
+import com.burhanrashid52.imageeditor.network.JsonCallback;
+import com.burhanrashid52.imageeditor.utils.OkGoUtil;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -23,7 +30,12 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mPwdCheck;                       //密码编辑
     private Button mSureButton;                       //确定按钮
     private Button mCancelButton;                     //取消按钮
-    //private UserDataManager mUserDataManager;         //用户数据管理类
+
+    private String name;
+    private String pwd;
+    private String spwd;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +49,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         mSureButton.setOnClickListener(m_register_Listener);      //注册界面两个按钮的监听事件
         mCancelButton.setOnClickListener(m_register_Listener);
-//
-//        if (mUserDataManager == null) {
-//            mUserDataManager = new UserDataManager(this);
-//            mUserDataManager.openDataBase();                              //建立本地数据库
-//        }
 
     }
     View.OnClickListener m_register_Listener = new View.OnClickListener() {    //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.register_btn_sure:                       //确认按钮的监听事件
-                    register_check();
+                    register();
                     break;
                 case R.id.register_btn_cancel:                     //取消按钮的监听事件,由注册界面返回登录界面
                     Intent intent_Register_to_Login = new Intent(RegisterActivity.this,LoginActivity.class) ;    //切换User Activity至Login Activity
@@ -58,36 +65,50 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     };
-    public void register_check() {                                //确认按钮的监听事件
-        if (isUserNameAndPwdValid()) {
-            String userName = mAccount.getText().toString().trim();
-            String userPwd = mPwd.getText().toString().trim();
-            String userPwdCheck = mPwdCheck.getText().toString().trim();
-            //检查用户是否存在
-            //int count=mUserDataManager.findUserByName(userName);
-            //用户已经存在时返回，给出提示文字
-//            if(count>0){
-//                Toast.makeText(this, getString(R.string.name_already_exist, userName),Toast.LENGTH_SHORT).show();
-//                return ;
-//            }
-            if(userPwd.equals(userPwdCheck)==false){     //两次密码输入不一样
-                Toast.makeText(this, getString(R.string.pwd_not_the_same),Toast.LENGTH_SHORT).show();
-                return ;
-            } else {
-//                UserData mUser = new UserData(userName, userPwd);
-//                mUserDataManager.openDataBase();
-//                long flag = mUserDataManager.insertUserData(mUser); //新建用户信息
-//                if (flag == -1) {
-//                    Toast.makeText(this, getString(R.string.register_fail),Toast.LENGTH_SHORT).show();
-//                }else{
-                    Toast.makeText(this, getString(R.string.register_success),Toast.LENGTH_SHORT).show();
-                    Intent intent_Register_to_Login = new Intent(RegisterActivity.this,LoginActivity.class) ;    //切换User Activity至Login Activity
+    public void register() {
+        //确认按钮的监听事件
+
+        Map<String, String> map = new HashMap<>();
+        map.put("username", name);
+        map.put("password", pwd);
+        map.put("surepassword",spwd);
+
+        OkGoUtil.jsonPost(RegisterActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/register", map, true, new JsonCallback() {
+
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+                Toast.makeText(RegisterActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
+                try {
+                    if (jsonObject.getInt("resultCode") == 200){
+                        Toast.makeText(RegisterActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(RegisterActivity.this,"飒飒的是",Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(RegisterActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+                String userName = mAccount.getText().toString().trim();
+                String userPwd = mPwd.getText().toString().trim();
+                String userPwdCheck = mPwdCheck.getText().toString().trim();
+
+                if (userPwd.equals(userPwdCheck) == false) {     //两次密码输入不一样
+                    Toast.makeText(this, getString(R.string.pwd_not_the_same), Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    Toast.makeText(this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
+                    Intent intent_Register_to_Login = new Intent(RegisterActivity.this, LoginActivity.class);    //切换User Activity至Login Activity
                     startActivity(intent_Register_to_Login);
                     finish();
+                }
 
-              //  }
-            }
-        }
     }
     public boolean isUserNameAndPwdValid() {
         if (mAccount.getText().toString().trim().equals("")) {
