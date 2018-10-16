@@ -51,12 +51,6 @@ public class LoginActivity extends Activity {                 //登录界面活�
         editName = (EditText) findViewById(R.id.login_edit_account);
         editPw = (EditText) findViewById(R.id.login_edit_pwd);
 
-
-
-        login_sp = getSharedPreferences("userInfo", 0);
-        name=login_sp.getString("USER_NAME", "");
-        pwd =login_sp.getString("PASSWORD", "");
-
         mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
         mLoginButton.setOnClickListener(mListener);
     }
