@@ -20,7 +20,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.burhanrashid52.imageeditor.utils.XCRoundImageView
+            <com.klein.instagram.utils.XCRoundImageView
                 android:id="@+id/userImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
