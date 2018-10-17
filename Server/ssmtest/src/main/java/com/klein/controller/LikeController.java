@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
+import com.klein.model.Post;
+import com.klein.service.PostService;
 import com.klein.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +28,15 @@ public class LikeController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private PostService postService;
+
     @ResponseBody
-    @RequestMapping(value = "/getUserByPostId", method = RequestMethod.POST)
-    public String getUserByPostId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String postId = request.getParameter("postId");
-        System.out.println(postId);
+    @RequestMapping(value = "/selectLikeById", method = RequestMethod.POST)
+    public String selectLikeById (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String likeId = request.getParameter("likeId");
         Map<String, Object> map = Maps.newHashMap();
-        ArrayList<Like> likeList = likeService.selectLikeByPostId(Integer.parseInt(postId));
+        ArrayList<Like> likeList = likeService.selectLikeByPostId(Integer.parseInt(likeId));
         if (likeList != null){
             map.put("resultCode",200);
             map.put("data",likeList);
@@ -46,8 +50,28 @@ public class LikeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/getPostByUserId", method = RequestMethod.POST)
-    public String getPostByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/selectLikeByPostId", method = RequestMethod.POST)
+    public String selectLikeByPostId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String postId = request.getParameter("postId");
+        System.out.println(postId);
+        Map<String, Object> map = Maps.newHashMap();
+        ArrayList<Like> likeList = likeService.selectLikeByPostId(Integer.parseInt(postId));
+        //Post post = postService.selectPostById(Integer.parseInt(postId));
+        if (likeList != null){
+            map.put("resultCode",200);
+            map.put("data",likeList);
+            return JSON.toJSONString(map);
+        }
+        else {
+            map.put("resultCode",400);
+            map.put("msg","fail");
+            return JSON.toJSONString(map);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/selectLikeByUserId", method = RequestMethod.POST)
+    public String selectLikeByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Like> likeList = likeService.selectLikeByUserId(Integer.parseInt(userId));
@@ -81,8 +105,8 @@ public class LikeController {
         }
     }
     @ResponseBody
-    @RequestMapping(value = "/addLike", method = RequestMethod.POST)
-    public String addLike (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/insertLike", method = RequestMethod.POST)
+    public String insertLike (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
         Map<String, Object> map = Maps.newHashMap();
         String userId = request.getParameter("userId");
         String postId = request.getParameter("postId");
@@ -90,31 +114,20 @@ public class LikeController {
         ArrayList<Like> likeArrayList = likeService.selectLikeByName(username);
         ArrayList<Like> likeArrayList2 = likeService.selectLikeByPostId(Integer.parseInt(postId));
         ArrayList<Like> likeArrayList3 = likeService.selectLikeByUserId(Integer.parseInt(userId));
-        boolean duplicate = true;
-        if (likeArrayList2 != null){
-            likeArrayList.addAll(likeArrayList2);
-        }
-        if (likeArrayList3 != null){
-            likeArrayList.addAll(likeArrayList3);
-        }
-        if (likeArrayList != null){
-            HashSet hashSet = new HashSet(likeArrayList);
-            if (hashSet == null){
-                Like like = new Like(username, Integer.parseInt(postId), Integer.parseInt(userId));
-                likeService.insertLike(like);
-                map.put("resultCode",200);
-                map.put("msg","success");
-                return JSON.toJSONString(map);
-            }else {
-                map.put("resultCode",400);
-                map.put("msg","user exists");
-                return JSON.toJSONString(map);
-            }
-        }else{
+
+        likeArrayList.addAll(likeArrayList2);
+        likeArrayList.addAll(likeArrayList3);
+        HashSet hashSet = new HashSet(likeArrayList);
+        System.out.println(hashSet.size());
+        if (hashSet.size()==0){
             Like like = new Like(username, Integer.parseInt(postId), Integer.parseInt(userId));
             likeService.insertLike(like);
             map.put("resultCode",200);
             map.put("msg","success");
+            return JSON.toJSONString(map);
+        }else {
+            map.put("resultCode",400);
+            map.put("msg","user exists");
             return JSON.toJSONString(map);
         }
 

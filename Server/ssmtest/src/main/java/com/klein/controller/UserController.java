@@ -24,14 +24,21 @@ public class UserController {
     private UserService userService; 
 	
 	@ResponseBody
-	@RequestMapping(value = "/getUser", method = RequestMethod.POST)
-    public String getIndex (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {      
-		String userId = request.getParameter("id");
-        User user = userService.selectUserById(Integer.parseInt(userId)); 
-        System.out.println(user.getUsername());
-//        return user.getName(); 
-        request.getRequestDispatcher("/WEB-INF/view/index.jsp").forward(request,response);
-        return null;
+	@RequestMapping(value = "/selectUserByName", method = RequestMethod.POST)
+    public String getIndex (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Map<String, Object> map = Maps.newHashMap();
+	    String username = request.getParameter("username");
+        User user = userService.selectUserByName(username);
+        if (user != null){
+            map.put("resultCode",200);
+            map.put("msg","success");
+            return JSON.toJSONString(map);
+        }
+        else {
+            map.put("resultCode",400);
+            map.put("msg","user exists");
+            return JSON.toJSONString(map);
+        }
     }
 
     @ResponseBody
@@ -64,16 +71,18 @@ public class UserController {
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
         User user = userService.selectUserByName(userName);
-        if (user != null && (password.contentEquals(user.getPassword()))){
-            map.put("resultCode",200);
-            map.put("msg","login success");
-            return JSON.toJSONString(map);
+        if (user != null && password != null) {
+            if (password.contentEquals(user.getPassword())) {
+                map.put("resultCode", 200);
+                map.put("msg", "login success");
+                return JSON.toJSONString(map);
+            }
+
         }
-        else{
-            map.put("resultCode",400);
-            map.put("msg","login fail");
-            return JSON.toJSONString(map);
-        }
+        map.put("resultCode",400);
+        map.put("msg","login fail");
+        return JSON.toJSONString(map);
+
     }
 
 }
