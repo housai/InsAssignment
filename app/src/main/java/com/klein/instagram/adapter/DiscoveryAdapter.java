@@ -12,9 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.klein.instagram.R;
 import com.bumptech.glide.Glide;
-import com.klein.instagram.activity.CommentActivity;
-import com.klein.instagram.R;
-import com.klein.instagram.activity.CommentActivity;
+
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

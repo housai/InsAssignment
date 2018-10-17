@@ -23,7 +23,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/button_backward"
+            android:id="@+id/but_backward"
             android:background="@drawable/button_backward"
             android:layout_width="30dp"
             android:layout_height="match_parent"
@@ -45,6 +45,7 @@
         android:layout_marginBottom="5dp"
         android:orientation="vertical">
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/search_view"
         android:layout_width="400dp"
@@ -68,6 +69,7 @@
             android:textColor="#ffffff"
             android:textSize="20dp" />
     </LinearLayout>
+
     <View
         android:id="@+id/view_user_Number"
         android:layout_width="match_parent"

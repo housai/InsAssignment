@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klein.instagram.R;
@@ -23,7 +21,7 @@ import java.util.Map;
 public class DiscoverActivity extends Activity {
     private EditText searchUser;                        //用户名编辑
     private Button mSearchButton;
-    private ImageView mbackButton;
+    private Button mbackButton;
     private String sname;
 
 
@@ -33,8 +31,9 @@ public class DiscoverActivity extends Activity {
         setContentView(R.layout.discovery);
         Toast.makeText(DiscoverActivity.this,"这个是搜索页面",Toast.LENGTH_LONG).show();
         mSearchButton = (Button) findViewById(R.id.search_btn);
-        mbackButton = (ImageView) findViewById(R.id.button_backward);
-        searchUser = (EditText) findViewById(R.id.dis_result);
+        mbackButton = (Button) findViewById(R.id.but_backward);
+        //mbackButton = (Button) findViewById(R.id.button_backward);
+        searchUser = (EditText) findViewById(R.id.dis_input);
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
@@ -45,7 +44,7 @@ public class DiscoverActivity extends Activity {
                     sname = searchUser.getText().toString();    //根据输入内容进行搜索
                     search();
                     break;
-                case R.id.button_backward: //回撤到主界面
+                case R.id.but_backward: //回撤到主界面
                     Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ; //切换discover界面到main界面
                     startActivity(intent_Discover_to_Main);
                     finish();
