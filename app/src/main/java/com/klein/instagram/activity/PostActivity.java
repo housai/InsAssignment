@@ -27,6 +27,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map;
 
+/* Created by Kaven Peng 16/10/18
+**/
+
 public class PostActivity extends AppCompatActivity {
         private EditText editText;                        //用户名编辑
         private Button mPostButton;
