@@ -68,6 +68,48 @@
             android:textColor="#ffffff"
             android:textSize="20dp" />
     </LinearLayout>
+    <View
+        android:id="@+id/view_user_Number"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#DBDBDB"/>
 
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/dis_user_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
+    <View
+        android:id="@+id/view_sug_Number"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#DBDBDB"/>
+    <View
+        android:id="@+id/view_sug_Label"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+
+        android:background="#DBDBDB"/>
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/sug_user_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
