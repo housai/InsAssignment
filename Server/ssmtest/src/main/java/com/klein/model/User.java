@@ -5,6 +5,8 @@ public class User {
 	private Integer id;
 	private String username;
 	private String password;
+	private String profilephoto;
+
 	public Integer getId() {
 		return id;
 	}
@@ -15,12 +17,22 @@ public class User {
 	public User(){
 
     }
-	public  User(String name, String pwd){
-	    this.username = name;
-	    this.password = pwd;
-	    this.id = null;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+
     }
-	public String getUsername() {
+
+    public String getProfilephoto() {
+        return profilephoto;
+    }
+
+    public void setProfilephoto(String profilephoto) {
+        this.profilephoto = profilephoto;
+    }
+
+    public String getUsername() {
 		return username;
 	}
 

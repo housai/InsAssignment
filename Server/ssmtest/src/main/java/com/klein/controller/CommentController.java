@@ -3,6 +3,7 @@ package com.klein.controller;
 import com.alibaba.fastjson.JSON;
 import com.klein.model.Post;
 import com.klein.model.User;
+import com.klein.service.CommentService;
 import com.klein.service.PostService;
 import com.klein.service.UserService;
 import com.klein.util.Maps;
@@ -22,11 +23,14 @@ import java.util.Map;
 
 
 @Controller
-@RequestMapping(value = "/PostController")
-public class PostController {
+@RequestMapping(value = "/CommentController")
+public class CommentController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Autowired
     private UserService userService;

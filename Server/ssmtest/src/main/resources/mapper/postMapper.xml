@@ -6,26 +6,26 @@
     <resultMap id="BaseResultMap" type="com.klein.model.Post">
         <id column="postId" property="postId" jdbcType="INTEGER" />
         <id column="userId" property="userId" jdbcType="INTEGER" />
-        <id column="photoId" property="photoId" jdbcType="INTEGER" />
-        <id column="time" property="time" jdbcType="DATETIME" />
+            <id column="photourl" property="photourl" jdbcType="VARCHAR" />
+        <id column="time" property="time" jdbcType="DATE" />
         <result column="location" property="location" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录 -->
     <select id="selectPostById" parameterType="int" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE postId = #{postId}
+        SELECT * FROM t_post WHERE postId = #{postId}
     </select>
     <select id="selectPostByUserId" parameterType="int" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE userId = #{userId}
+        SELECT * FROM t_post WHERE userId = #{userId}
     </select>
     <select id="selectPostByTime" parameterType="Date" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE time = #{time}
+        SELECT * FROM t_post WHERE time = #{time}
     </select>
     <select id="selectPostByLocation" parameterType="String" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE location = #{location}
+        SELECT * FROM t_post WHERE location = #{location}
     </select>
     <insert id="insertPost" parameterType="com.klein.model.Post" useGeneratedKeys="true" keyProperty="postId" keyColumn="postId">
-        INSERT INTO like (photoId,userId,location)
-        VALUES   (#{photoId},#{userId},#{location})
+        INSERT INTO t_post (photourl,userId,location)
+        VALUES   (#{photourl},#{userId},#{location})
     </insert>
 
 </mapper>

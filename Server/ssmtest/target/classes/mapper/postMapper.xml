@@ -4,27 +4,28 @@
 <mapper namespace="com.klein.dao.PostDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
     <resultMap id="BaseResultMap" type="com.klein.model.Post">
-        <id column="likeId" property="likeId" jdbcType="INTEGER" />
         <id column="postId" property="postId" jdbcType="INTEGER" />
         <id column="userId" property="userId" jdbcType="INTEGER" />
-        <result column="username" property="username" jdbcType="VARCHAR" />
+            <id column="photourl" property="photourl" jdbcType="VARCHAR" />
+        <id column="time" property="time" jdbcType="DATE" />
+        <result column="location" property="location" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录 -->
-    <select id="selectLikeById" parameterType="int" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE likeId = #{likeId}
+    <select id="selectPostById" parameterType="int" resultType="com.klein.model.Post">
+        SELECT * FROM t_post WHERE postId = #{postId}
     </select>
-    <select id="selectLikeByName" parameterType="String" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE username = #{username}
+    <select id="selectPostByUserId" parameterType="int" resultType="com.klein.model.Post">
+        SELECT * FROM t_post WHERE userId = #{userId}
     </select>
-    <select id="selectLikeByPostId" parameterType="int" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE postId = #{postId}
+    <select id="selectPostByTime" parameterType="Date" resultType="com.klein.model.Post">
+        SELECT * FROM t_post WHERE time = #{time}
     </select>
-    <select id="selectLikeByUserId" parameterType="int" resultType="com.klein.model.Post">
-        SELECT * FROM t_like WHERE userId = #{userId}
+    <select id="selectPostByLocation" parameterType="String" resultType="com.klein.model.Post">
+        SELECT * FROM t_post WHERE location = #{location}
     </select>
-    <insert id="insertLike" parameterType="com.klein.model.Post" useGeneratedKeys="true" keyProperty="likeId" keyColumn="likeId">
-        INSERT INTO like (username,postId,userId)
-        VALUES   (#{username},#{postId},#{userId})
+    <insert id="insertPost" parameterType="com.klein.model.Post" useGeneratedKeys="true" keyProperty="postId" keyColumn="postId">
+        INSERT INTO t_post (photourl,userId,location)
+        VALUES   (#{photourl},#{userId},#{location})
     </insert>
 
 </mapper>

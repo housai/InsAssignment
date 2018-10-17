@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Post {
     private Integer postId;
-    private Integer photoId;
+    private String photourl;
     private Integer userId;
     private String location;
     private Date time;
@@ -12,8 +12,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(Integer photoId, Integer userId, String location) {
-        this.photoId = photoId;
+    public Post(String photourl, Integer userId, String location) {
+        this.photourl = photourl;
         this.userId = userId;
         this.location = location;
     }
@@ -26,12 +26,12 @@ public class Post {
         this.postId = postId;
     }
 
-    public Integer getPhotoId() {
-        return photoId;
+    public String getphotourl() {
+        return photourl;
     }
 
-    public void setPhotoId(Integer photoId) {
-        this.photoId = photoId;
+    public void setphotourl(String photourl) {
+        this.photourl = photourl;
     }
 
     public Integer getUserId() {
