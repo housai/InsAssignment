@@ -12,7 +12,7 @@
 
     </FrameLayout>
 
-    <com.burhanrashid52.imageeditor.utils.BottomBar
+    <com.klein.instagram.utils.BottomBar
         android:background="#FFFFFF"
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
