@@ -34,7 +34,7 @@ public class DiscoverActivity extends Activity {
         Toast.makeText(DiscoverActivity.this,"这个是搜索页面",Toast.LENGTH_LONG).show();
         mSearchButton = (Button) findViewById(R.id.search_btn);
         mbackButton = (ImageView) findViewById(R.id.button_backward);
-        searchUser = (EditText) findViewById(R.id.dis_result);
+        searchUser = (EditText) findViewById(R.id.dis_input);
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
