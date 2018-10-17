@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klein.instagram.activity.MainActivity;
+import com.klein.instagram.activity.PostActivity;
 import com.klein.instagram.base.BaseActivity;
 import com.klein.instagram.filters.FilterListener;
 import com.klein.instagram.filters.FilterViewAdapter;
@@ -70,6 +71,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintLayout mRootView;
     private ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
+    private TextView mBtnForward;
 
 
     @Override
@@ -126,6 +128,15 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             mPhotoEditorView.getSource().setImageBitmap(bitmap);
         }
 
+        mBtnForward = findViewById(R.id.button_forward);
+        mBtnForward.setOnClickListener(new View.OnClickListener()	{
+            @Override
+            public void onClick(View v)	{
+                Intent	intent_to_post	=	new	Intent(EditImageActivity.this,
+                        PostActivity.class);
+                startActivity(intent_to_post);
+            }
+        });
     }
 
     private void initViews() {

@@ -19,24 +19,27 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
 
-        <activity android:name=".activity.RegisterActivity"
-            android:label="用户注册"/>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:label="用户注册" />
         <activity android:name=".activity.CommentActivity" />
-        <activity android:name=".EditImageActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".activity.DiscoverActivity"
-            android:label="用户注册"/>
+        <activity
+            android:name=".EditImageActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.DiscoverActivity"
+            android:label="用户注册" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

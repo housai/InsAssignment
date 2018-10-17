@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import java.util.Map;
 public class DiscoverActivity extends Activity {
     private EditText searchUser;                        //用户名编辑
     private Button mSearchButton;
-    private Button mbackButton;
+    private ImageView mbackButton;
     private String sname;
 
 
@@ -32,8 +33,8 @@ public class DiscoverActivity extends Activity {
         setContentView(R.layout.discovery);
         Toast.makeText(DiscoverActivity.this,"这个是搜索页面",Toast.LENGTH_LONG).show();
         mSearchButton = (Button) findViewById(R.id.search_btn);
-        mbackButton = (Button) findViewById(R.id.button_backward);
-        searchUser = (EditText) findViewById(R.id.dis_input);
+        mbackButton = (ImageView) findViewById(R.id.button_backward);
+        searchUser = (EditText) findViewById(R.id.dis_result);
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
