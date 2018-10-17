@@ -22,12 +22,12 @@
             android:textColor="#000000"
             android:textSize="20dp" />
 
-        <ImageView
+        <Button
             android:id="@+id/button_backward"
+            android:background="@drawable/button_backward"
             android:layout_width="30dp"
             android:layout_height="match_parent"
             android:drawablePadding="6dp"
-            android:src="@drawable/button_backward"
             android:gravity="center"
             android:layout_marginLeft="10dp"
             android:visibility="visible" />
@@ -50,7 +50,7 @@
         android:layout_width="400dp"
         android:layout_height="100dp">
         <EditText
-            android:id="@+id/dis_result"
+            android:id="@+id/dis_input"
             android:layout_width="266dp"
             android:layout_height="60dp"
             android:layout_marginLeft="30dp"

@@ -58,7 +58,7 @@ public class DiscoverActivity extends Activity {
             Map<String, String> map = new HashMap<>();
             map.put("username", sname);
 
-            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/login", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/selectUserByName", map, true, new JsonCallback() {
 
                 @Override
                 public void onSucess(JSONObject jsonObject) {
