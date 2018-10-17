@@ -23,7 +23,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/but_backward"
+            android:id="@+id/dis_but_backward"
             android:background="@drawable/button_backward"
             android:layout_width="30dp"
             android:layout_height="match_parent"
@@ -69,36 +69,48 @@
             android:textColor="#ffffff"
             android:textSize="20dp" />
     </LinearLayout>
-
     <View
-        android:id="@+id/view_user_Number"
+        android:id="@+id/view_user_Number1"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#DBDBDB"/>
-
-    <android.support.v4.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/dis_user_result"
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/top"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            >
-        </android.support.v7.widget.RecyclerView>
-    </android.support.v4.widget.NestedScrollView>
-    <View
-        android:id="@+id/view_sug_Number"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="#DBDBDB"/>
-    <View
-        android:id="@+id/view_sug_Label"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <com.klein.instagram.utils.XCRoundImageView
+                android:id="@+id/dis_userImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"
+                android:layout_marginLeft="10dp"
 
+                />
+
+            <TextView
+                android:id="@+id/dis_res_user_name"
+                android:layout_width="64dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="7dp"
+                android:fontFamily="casual"
+                android:textColor="#000000" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
         android:background="#DBDBDB"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -107,11 +119,10 @@
         android:focusableInTouchMode="true"
         >
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/sug_user_result"
+            android:id="@+id/recommendRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.NestedScrollView>
-
 </LinearLayout>
