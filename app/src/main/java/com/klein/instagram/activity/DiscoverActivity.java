@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.klein.instagram.R;
@@ -21,28 +22,41 @@ import java.util.Map;
 public class DiscoverActivity extends Activity {
     private EditText searchUser;                        //用户名编辑
     private Button mSearchButton;
+    private Button mbackButton;
     private String sname;
-    private String spwd;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discovery);
-        Toast.makeText(DiscoverActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
+        Toast.makeText(DiscoverActivity.this,"这个是搜索页面",Toast.LENGTH_LONG).show();
         mSearchButton = (Button) findViewById(R.id.search_btn);
-        mSearchButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        mbackButton = (Button) findViewById(R.id.button_backward);
+        searchUser = (EditText) findViewById(R.id.dis_input);
+        mSearchButton.setOnClickListener(mListener);
+        mbackButton.setOnClickListener(mListener);
     }
+    View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.search_btn:                            //搜索界面
+                    sname = searchUser.getText().toString();    //根据输入内容进行搜索
+                    search();
+                    break;
+                case R.id.button_backward: //回撤到主界面
+                    Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                    startActivity(intent_Discover_to_Main);
+                    finish();
+                    break;
+            }
+        }
+    };
+
+
         public void search(){
             Map<String, String> map = new HashMap<>();
             map.put("username", sname);
-            map.put("password", spwd);
 
             OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/login", map, true, new JsonCallback() {
 
@@ -66,7 +80,7 @@ public class DiscoverActivity extends Activity {
 
             });
         }
-        public boolean isUserNameAndPwdValid() {
+        public boolean isUserNameValid() {
             if (searchUser.getText().toString().trim().equals("")) {
                 Toast.makeText(this, getString(R.string.account_empty),
                         Toast.LENGTH_SHORT).show();
