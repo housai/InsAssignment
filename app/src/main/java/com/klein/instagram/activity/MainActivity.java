@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         bottomBar.setContainer(R.id.fl_container)
                 .setTitleBeforeAndAfterColor("#999999", "#ff5d5e")
                 .addItem(Fragment1.class,
-                        "User Feed",
+                        "UserBean Feed",
                         R.drawable.first_before,
                         R.drawable.first_after)
                 .addItem(Fragment2.class,

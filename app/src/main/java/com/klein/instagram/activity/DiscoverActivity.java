@@ -3,37 +3,62 @@ package com.klein.instagram.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.klein.instagram.R;
+import com.klein.instagram.adapter.DiscoveryAdapter;
+import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DiscoverActivity extends Activity {
     private EditText searchUser;                        //用户名编辑
     private Button mSearchButton;
     private Button mbackButton;
+    private ImageView userImage;
+    private TextView dis_res_user_name;
     private String sname;
+    private List<UserBean> recommendUserList = new ArrayList<UserBean>();
+    private DiscoveryAdapter mAdapter;
+    private RecyclerView recommendRecyclerView;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discovery);
-        Toast.makeText(DiscoverActivity.this,"这个是搜索页面",Toast.LENGTH_LONG).show();
         mSearchButton = (Button) findViewById(R.id.search_btn);
-        mbackButton = (Button) findViewById(R.id.but_backward);
-        //mbackButton = (Button) findViewById(R.id.button_backward);
+        mbackButton = (Button) findViewById(R.id.dis_but_backward);
+        userImage = findViewById(R.id.dis_userImage);
         searchUser = (EditText) findViewById(R.id.dis_input);
+        dis_res_user_name = (TextView)findViewById(R.id.dis_res_user_name);
+        recommendRecyclerView = (RecyclerView)findViewById(R.id.recommendRecyclerView);
+        recommendRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recommendRecyclerView.setHasFixedSize(true);
+        recommendRecyclerView.setNestedScrollingEnabled(false);
+
+        mAdapter = new DiscoveryAdapter(DiscoverActivity.this,recommendUserList);
+        recommendRecyclerView.setAdapter(mAdapter);
+
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
@@ -44,7 +69,7 @@ public class DiscoverActivity extends Activity {
                     sname = searchUser.getText().toString();    //根据输入内容进行搜索
                     search();
                     break;
-                case R.id.but_backward: //回撤到主界面
+                case R.id.dis_but_backward: //回撤到主界面
                     Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ; //切换discover界面到main界面
                     startActivity(intent_Discover_to_Main);
                     finish();
@@ -58,16 +83,30 @@ public class DiscoverActivity extends Activity {
             Map<String, String> map = new HashMap<>();
             map.put("username", sname);
 
-            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/selectUserByName", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
 
                 @Override
                 public void onSucess(JSONObject jsonObject) {
-                    Toast.makeText(DiscoverActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
+
                     try {
                         if (jsonObject.getInt("resultCode") == 200){
-                            Toast.makeText(DiscoverActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
+                            UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                            if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
+                                Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
+                            }
+                            dis_res_user_name.setText(user.getUsername());
+                            JSONArray arr = jsonObject.getJSONArray("data");
+                            Toast.makeText(DiscoverActivity.this,arr.length()+"哈哈哈哈",Toast.LENGTH_LONG).show();
+                            for (int i = 0; i < arr.length(); i++) {
+
+                                UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
+                                Toast.makeText(DiscoverActivity.this,userRecommend.getUsername()+"heheh",Toast.LENGTH_LONG).show();
+
+                                recommendUserList.add(userRecommend);
+                            }
+                            mAdapter.notifyDataSetChanged();
                         }else{
-                            Toast.makeText(DiscoverActivity.this,"飒飒的是",Toast.LENGTH_LONG).show();
+                            Toast.makeText(DiscoverActivity.this,"Error",Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
