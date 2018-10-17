@@ -41,6 +41,7 @@
         <activity
             android:name=".activity.DiscoverActivity"
             android:label="用户注册" />
+        <activity android:name=".activity.PostActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
