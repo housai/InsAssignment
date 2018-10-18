@@ -19,16 +19,16 @@ import android.support.v4.app.Fragment;
 
 public class PhotoUtil {
     public static final int NONE = 0;
-    public static final String IMAGE_UNSPECIFIED = "image/*";//任意图片类型
-    public static final int PHOTOGRAPH = 1;// 拍照
-    public static final int PHOTOZOOM = 2; // 缩放
-    public static final int PHOTORESOULT = 3;// 结果
+    public static final String IMAGE_UNSPECIFIED = "image/*";//Any image type
+    public static final int PHOTOGRAPH = 1;// Photo
+    public static final int PHOTOZOOM = 2; // Crop
+    public static final int PHOTORESOULT = 3;// Result
     public static final int PICTURE_HEIGHT = 500;
     public static final int PICTURE_WIDTH = 500;
     public static String imageName;
 
     /**
-     * 得到界面的宽度和高度
+     * Displayed width and height
      * @param context
      */
     public static DisplayMetrics getScreenWH(Context context) {
@@ -37,43 +37,43 @@ public class PhotoUtil {
         return dMetrics;
     }
     /**
-     * 从系统相册中选取照片上传
+     * Select image from album
      * @param activity
      */
     public static void selectPictureFromAlbum(Activity activity){
-        // 调用系统的相册
+        // Use system album
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 IMAGE_UNSPECIFIED);
 
-        // 调用剪切功能
+        // Use crop feature
         activity.startActivityForResult(intent, PHOTOZOOM);
     }
 
     /**
-     * 从系统相册中选取照片上传
+     * Pick image to upload
      * @param fragment
      */
     public static void selectPictureFromAlbum(Fragment fragment){
-        // 调用系统的相册
+        // Activate system album
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 IMAGE_UNSPECIFIED);
 
-        // 调用剪切功能
+        // Use crop feature
         fragment.startActivityForResult(intent, PHOTOZOOM);
     }
 
     /**
-     * 拍照
+     * Take photo
      * @param activity
      */
     public static void photograph(Activity activity){
         imageName = File.separator + getStringToday() + ".jpg";
 
-        // 调用系统的拍照功能
+        // Use system camera
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String status = Environment.getExternalStorageState();
         if(status.equals(Environment.MEDIA_MOUNTED)){
@@ -87,13 +87,13 @@ public class PhotoUtil {
     }
 
     /**
-     * 拍照
+     * Photograph
      * @param fragment
      */
     public static void photograph(Fragment fragment){
         imageName = "/" + getStringToday() + ".jpg";
 
-        // 调用系统的拍照功能
+        // Use system camera
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         String status = Environment.getExternalStorageState();
         if(status.equals(Environment.MEDIA_MOUNTED)){
@@ -107,7 +107,7 @@ public class PhotoUtil {
     }
 
     /**
-     * 图片裁剪
+     * Camera crop
      * @param activity
      * @param uri
      * @param height
@@ -117,46 +117,46 @@ public class PhotoUtil {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
+        // aspectX aspectY is width height ratio
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
+        // outputX outputY crop height and weight
         intent.putExtra("outputX", height);
         intent.putExtra("outputY", width);
-        intent.putExtra("noFaceDetection", true); //关闭人脸检测
-        intent.putExtra("return-data", true);//如果设为true则返回bitmap
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//输出文件
+        intent.putExtra("noFaceDetection", true); //Turn off face detection
+        intent.putExtra("return-data", true);//If true return bitmap
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);//output file
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         activity.startActivityForResult(intent, PHOTORESOULT);
     }
 
     /**
-     * 图片裁剪
+     * Crop image
      * @param activity
-     * @param uri	  	原图的地址
-     * @param height  	指定的剪辑图片的高
-     * @param width	  	指定的剪辑图片的宽
-     * @param destUri 	剪辑后的图片存放地址
+     * @param uri	  	original image URI
+     * @param height  	result height
+     * @param width	  	result width
+     * @param destUri 	crop image URI
      */
     public static void startPhotoZoom(Activity activity,Uri uri,int height,int width,Uri destUri) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
+        // aspectX aspectY height width ratio
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // outputX outputY 是裁剪图片宽高
+        // outputX outputY cropped image height width
         intent.putExtra("outputX", height);
         intent.putExtra("outputY", width);
-        intent.putExtra("noFaceDetection", true); //关闭人脸检测
-        intent.putExtra("return-data", false);//如果设为true则返回bitmap
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, destUri);//输出文件
+        intent.putExtra("noFaceDetection", true); //Turn off facedetection
+        intent.putExtra("return-data", false);//If true return bitmap
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, destUri);//output file
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         activity.startActivityForResult(intent, PHOTORESOULT);
     }
 
     /**
-     * 图片裁剪
+     * Crop
      * @param fragment
      * @param uri
      * @param height
@@ -166,7 +166,7 @@ public class PhotoUtil {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, IMAGE_UNSPECIFIED);
         intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
+        // aspectX aspectY width height ratio
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
@@ -177,7 +177,7 @@ public class PhotoUtil {
     }
 
     /**
-     * 获取当前系统时间并格式化
+     * Get current system time and format it
      * @return
      */
     @SuppressLint("SimpleDateFormat")
@@ -189,7 +189,7 @@ public class PhotoUtil {
     }
 
     /**
-     * 制作图片的路径地址
+     * Create path
      * @param context
      * @return
      */
@@ -198,7 +198,7 @@ public class PhotoUtil {
         File file = null;
         long tag = System.currentTimeMillis();
         if(Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-            //SDCard是否可用
+            //Check is SD card is mounted
             path = Environment.getExternalStorageDirectory() + File.separator +"myimages/";
             file = new File(path);
             if(!file.exists()){
@@ -217,7 +217,7 @@ public class PhotoUtil {
     }
 
     /**
-     * 按比例获取bitmap
+     * Get bitmap by ratio
      * @param path
      * @param w
      * @param h
@@ -225,7 +225,7 @@ public class PhotoUtil {
      */
     public static Bitmap convertToBitmap(String path, int w, int h) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        // 设置为ture只获取图片大小
+        // If true only get image bounds
         opts.inJustDecodeBounds = true;
         opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
         BitmapFactory.decodeFile(path, opts);
@@ -233,7 +233,7 @@ public class PhotoUtil {
         int height = opts.outHeight;
         float scaleWidth = 0.f, scaleHeight = 0.f;
         if (width > w || height > h) {
-            // 缩放
+            // zoom
             scaleWidth = ((float) width) / w;
             scaleHeight = ((float) height) / h;
         }
@@ -245,16 +245,16 @@ public class PhotoUtil {
     }
 
     /**
-     * 获取原图bitmap
+     * Get original image bitmap
      * @param path
      * @return
      */
     public static Bitmap convertToBitmap2(String path) {
         BitmapFactory.Options opts = new BitmapFactory.Options();
-        // 设置为ture只获取图片大小
+        // If true only decode bounds
         opts.inJustDecodeBounds = true;
         opts.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        // 返回为空
+        // return empty
         BitmapFactory.decodeFile(path, opts);
         return  BitmapFactory.decodeFile(path, opts);
     }

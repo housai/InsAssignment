@@ -18,18 +18,18 @@ import android.view.View;
 import com.klein.instagram.R;
 
 /**
- * 自定义的圆形ImageView，可以直接当组件在布局中使用。
+ * Custom Round ImageView，can be used as a part of layout
  * @author caizhiming
  *
  */
 public class XCRoundImageView extends android.support.v7.widget.AppCompatImageView{
 
-    private Paint mPaint;//设置画笔
-    private Bitmap mBitmap;//获取图片资源
-    private int width, height;//获取控件宽高
-    private int mOuterRing = 0;//设置外圈大小
-    private int outerRingAlpha = 30;//设置外圈透明度
-    private int color = Color.BLUE;//设置外圈颜色
+    private Paint mPaint;//set paint
+    private Bitmap mBitmap;//get image bitmap
+    private int width, height;//get width height of layout
+    private int mOuterRing = 0;//set outer ring size
+    private int outerRingAlpha = 30;//set outer ring transparency
+    private int color = Color.BLUE;//set outer ring colour
 
     public XCRoundImageView(Context context) {
         this(context, null);
@@ -80,7 +80,7 @@ public class XCRoundImageView extends android.support.v7.widget.AppCompatImageVi
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        //获取空间宽高
+        //Get width height of space
         width = View.getDefaultSize(getMeasuredWidth(), widthMeasureSpec);
         height = View.getDefaultSize(getMeasuredHeight(), heightMeasureSpec);
     }
@@ -97,7 +97,7 @@ public class XCRoundImageView extends android.support.v7.widget.AppCompatImageVi
                 bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
             }
             Matrix matrix = new Matrix();
-            //设置图片缩放比例，
+            //Set image zoom ratio
             if (mOuterRing>0){
                 if (width > height) {
                     matrix.setScale((float) (height) / bitmap.getHeight(), (float) (height) / bitmap.getHeight());
@@ -113,15 +113,15 @@ public class XCRoundImageView extends android.support.v7.widget.AppCompatImageVi
             }
 
             bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            //将图片设置为圆形
+            //Set circular image
             bitmap = toRoundBitmap(bitmap);
 
-            //当外圈大于0的时候要设置外圈加图片的宽度不能大于控件宽度
+            //When outer ring width is >0, must check that ring width + image width is not larger than layout
             if (mOuterRing+bitmap.getWidth()>width){
                 mOuterRing = (width-bitmap.getWidth())/2;
             }
 
-            //绘制外圈
+            //Draw outer ring
             Paint cPaint = new Paint();
             cPaint.setStrokeWidth(2);
             cPaint.setColor(color);
@@ -130,7 +130,7 @@ public class XCRoundImageView extends android.support.v7.widget.AppCompatImageVi
             cPaint.setAntiAlias(true);
             canvas.drawCircle(bitmap.getWidth()/2+mOuterRing,bitmap.getHeight()/2+mOuterRing,bitmap.getWidth()/2+mOuterRing,cPaint);
 
-            //绘制图片
+            //Draw image
             canvas.drawBitmap(bitmap, mOuterRing, mOuterRing, mPaint);
 
         } else {
@@ -139,7 +139,7 @@ public class XCRoundImageView extends android.support.v7.widget.AppCompatImageVi
     }
 
     /**
-     * 设置图片为圆形
+     * Convert image to round bitmap
      *
      * @param bitmap
      * @return
