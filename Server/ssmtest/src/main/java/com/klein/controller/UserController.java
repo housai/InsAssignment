@@ -89,11 +89,9 @@ public class UserController {
         String userName = request.getParameter("username");
         String password = request.getParameter("password");
         User user = userService.selectUserByName(userName);
-        //System.out.println(user.getUsername());
         if (user == null){
             User newUser = new User(userName,password);
             userService.insertUser(newUser);
-            System.out.println(newUser.getId());
             map.put("resultCode",200);
             map.put("msg","success");
             return JSON.toJSONString(map);
@@ -116,6 +114,7 @@ public class UserController {
             if (password.contentEquals(user.getPassword())) {
                 map.put("resultCode", 200);
                 map.put("msg", "login success");
+                map.put("user", user);
                 return JSON.toJSONString(map);
             }
 

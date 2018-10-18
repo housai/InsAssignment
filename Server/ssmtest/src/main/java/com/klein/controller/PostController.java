@@ -105,34 +105,4 @@ public class PostController {
         return JSON.toJSONString(map);
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/insertPost", method = RequestMethod.POST)
-    public String insertPost (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
-        Map<String, Object> map = Maps.newHashMap();
-        String userId = request.getParameter("userId");
-        String photourl = request.getParameter("photourl");
-        String location = request.getParameter("location");
-        User user = userService.selectUserById(Integer.parseInt(userId));
-        if (user != null){
-            Post post = new Post(photourl, Integer.parseInt(userId), location);
-            int result = postService.insertPost(post);
-            if (result==1){
-                map.put("resultCode",200);
-                map.put("msg","success");
-            }
-            else {
-                map.put("resultCode",400);
-                map.put("msg","db failed");
-            }
-
-        }
-        else {
-            map.put("resultCode",400);
-            map.put("msg","no such user");
-        }
-
-        return JSON.toJSONString(map);
-
-    }
-
 }

@@ -6,9 +6,9 @@
     <resultMap id="BaseResultMap" type="com.klein.model.Post">
         <id column="postId" property="postId" jdbcType="INTEGER" />
         <id column="userId" property="userId" jdbcType="INTEGER" />
-            <id column="photourl" property="photourl" jdbcType="VARCHAR" />
+        <id column="photourl" property="photourl" jdbcType="VARCHAR" />
         <id column="time" property="time" jdbcType="DATE" />
-        <result column="location" property="location" jdbcType="VARCHAR" />
+        <id column="location" property="location" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录 -->
     <select id="selectPostById" parameterType="int" resultType="com.klein.model.Post">
@@ -24,8 +24,8 @@
         SELECT * FROM t_post WHERE location = #{location}
     </select>
     <insert id="insertPost" parameterType="com.klein.model.Post" useGeneratedKeys="true" keyProperty="postId" keyColumn="postId">
-        INSERT INTO t_post (photourl,userId,location)
-        VALUES   (#{photourl},#{userId},#{location})
+        INSERT INTO t_post (photourl,userId,location,content)
+        VALUES   (#{photourl},#{userId},#{location},#{content})
     </insert>
 
 </mapper>

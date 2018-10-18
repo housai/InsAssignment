@@ -1,6 +1,7 @@
 package com.klein.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.klein.model.Comment;
 import com.klein.model.Post;
 import com.klein.model.User;
 import com.klein.service.CommentService;
@@ -110,16 +111,16 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/insertPost", method = RequestMethod.POST)
-    public String insertPost (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/insertComment", method = RequestMethod.POST)
+    public String insertComment (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
         Map<String, Object> map = Maps.newHashMap();
         String userId = request.getParameter("userId");
-        String photourl = request.getParameter("photourl");
-        String location = request.getParameter("location");
+        String postId = request.getParameter("postId");
+        String content = request.getParameter("content");
         User user = userService.selectUserById(Integer.parseInt(userId));
         if (user != null){
-            Post post = new Post(photourl, Integer.parseInt(userId), location);
-            int result = postService.insertPost(post);
+            Comment comment = new Comment(content, Integer.parseInt(userId), Integer.parseInt(postId));
+            int result = commentService.insertComment(comment);
             if (result==1){
                 map.put("resultCode",200);
                 map.put("msg","success");

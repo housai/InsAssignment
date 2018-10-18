@@ -4,24 +4,24 @@
 <mapper namespace="com.klein.dao.CommentDao">
     <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
     <resultMap id="BaseResultMap" type="com.klein.model.Comment">
-        <id column="postId" property="postId" jdbcType="INTEGER" />
+        <id column="commentId" property="commentId" jdbcType="INTEGER" />
         <id column="userId" property="userId" jdbcType="INTEGER" />
-        <id column="photourl" property="photourl" jdbcType="VARCHAR" />
-        <result column="location" property="location" jdbcType="VARCHAR" />
+        <id column="content" property="content" jdbcType="VARCHAR" />
+        <id column="postId" property="postId" jdbcType="INTEGER" />
     </resultMap>
     <!-- 查询单条记录 -->
-    <select id="selectPostById" parameterType="int" resultType="com.klein.model.Comment">
-        SELECT * FROM t_like WHERE postId = #{postId}
+    <select id="selectCommentById" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE commentId = #{commentId}
     </select>
-    <select id="selectPostByUserId" parameterType="int" resultType="com.klein.model.Comment">
-        SELECT * FROM t_like WHERE userId = #{userId}
+    <select id="selectCommentByUser" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE userId = #{userId}
     </select>
-    <select id="selectPostByLocation" parameterType="String" resultType="com.klein.model.Comment">
-        SELECT * FROM t_like WHERE location = #{location}
+    <select id="selectCommentByPost" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE postId = #{postId}
     </select>
-    <insert id="insertPost" parameterType="com.klein.model.Comment" useGeneratedKeys="true" keyProperty="postId" keyColumn="postId">
-        INSERT INTO like (photourl,userId,location)
-        VALUES   (#{photourl},#{userId},#{location})
+    <insert id="insertComment" parameterType="com.klein.model.Comment" useGeneratedKeys="true" keyProperty="commentId" keyColumn="commentId">
+        INSERT INTO t_comment (content,userId,postId)
+        VALUES   (#{content},#{userId},#{postId})
     </insert>
 
 </mapper>

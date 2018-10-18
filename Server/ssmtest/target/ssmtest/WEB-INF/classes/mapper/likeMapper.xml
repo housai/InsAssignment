@@ -7,7 +7,7 @@
         <id column="likeId" property="likeId" jdbcType="INTEGER" />
         <id column="postId" property="postId" jdbcType="INTEGER" />
         <id column="userId" property="userId" jdbcType="INTEGER" />
-        <result column="username" property="username" jdbcType="VARCHAR" />
+        <id column="username" property="username" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录 -->
     <select id="selectLikeById" parameterType="int" resultType="com.klein.model.Like">
@@ -23,7 +23,7 @@
         SELECT * FROM t_like WHERE userId = #{userId}
     </select>
     <insert id="insertLike" parameterType="com.klein.model.Like" useGeneratedKeys="true" keyProperty="likeId" keyColumn="likeId">
-        INSERT INTO like (username,postId,userId)
+        INSERT INTO t_like (username,postId,userId)
         VALUES   (#{username},#{postId},#{userId})
     </insert>
 
