@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 public class DiscoverActivity extends Activity {
-    private EditText searchUser;                        //用户名编辑
+    private EditText searchUser;                        //User name
     private Button mSearchButton;
     private Button mbackButton;
     private ImageView userImage;
@@ -65,12 +65,13 @@ public class DiscoverActivity extends Activity {
     View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.search_btn:                            //搜索界面
-                    sname = searchUser.getText().toString();    //根据输入内容进行搜索
+                case R.id.search_btn:                            //Search button
+                    sname = searchUser.getText().toString();    //Search by entered name
                     search();
                     break;
-                case R.id.dis_but_backward: //回撤到主界面
-                    Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                case R.id.dis_but_backward: //Return to main page
+                    Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
+                    //Switch Intent to main from discover
                     startActivity(intent_Discover_to_Main);
                     finish();
                     break;
@@ -96,11 +97,11 @@ public class DiscoverActivity extends Activity {
                             }
                             dis_res_user_name.setText(user.getUsername());
                             JSONArray arr = jsonObject.getJSONArray("data");
-                            Toast.makeText(DiscoverActivity.this,arr.length()+"哈哈哈哈",Toast.LENGTH_LONG).show();
+                            Toast.makeText(DiscoverActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
                             for (int i = 0; i < arr.length(); i++) {
 
                                 UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
-                                Toast.makeText(DiscoverActivity.this,userRecommend.getUsername()+"heheh",Toast.LENGTH_LONG).show();
+                                Toast.makeText(DiscoverActivity.this,userRecommend.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
 
                                 recommendUserList.add(userRecommend);
                             }

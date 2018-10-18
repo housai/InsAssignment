@@ -119,13 +119,13 @@ public class Fragment3 extends Fragment{
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                //上传成功
+                //Upload Succeeds
             }
 
 
             @Override
             public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                //Return upload progress, should be returned to main thread and update UI
             }
         });
     }

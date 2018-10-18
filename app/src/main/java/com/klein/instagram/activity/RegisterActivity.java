@@ -25,11 +25,11 @@ import java.util.Map;
 
 
 public class RegisterActivity extends AppCompatActivity {
-    private EditText mAccount;                        //用户名编辑
-    private EditText mPwd;                            //密码编辑
-    private EditText mPwdCheck;                       //密码编辑
-    private Button mSureButton;                       //确定按钮
-    private Button mCancelButton;                     //取消按钮
+    private EditText mAccount;                        //Set username
+    private EditText mPwd;                            //Set password
+    private EditText mPwdCheck;                       //Check password
+    private Button mSureButton;                       //Sure button
+    private Button mCancelButton;                     //Cancel button
 
     private String name;
     private String pwd;
@@ -47,17 +47,19 @@ public class RegisterActivity extends AppCompatActivity {
         mSureButton = (Button) findViewById(R.id.register_btn_sure);
         mCancelButton = (Button) findViewById(R.id.register_btn_cancel);
 
-        mSureButton.setOnClickListener(m_register_Listener);      //注册界面两个按钮的监听事件
+        mSureButton.setOnClickListener(m_register_Listener);      //Register listeners for 2 buttons
         mCancelButton.setOnClickListener(m_register_Listener);
 
     }
     View.OnClickListener m_register_Listener = new View.OnClickListener() {    //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.register_btn_sure:                       //确认按钮的监听事件
+                case R.id.register_btn_sure:
+                    //Sure button regsiters
                     register();
                     break;
-                case R.id.register_btn_cancel:                     //取消按钮的监听事件,由注册界面返回登录界面
+                case R.id.register_btn_cancel:
+                    //Cancels register and goes back to Login
                     Intent intent_Register_to_Login = new Intent(RegisterActivity.this,LoginActivity.class) ;    //切换User Activity至Login Activity
                     startActivity(intent_Register_to_Login);
                     finish();
@@ -66,7 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
     public void register() {
-        //确认按钮的监听事件
+        //When we are sure and register
 
         Map<String, String> map = new HashMap<>();
         map.put("username", name);
@@ -80,9 +82,9 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
-                        Toast.makeText(RegisterActivity.this,"哈哈哈哈",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,getString(R.string.register_success),Toast.LENGTH_LONG).show();
                     }else{
-                        Toast.makeText(RegisterActivity.this,"飒飒的是",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this,getString(R.string.register_fail),Toast.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -99,12 +101,13 @@ public class RegisterActivity extends AppCompatActivity {
                 String userPwd = mPwd.getText().toString().trim();
                 String userPwdCheck = mPwdCheck.getText().toString().trim();
 
-                if (userPwd.equals(userPwdCheck) == false) {     //两次密码输入不一样
+                if (userPwd.equals(userPwdCheck) == false) {     //Password and confirmation password don't match
                     Toast.makeText(this, getString(R.string.pwd_not_the_same), Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     Toast.makeText(this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
-                    Intent intent_Register_to_Login = new Intent(RegisterActivity.this, LoginActivity.class);    //切换User Activity至Login Activity
+                    Intent intent_Register_to_Login = new Intent(RegisterActivity.this, LoginActivity.class);
+                    //Switch back to Login
                     startActivity(intent_Register_to_Login);
                     finish();
                 }

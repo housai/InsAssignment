@@ -17,8 +17,8 @@ public class PickPicture {
 
 
     /**
-     * Created by hupei on 2016/7/14.
-     */
+     * * Created by hupei on 2016/7/14.
+     * */
         private Context mContext;
         private HashMap<String, List<String>> mGroupMap = new HashMap<>();
         private List<PictureTotal> mPictureItems = new ArrayList<>();
@@ -47,7 +47,7 @@ public class PickPicture {
             mPictureItems.clear();
             Uri pictureUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
             ContentResolver contentResolver = mContext.getContentResolver();
-            //只查询jpeg和png的图片
+            //Only search png and jpeg formats
             Cursor cursor = contentResolver.query(pictureUri, null,
                     MediaStore.Images.Media.MIME_TYPE + "=? or "
                             + MediaStore.Images.Media.MIME_TYPE + "=?",
@@ -56,12 +56,12 @@ public class PickPicture {
                 mHandler.sendEmptyMessage(PickPictureHandler.SCAN_ERROR);
             } else {
                 while (cursor.moveToNext()) {
-                    //获取图片的路径
+                    //get path to image
                     String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
                     try {
-                        //获取该图片的父路径名
+                        //get image parent path
                         String parentName = new File(path).getParentFile().getName();
-                        //根据父路径名将图片放入到groupMap中
+                        //set groupmap according to parent path
                         if (!mGroupMap.containsKey(parentName)) {
                             List<String> chileList = new ArrayList<>();
                             chileList.add(path);
@@ -74,7 +74,7 @@ public class PickPicture {
                     }
                 }
                 cursor.close();
-                //通知Handler扫描图片完成
+                //Tell handler that image scan is complete
                 mPictureItems = subGroupOfPicture(mGroupMap);
                 Message message = mHandler.obtainMessage();
                 message.obj = mPictureItems;
@@ -84,9 +84,7 @@ public class PickPicture {
         }
 
         /**
-         * 组装分组数据源，因为我们扫描手机的时候将图片信息放在HashMap中
-         * 所以需要遍历HashMap将数据组装成List
-         *
+         * Convert HashMap of images to a List, because we store the images in HashMap from scan
          * @param groupMap
          * @return
          */
@@ -102,10 +100,10 @@ public class PickPicture {
                 String key = entry.getKey();
                 List<String> value = entry.getValue();
                 SortPictureList sortList = new SortPictureList();
-                Collections.sort(value, sortList);//按修改时间排序
+                Collections.sort(value, sortList);//Sort by Modified
                 pictureTotal.setFolderName(key);
                 pictureTotal.setPictureCount(value.size());
-                pictureTotal.setTopPicturePath(value.get(0));//获取该组的第一张图片
+                pictureTotal.setTopPicturePath(value.get(0));//Get first image from list
                 list.add(pictureTotal);
             }
             return list;

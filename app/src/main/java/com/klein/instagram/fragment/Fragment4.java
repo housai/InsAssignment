@@ -28,16 +28,16 @@ import java.io.FileNotFoundException;
 
 public class Fragment4 extends Fragment implements View.OnClickListener {
     private View mView;
-    private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
-    private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
-    private static final int PHOTO_REQUEST_CUT = 3;// 结果
+    private static final int PHOTO_REQUEST_CAREMA = 1;// Take photo
+    private static final int PHOTO_REQUEST_GALLERY = 2;// Pick from gallery
+    private static final int PHOTO_REQUEST_CUT = 3;// Result
 
     private ImageView iv_image;
     private Button album;
     private Button camera;
     private Uri imageUri;
 
-    /* 头像名称 */
+    /* Profile photo name */
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
     private File tempFile;
 
@@ -57,12 +57,12 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
     }
 
     /*
-     * 从相册获取
+     * Get from gallery
      */
     public void gallery() {
-        // 激活系统图库，选择一张图片
+        // Activate Android gallery and pick from it
         Intent intent = new Intent();
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_GALLERY
+        // get Result from Activity with Request PHOTO_REQUEST_GALLERY
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PHOTO_REQUEST_GALLERY);
@@ -70,53 +70,53 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
     }
 
     /*
-     * 从相机获取
+     * Get from camera
      */
     public void camera() {
-        // 激活相机
+        // Activate Android default camera
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        // 判断存储卡是否可以用，可用进行存储
+        // Check if external storage is available and store there
         if (hasSdcard()) {
             tempFile = new File(Environment.getExternalStorageDirectory(),
                     PHOTO_FILE_NAME);
-            // 从文件中创建uri
+            // Create URI
 //                Uri uri = Uri.fromFile(tempFile);
             Uri uri = FileProvider.getUriForFile(getContext(), "ins.klein.com.instagram.fileprovider", tempFile);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         }
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CAREMA
+        // Get result from activity with request value PHOTO_REQUEST_CAREMA
         startActivityForResult(intent, PHOTO_REQUEST_CAREMA);
 
     }
 
     /*
-     * 剪切图片
+     * Crop image
      */
     private void crop(Uri uri) {
-        // 裁剪图片意图
+        // Crop intent
         Intent intent = new Intent("com.android.camera.action.CROP", null);
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
-        // 裁剪框的比例，1：1
+        // Crop aspect ratio，1：1
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
-        // 裁剪后输出图片的尺寸大小
+        // After crop set image size
         intent.putExtra("outputX", 250);
         intent.putExtra("outputY", 250);
 
-        intent.putExtra("outputFormat", "JPEG");// 图片格式
+        intent.putExtra("outputFormat", "JPEG");// image format
         intent.putExtra("return-data", false);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.parse(uri.getPath()));
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());//输出图片的格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());//output format
 
-        intent.putExtra("noFaceDetection", true);// 取消人脸识别
+        intent.putExtra("noFaceDetection", true);// turn off faceDetection feature
         intent.putExtra("return-data", true);
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
+        // get result for activity with request value PHOTO_REQUEST_CUT
         startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 
     /*
-     * 判断sdcard是否被挂载
+     * Check if SD card is mounted
      */
     private boolean hasSdcard() {
         if (Environment.getExternalStorageState().equals(
@@ -130,16 +130,16 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PHOTO_REQUEST_GALLERY) {
-            // 从相册返回的数据
+            // Gallery returned
             if (data != null) {
-                // 得到图片的全路径
+                // get URI
                 Uri uri = data.getData();
                 String img_url = uri.getPath();
 
                 ContentResolver cr = getContext().getContentResolver();
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                    /* 将Bitmap设定到ImageView */
+                    /* Set imageView with bitmap */
                     iv_image.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     Log.e("Exception", e.getMessage(), e);
@@ -149,31 +149,31 @@ public class Fragment4 extends Fragment implements View.OnClickListener {
             }
 
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
-            // 从相机返回的数据
+            // get from camera
             if (hasSdcard()) {
                 crop(Uri.fromFile(tempFile));
             } else {
-                Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "SD card not found, cannot save!", Toast.LENGTH_LONG).show();
             }
 
         } else if (requestCode == PHOTO_REQUEST_CUT) {
-            // 从剪切图片返回的数据
+            // get after crop
             Bundle extras = data.getExtras();
 //                if (data != null) {
 //                    Bitmap bitmap = data.getParcelableExtra("data");
 //                    this.iv_image.setImageBitmap(bitmap);
 //                }
 //                try {
-//                    // 将临时文件删除
+//                    // delete temp file
 //                    tempFile.delete();
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
             if (extras != null) {
-                Bitmap photo = extras.getParcelable("data");//转换为Bitmap类型
+                Bitmap photo = extras.getParcelable("data");//convert to bitmap
                 if (photo != null) {
-                    // aCache.put("ShakeBgFromUser",photo);    //保存在缓存里，ACache是我用的一个缓存框架
-                    iv_image.setImageBitmap(photo);//展示
+                    // aCache.put("ShakeBgFromUser",photo);    //Save in cache, aCache is a caching framework
+                    iv_image.setImageBitmap(photo);//set image
                 }
             }
 

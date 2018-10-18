@@ -71,7 +71,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintLayout mRootView;
     private ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
-    private TextView mBtnForward;
 
 
     @Override
@@ -128,15 +127,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             mPhotoEditorView.getSource().setImageBitmap(bitmap);
         }
 
-        mBtnForward = findViewById(R.id.button_forward);
-        mBtnForward.setOnClickListener(new View.OnClickListener()	{
-            @Override
-            public void onClick(View v)	{
-                Intent	intent_to_post	=	new	Intent(EditImageActivity.this,
-                        PostActivity.class);
-                startActivity(intent_to_post);
-            }
-        });
     }
 
     private void initViews() {
@@ -146,6 +136,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         ImageView imgGallery;
         ImageView imgSave;
         ImageView imgClose;
+        TextView btnForward;
 
         mPhotoEditorView = findViewById(R.id.photoEditorView);
         mTxtCurrentTool = findViewById(R.id.txtCurrentTool);
@@ -170,6 +161,9 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
         imgClose = findViewById(R.id.imgClose);
         imgClose.setOnClickListener(this);
+
+        btnForward = findViewById(R.id.button_forward);
+        btnForward.setOnClickListener(this);
 
     }
 
@@ -241,6 +235,11 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
+                break;
+
+            case R.id.button_forward:
+                Intent intent_to_post = new	Intent(EditImageActivity.this, PostActivity.class);
+                startActivity(intent_to_post);
                 break;
         }
     }

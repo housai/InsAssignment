@@ -29,7 +29,7 @@ public class DiscoveryAdapter extends RecyclerView.Adapter<DiscoveryAdapter.View
 
         this.context = context;
         this.data = list;
-        Toast.makeText(context,list.size()+"呵呵好",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,list.size()+"Discovery Adapter",Toast.LENGTH_LONG).show();
 
     }
 

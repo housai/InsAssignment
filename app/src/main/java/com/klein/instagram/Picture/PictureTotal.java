@@ -1,9 +1,9 @@
 package com.klein.instagram.Picture;
 
 public class PictureTotal {
-    private String topPicturePath;//文件夹的第一张图片路径
-    private String folderName;//文件夹名
-    private int pictureCount;//文件夹中的图片数
+    private String topPicturePath;//First picture in File
+    private String folderName;//Filename
+    private int pictureCount;//Number of images in File
 
     public String getTopPicturePath() {
         return topPicturePath;

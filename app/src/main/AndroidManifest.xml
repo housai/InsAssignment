@@ -33,14 +33,15 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="用户注册" />
+            android:label="RegisterActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity
             android:name=".EditImageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DiscoverActivity"
-            android:label="用户注册" />
+            android:label="DiscoverActivity" />
+        <activity android:name=".activity.PostActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
