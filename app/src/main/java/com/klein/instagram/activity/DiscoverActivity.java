@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class DiscoverActivity extends Activity {
     private EditText searchUser;                        //User name
-    private ImageView mSearchButton;
+    private Button mSearchButton;
     private Button mbackButton;
     private ImageView userImage;
     private TextView dis_res_user_name;
@@ -46,7 +46,7 @@ public class DiscoverActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.discovery);
-        mSearchButton = (ImageView) findViewById(R.id.search_btn);
+        mSearchButton = (Button) findViewById(R.id.search_btn);
         mbackButton = (Button) findViewById(R.id.dis_but_backward);
         userImage = findViewById(R.id.dis_userImage);
         searchUser = (EditText) findViewById(R.id.dis_input);
