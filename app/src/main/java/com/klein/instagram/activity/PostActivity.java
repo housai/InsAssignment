@@ -28,7 +28,7 @@ import java.util.Map;
 
 
 public class PostActivity extends AppCompatActivity {
-    private EditText editText;                        //用户名编辑
+    private EditText editText;                        //Set username
     private Button mPostButton;
     private Button mbackButton;
     private ImageView imageView;
@@ -45,17 +45,20 @@ public class PostActivity extends AppCompatActivity {
         mPostButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
-    View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
+    View.OnClickListener mListener = new View.OnClickListener() {
+        //Case statement for onClickListeners on different ids
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.post_button_forward:                            //搜索界面
-                    postText = editText.getText().toString();    //根据输入内容进行搜索
+                case R.id.post_button_forward:                            //Send out a post
+                    postText = editText.getText().toString();    //Get the post's text entry
                     post();
-                    Intent intent_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                    Intent intent_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ;
+                    //Switch intent from Post to Main
                     startActivity(intent_Post_to_Main);
                     break;
-                case R.id.post_button_backward: //回撤到主界面
-                    Intent intent_back_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                case R.id.post_button_backward: //Return to main
+                    Intent intent_back_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ;
+                    //Switch intent from Post to Main
                     startActivity(intent_back_Post_to_Main);
                     finish();
                     break;
@@ -81,11 +84,11 @@ public class PostActivity extends AppCompatActivity {
                         }
 
                         JSONArray arr = jsonObject.getJSONArray("data");
-                        Toast.makeText(PostActivity.this,arr.length()+"哈哈哈哈",Toast.LENGTH_LONG).show();
+                        Toast.makeText(PostActivity.this,arr.length()+"Success getJSONArray",Toast.LENGTH_LONG).show();
                         for (int i = 0; i < arr.length(); i++) {
 
                             UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
-                            Toast.makeText(PostActivity.this,userRecommend.getUsername()+"heheh",Toast.LENGTH_LONG).show();
+                            Toast.makeText(PostActivity.this,userRecommend.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
 
                             //recommendUserList.add(userRecommend);
                         }

@@ -12,11 +12,6 @@ import org.json.JSONObject;
 import okhttp3.Call;
 import okhttp3.Response;
 
-/**
- * 创建者:    wangchao
- * 创建时间:   2017/11/6 16:54
- * 描述: TODO
- */
 public abstract class JsonCallback extends AbsCallback<JSONObject> {
     @Override
     public JSONObject convertSuccess(Response response) throws Exception {

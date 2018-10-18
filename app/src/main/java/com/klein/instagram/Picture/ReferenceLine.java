@@ -14,7 +14,7 @@ import com.klein.instagram.utils.PhotoUtil;
 
 /**
  * @Class: ReferenceLine
- * @Description: 网格参考线
+ * @Description: Grid Reference Lines
  * @author: leiqi
  * @Date: 2016/3/4
  */

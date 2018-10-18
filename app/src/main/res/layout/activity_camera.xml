@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="#000"
         tools:context="com.example.android.camera2basic.CameraActivity" />
-    <!-- 网格线 -->
+    <!-- Reference Lines -->
     <!--<com.burhanrashid52.imageeditor.Camera.ReferenceLine-->
         <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
         <!--android:id="@+id/id_cl"-->

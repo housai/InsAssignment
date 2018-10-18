@@ -74,11 +74,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
         options = new DisplayImageOptions.Builder()
-                .showStubImage(R.drawable.ic_launcher) // 在ImageView加载过程中显示图片
-                .showImageForEmptyUri(R.drawable.ic_launcher) // image连接地址为空时
-                .showImageOnFail(R.drawable.ic_launcher) // image加载失败
-                .cacheInMemory(true) // 加载图片时会在内存中加载缓存
-                .cacheOnDisc(true) // 加载图片时会在磁盘中加载
+                .showStubImage(R.drawable.ic_launcher) // When imageView loads add in image
+                .showImageForEmptyUri(R.drawable.ic_launcher) // if empty set image
+                .showImageOnFail(R.drawable.ic_launcher) // if set image fails
+                .cacheInMemory(true) // cache image in memory
+                .cacheOnDisc(true) // cache image on disk
                 .build();
         adapter = new ViewPagerAdapter(data);
         holder.viewPager.setAdapter(adapter);
@@ -117,7 +117,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
 
         @Override
-        public int getCount() {                                                                 //获得size
+        public int getCount() {                                                                 //get size
             // TODO Auto-generated method stub
             return viewLists.size();
         }
@@ -129,7 +129,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
 
         @Override
-        public void destroyItem(View view, int position, Object object)                       //销毁Item
+        public void destroyItem(View view, int position, Object object)                       //destroy Item
         {
             ImageView image = (ImageView) viewLists.get(position).get("view");
             image.setScaleType(ImageView.ScaleType.FIT_XY);
