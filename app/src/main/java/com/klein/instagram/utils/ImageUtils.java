@@ -87,7 +87,7 @@ public class ImageUtils {
     /**
      * 图片压缩
      *
-     * @param bmp
+     * @param
      * @param file
      */
     public static void compressBmpToFile(File file,int height,int width) {
