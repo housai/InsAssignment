@@ -26,7 +26,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.CursorLoader;
 import android.util.Log;
 /**
- * 图片处理的工具类
+ * Image editing utils
  * @author yaozu
  *
  */
@@ -36,7 +36,7 @@ public class ImageUtils {
 
 
     /**
-     * 根据Uri获取路径
+     * get content by URI
      * @param contentUri
      * @return
      */
@@ -56,10 +56,10 @@ public class ImageUtils {
     }
 
     /**
-     * 创建一条图片地址uri,用于保存拍照后的照片
+     * Create image URI, used for storing image after photo
      *
      * @param context
-     * @return 图片的uri
+     * @return image URI
      */
     public static Uri createImagePathUri(Context context) {
         Uri imageFilePath = null;
@@ -68,26 +68,26 @@ public class ImageUtils {
                 "yyyyMMdd_HHmmss", Locale.CHINA);
         long time = System.currentTimeMillis();
         String imageName = timeFormatter.format(new Date(time));
-        // ContentValues是我们希望这条记录被创建时包含的数据信息
+        // ContentValues includes the metadata we want upon image creation
         ContentValues values = new ContentValues(3);
         values.put(MediaStore.Images.Media.DISPLAY_NAME, imageName);
         values.put(MediaStore.Images.Media.DATE_TAKEN, time);
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
-        if (status.equals(Environment.MEDIA_MOUNTED)) {// 判断是否有SD卡,优先使用SD卡存储,当没有SD卡时使用手机存储
+        if (status.equals(Environment.MEDIA_MOUNTED)) {// Checks for SD card, if none, use internal storage
             imageFilePath = context.getContentResolver().insert(
                     MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
         } else {
             imageFilePath = context.getContentResolver().insert(
                     MediaStore.Images.Media.INTERNAL_CONTENT_URI, values);
         }
-        Log.i("", "生成的照片输出路径：" + imageFilePath.toString());
+        Log.i("", "image file path：" + imageFilePath.toString());
         return imageFilePath;
     }
 
     /**
-     * 图片压缩
+     * Compress image
      *
-     * @param bmp
+     * @param
      * @param file
      */
     public static void compressBmpToFile(File file,int height,int width) {
@@ -116,7 +116,7 @@ public class ImageUtils {
     }
 
     /**
-     * 将图片变成bitmap
+     * Convert image to bitmap
      *
      * @param path
      * @return
@@ -132,35 +132,35 @@ public class ImageUtils {
     }
 
 
-//=================================图片压缩方法===============================================
+//=================================Image Compression Method===============================================
 
     /**
-     * 质量压缩
+     * Size compress
      * @author ping 2015-1-5 下午1:29:58
      * @param image
      * @param maxkb
      * @return
      */
     public static Bitmap compressBitmap(Bitmap image,int maxkb) {
-        //L.showlog(压缩图片);
+        //L.showlog(compressed image);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // 质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        // Size compression, when 100 we don't compress, it is placed in baos
         image.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         int options = 100;
-        // 循环判断如果压缩后图片是否大于(maxkb)50kb,大于继续压缩
+        // Continuously condition check is maxkb is larger than 50kb continue to compress
         while (baos.toByteArray().length / 1024 > maxkb) {
-            // 重置baos即清空baos
+            // Reset and clear baos
             baos.reset();
             if(options-10>0){
-                // 每次都减少10
+                // Reduce by 10 each time
                 options -= 10;
             }
-            // 这里压缩options%，把压缩后的数据存放到baos中
+            // Compress options% here, after compression place in baos
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);
         }
-        // 把压缩后的数据baos存放到ByteArrayInputStream中
+        // Place compressed in baos into ByteArrayInputStream
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-        // 把ByteArrayInputStream数据生成图片
+        // Convert ByteArrayInputStream to bitmap
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
         return bitmap;
     }
@@ -170,9 +170,9 @@ public class ImageUtils {
      * @param res
      * @param resId
      * @param reqWidth
-     *            所需图片压缩尺寸最小宽度
+     *            Width Size of compressed image
      * @param reqHeight
-     *            所需图片压缩尺寸最小高度
+     *            Height Size of compressed image
      * @return
      */
     public static Bitmap decodeSampledBitmapFromResource(Resources res,
@@ -190,11 +190,11 @@ public class ImageUtils {
     /**
      *
      * @param filepath
-     * 			 图片路径
+     * 			 image path
      * @param reqWidth
-     *			所需图片压缩尺寸最小宽度
+     *			required image width
      * @param reqHeight
-     *          所需图片压缩尺寸最小高度
+     *          required image height
      * @return
      */
     public static Bitmap decodeSampledBitmapFromFile(String filepath,int reqWidth, int reqHeight) {
@@ -212,9 +212,9 @@ public class ImageUtils {
      *
      * @param bitmap
      * @param reqWidth
-     * 			所需图片压缩尺寸最小宽度
+     * 			required Width
      * @param reqHeight
-     * 			所需图片压缩尺寸最小高度
+     * 			required Height
      * @return
      */
     public static Bitmap decodeSampledBitmapFromBitmap(Bitmap bitmap,
@@ -233,17 +233,17 @@ public class ImageUtils {
     }
 
     /**
-     * 计算压缩比例值(改进版 by touch_ping)
+     * Calculate compression ration(improved by touch_ping)
      *
-     * 原版2>4>8...倍压缩
-     * 当前2>3>4...倍压缩
+     * original 2>4>8...x Compression
+     * current 2>3>4...x Compression
      *
      * @param options
-     *            解析图片的配置信息
+     *            decode options
      * @param reqWidth
-     *            所需图片压缩尺寸最小宽度O
+     *            required width minimum 0
      * @param reqHeight
-     *            所需图片压缩尺寸最小高度
+     *            required height minimum 0
      * @return
      */
     public static int calculateInSampleSize(BitmapFactory.Options options,
@@ -265,12 +265,12 @@ public class ImageUtils {
             }
         }
 
-        Log.i("===","最终压缩比例:" +inSampleSize + "倍");
-        Log.i("===", "新尺寸:" +  targetwidth + "*" +targetheight);
+        Log.i("===","Final Compression Ration:" +inSampleSize + "x");
+        Log.i("===", "New size:" +  targetwidth + "*" +targetheight);
         return inSampleSize;
     }
 
-    // 读取图像的旋转度
+    // Read image rotation
     public static int readBitmapDegree(String path) {
         int degree = 0;
         try {
@@ -297,22 +297,22 @@ public class ImageUtils {
 
 
     /**
-     * 将图片按照某个角度进行旋转
+     * Rotate image by a degree
      *
      * @param bm
-     *            需要旋转的图片
+     *            image bitmap to be rotated
      * @param degree
-     *            旋转角度
-     * @return 旋转后的图片
+     *            rotation degree
+     * @return image after rotation
      */
     public static Bitmap rotateBitmapByDegree(Bitmap bm, int degree) {
         Bitmap returnBm = null;
 
-        // 根据旋转角度，生成旋转矩阵
+        // Create transformation matrix from rotation degree
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         try {
-            // 将原始图片按照旋转矩阵进行旋转，并得到新的图片
+            // Transform original image with matrix
             returnBm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(), bm.getHeight(), matrix, true);
         } catch (OutOfMemoryError e) {
         }
@@ -359,7 +359,7 @@ public class ImageUtils {
     }
 
     /**
-     * 将下载下来的图片保存到SD卡或者本地.并返回图片的路径(包括文件命和扩展名)
+     * Save image to SD card and return path
      * @param context
      * @param bitName
      * @param mBitmap
@@ -397,9 +397,9 @@ public class ImageUtils {
                 }
 
             }else{
-                //本地存储路径
+                //local path
                 f = new File(context.getFilesDir() + File.separator +"images/");
-                Log.i(TAG, "本地存储路径:"+context.getFilesDir() + File.separator +"images/"+ bitName + ".png");
+                Log.i(TAG, "Local Path:"+context.getFilesDir() + File.separator +"images/"+ bitName + ".png");
                 path = context.getFilesDir() + File.separator +"images/"+ bitName + ".png";
                 FileOutputStream fos = null;
                 try {
@@ -430,7 +430,7 @@ public class ImageUtils {
     }
 
     /**
-     * 删除图片
+     * Delete image
      * @param context
      * @param bitName
      */
@@ -454,8 +454,8 @@ public class ImageUtils {
 
 
     /**
-     * 根据图片的Uri获取图片的绝对路径(已经适配多种API)
-     * @return 如果Uri对应的图片存在,那么返回该图片的绝对路径,否则返回null
+     * Get absolute path from image URI
+     * @return If URI to image exists return absolute path otherwise null
      */
     public static String getRealPathFromUri(Context context, Uri uri) {
         int sdkVersion = Build.VERSION.SDK_INT;
@@ -472,7 +472,7 @@ public class ImageUtils {
     }
 
     /**
-     * 适配api19以上,根据uri获取图片的绝对路径
+     * for > api19 can get real path from URI
      */
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private static String getRealPathFromUri_AboveApi19(Context context, Uri uri) {
@@ -499,7 +499,7 @@ public class ImageUtils {
     }
 
     /**
-     * 适配api11-api18,根据uri获取图片的绝对路径
+     * api11-18 get real path from URI
      */
     private static String getRealPathFromUri_Api11To18(Context context, Uri uri) {
         String filePath = null;
@@ -518,7 +518,7 @@ public class ImageUtils {
     }
 
     /**
-     * 适配api11以下(不包括api11),根据uri获取图片的绝对路径
+     * for <api11 get real path from URI
      */
     private static String getRealPathFromUri_BelowApi11(Context context, Uri uri) {
         String filePath = null;

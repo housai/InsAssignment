@@ -1,6 +1,8 @@
 package com.klein.instagram.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,24 +21,14 @@ import android.widget.Toast;
 
 import com.klein.instagram.EditImageActivity;
 import com.klein.instagram.R;
-import com.klein.instagram.activity.LoginActivity;
 import com.klein.instagram.activity.MainActivity;
-import com.klein.instagram.network.JsonCallback;
-import com.klein.instagram.utils.OkGoUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +40,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment3 extends Fragment{
     private View mView;
-    private static final int PICK_REQUEST = 53;
+    private static final int RESULT_PICK = 100;
     private static int count = 0;
 
 
@@ -61,17 +55,28 @@ public class Fragment3 extends Fragment{
 
     public void init(){
         count++;
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
+
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    RESULT_PICK);
+
+        }else {
+            //权限已经被授予，在这里直接写要执行的相应方法即可
+            startPickPhoto();
+        }
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case PICK_REQUEST:
+                case RESULT_PICK:
                     try {
 
                         Intent intent=new Intent(getActivity(), EditImageActivity.class);
@@ -105,7 +110,7 @@ public class Fragment3 extends Fragment{
     public void upload(Uri uri) throws IOException {
 
         Map<String, String> map = new HashMap<>();
-        map.put("userid","1");
+        map.put("userId","1");
         map.put("location","1ssss");
         File file = uri2File(uri);
         Toast.makeText(getContext(),file.length()+"",Toast.LENGTH_LONG).show();
@@ -119,13 +124,13 @@ public class Fragment3 extends Fragment{
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                //上传成功
+                //Upload Succeeds
             }
 
 
             @Override
             public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                //这里回调上传进度(该回调在主线程,可以直接更新ui)
+                //Return upload progress, should be returned to main thread and update UI
             }
         });
     }
@@ -141,6 +146,32 @@ public class Fragment3 extends Fragment{
         cursor.close();
         Toast.makeText(getContext(),picturePath,Toast.LENGTH_LONG).show();
         return new File(picturePath);
+    }
+
+
+    private void startPickPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "请选择图片"), RESULT_PICK);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+
+            case RESULT_PICK:
+                // 如果权限被拒绝，grantResults 为空
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //选择图片
+                    startPickPhoto();
+                } else {
+                    Toast.makeText(getContext(), "需要读取权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
     }
 
 }

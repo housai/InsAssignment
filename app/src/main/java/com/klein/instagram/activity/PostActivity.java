@@ -31,7 +31,7 @@ import java.util.Map;
 **/
 
 public class PostActivity extends AppCompatActivity {
-        private EditText editText;                        //用户名编辑
+        private EditText editText;                        //Edit post
         private Button mPostButton;
         private Button mbackButton;
         private ImageView postImage;
@@ -52,17 +52,17 @@ public class PostActivity extends AppCompatActivity {
             Uri imageUri = Uri.parse(post_image_path);
             postImage.setImageURI(imageUri);
         }
-        View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
+        View.OnClickListener mListener = new View.OnClickListener() {                  //Set listeners
             public void onClick(View v) {
                 switch (v.getId()) {
-                    case R.id.post_button_forward:                            //搜索界面
-                        postText = editText.getText().toString();    //根据输入内容进行搜索
+                    case R.id.post_button_forward:                            //Post
+                        postText = editText.getText().toString();    //Get post text
                         post();
-                        Intent intent_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                        Intent intent_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //Post done, return to main
                         startActivity(intent_Post_to_Main);
                         break;
-                    case R.id.post_button_backward: //回撤到主界面
-                        Intent intent_back_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //切换discover界面到main界面
+                    case R.id.post_button_backward: //Return
+                        Intent intent_back_Post_to_Main = new Intent(PostActivity.this,MainActivity.class) ; //Go back
                         startActivity(intent_back_Post_to_Main);
                         finish();
                         break;
@@ -82,7 +82,7 @@ public class PostActivity extends AppCompatActivity {
                                 Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(postImage);
                             }
                             JSONArray arr = jsonObject.getJSONArray("data");
-                            Toast.makeText(PostActivity.this,arr.length()+"哈哈哈哈",Toast.LENGTH_LONG).show();
+                            Toast.makeText(PostActivity.this,arr.length()+"hahaha",Toast.LENGTH_LONG).show();
                             for (int i = 0; i < arr.length(); i++) {
                                 UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
                                 Toast.makeText(PostActivity.this,userRecommend.getUsername()+"heheh",Toast.LENGTH_LONG).show();

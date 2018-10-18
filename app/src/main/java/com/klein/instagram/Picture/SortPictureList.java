@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Comparator;
 
 /**
- * 图片修改时间排序
+ * Image sort by modified
  * Created by hupei on 2016/7/14.
  */
 class SortPictureList implements Comparator {

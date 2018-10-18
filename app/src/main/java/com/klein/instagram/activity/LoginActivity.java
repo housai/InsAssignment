@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.gson.Gson;
 import com.klein.instagram.R;
 
+import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -21,15 +24,15 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginActivity extends Activity {                 //登录界面活动
-    private EditText mAccount;                        //用户名编辑
-    private EditText mPwd;                            //密码编辑
-    private Button mRegisterButton;                   //注册按钮
-    private Button mLoginButton;                      //登录按钮
+public class LoginActivity extends Activity {                 //Login page
+    private EditText mAccount;                        //Set username
+    private EditText mPwd;                            //Set password
+    private Button mRegisterButton;                   //register button
+    private Button mLoginButton;                      //login button
 
     private SharedPreferences login_sp;
 
-    private View loginView;                           //登录
+    private View loginView;                           //Login
     private View loginSuccessView;
     private TextView loginSuccessShow;
     private EditText editName;
@@ -42,7 +45,7 @@ public class LoginActivity extends Activity {                 //登录界面活�
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        //通过id找到相应的控件
+        //Use id to find layout
         mRegisterButton = (Button) findViewById(R.id.login_btn_register);
         mLoginButton = (Button) findViewById(R.id.login_btn_login);
         loginView=findViewById(R.id.login_view);
@@ -51,19 +54,21 @@ public class LoginActivity extends Activity {                 //登录界面活�
         editName = (EditText) findViewById(R.id.login_edit_account);
         editPw = (EditText) findViewById(R.id.login_edit_pwd);
         login_sp = getSharedPreferences("userInfo", 0);
-        mRegisterButton.setOnClickListener(mListener);                      //采用OnClickListener方法设置不同按钮按下之后的监听事件
+        mRegisterButton.setOnClickListener(mListener);
+        //Set onClickListeners
         mLoginButton.setOnClickListener(mListener);
     }
     View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.login_btn_register:                            //登录界面的注册按钮
+                case R.id.login_btn_register:
+                    //Register button takes us to register page
                     Intent intent_Login_to_Register = new Intent(LoginActivity.this,RegisterActivity.class) ;    //切换Login Activity至Register Activity
                     startActivity(intent_Login_to_Register);
                     finish();
                     break;
                 case R.id.login_btn_login:
-                    //登录界面的登录按钮
+                    //Login button tries to login with entered fields
                     name = editName.getText().toString();
                     pwd = editPw.getText().toString();
                     login();
@@ -86,12 +91,12 @@ public class LoginActivity extends Activity {                 //登录界面活�
                 Toast.makeText(LoginActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
+                        UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
                         Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent_login_success);
                         finish();
                     }else{
-                        Toast.makeText(LoginActivity.this,"飒飒的是",Toast.LENGTH_LONG).show();
-                    }
+                        Toast.makeText(LoginActivity.this,getString(R.string.login_fail),Toast.LENGTH_SHORT).show();                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

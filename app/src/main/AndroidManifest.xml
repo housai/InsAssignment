@@ -3,6 +3,7 @@
     package="com.klein.instagram">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
 
@@ -18,29 +19,29 @@
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".activity.LoginActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:label="用户注册" />
+            android:label="RegisterActivity" />
         <activity android:name=".activity.CommentActivity" />
         <activity
             android:name=".EditImageActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.DiscoverActivity"
-            android:label="用户注册" />
+            android:label="DiscoverActivity" />
         <activity android:name=".activity.PostActivity" />
 
         <provider
