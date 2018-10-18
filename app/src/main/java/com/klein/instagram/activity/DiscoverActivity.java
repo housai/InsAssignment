@@ -83,45 +83,47 @@ public class DiscoverActivity extends Activity {
         public void search(){
             Map<String, String> map = new HashMap<>();
             map.put("username", sname);
+            if(isUserNameValid()) {
+                OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
 
-            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
+                    @Override
+                    public void onSucess(JSONObject jsonObject) {
 
-                @Override
-                public void onSucess(JSONObject jsonObject) {
+                        try {
+                            if (jsonObject.getInt("resultCode") == 200) {
+                                UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                                if (user.getProfilephoto().equals("") || user.getProfilephoto() == null) {
+                                    Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
+                                }
+                                dis_res_user_name.setText(user.getUsername());
+                                JSONArray arr = jsonObject.getJSONArray("data");
+                                Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
+                                for (int i = 0; i < arr.length(); i++) {
 
-                    try {
-                        if (jsonObject.getInt("resultCode") == 200){
-                            UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
-                            if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
-                                Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
+                                    UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
+                                    Toast.makeText(DiscoverActivity.this, userRecommend.getUsername() + "Success getUsername", Toast.LENGTH_LONG).show();
+
+                                    recommendUserList.add(userRecommend);
+                                }
+                                mAdapter.notifyDataSetChanged();
+                            } else {
+                                Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
                             }
-                            dis_res_user_name.setText(user.getUsername());
-                            JSONArray arr = jsonObject.getJSONArray("data");
-                            Toast.makeText(DiscoverActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
-                            for (int i = 0; i < arr.length(); i++) {
-
-                                UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
-                                Toast.makeText(DiscoverActivity.this,userRecommend.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
-
-                                recommendUserList.add(userRecommend);
-                            }
-                            mAdapter.notifyDataSetChanged();
-                        }else{
-                            Toast.makeText(DiscoverActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                }
-                @Override
-                public void onError(Exception e) {
-                    Toast.makeText(DiscoverActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
-                }
 
-            });
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(DiscoverActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                });
+            }
         }
         public boolean isUserNameValid() {
-            if (searchUser.getText().toString().trim().equals("")) {
+            if (sname.isEmpty()) {
                 Toast.makeText(this, getString(R.string.account_empty),
                         Toast.LENGTH_SHORT).show();
                 return false;

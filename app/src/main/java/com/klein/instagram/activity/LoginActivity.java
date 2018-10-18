@@ -82,41 +82,42 @@ public class LoginActivity extends Activity {                 //Login page
         Map<String, String> map = new HashMap<>();
         map.put("username", name);
         map.put("password", pwd);
+        if (isUserNameAndPwdValid()) {
+            OkGoUtil.jsonPost(LoginActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/login", map, true, new JsonCallback() {
 
-        OkGoUtil.jsonPost(LoginActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/login", map, true, new JsonCallback() {
 
-
-            @Override
-            public void onSucess(JSONObject jsonObject) {
-                Toast.makeText(LoginActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
-                try {
-                    if (jsonObject.getInt("resultCode") == 200){
-                        UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
-                        Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent_login_success);
-                        finish();
-                    }else{
-                        Toast.makeText(LoginActivity.this,getString(R.string.login_fail),Toast.LENGTH_SHORT).show();                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                @Override
+                public void onSucess(JSONObject jsonObject) {
+                    Toast.makeText(LoginActivity.this, jsonObject.toString(), Toast.LENGTH_LONG).show();
+                    try {
+                        if (jsonObject.getInt("resultCode") == 200) {
+                            UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                            Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent_login_success);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, getString(R.string.login_fail), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onError(Exception e) {
-                Toast.makeText(LoginActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
-            }
+                @Override
+                public void onError(Exception e) {
+                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
 
-        });
-
+            });
+        }
     }
 
     public boolean isUserNameAndPwdValid() {
-        if (mAccount.getText().toString().trim().equals("")) {
+        if (name.isEmpty()) {
             Toast.makeText(this, getString(R.string.account_empty),
                     Toast.LENGTH_SHORT).show();
             return false;
-        } else if (mPwd.getText().toString().trim().equals("")) {
+        } else if (pwd.isEmpty()){
             Toast.makeText(this, getString(R.string.pwd_empty),
                     Toast.LENGTH_SHORT).show();
             return false;
