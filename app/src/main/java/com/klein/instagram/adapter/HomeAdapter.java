@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.klein.instagram.activity.CommentActivity;
 import com.klein.instagram.R;
 import com.klein.instagram.activity.CommentActivity;
+import com.klein.instagram.bean.UserBean;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -35,12 +36,17 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     DisplayImageOptions options;
     ViewPagerAdapter adapter;
     List<Map<String, Object>> data;
+    private MyItemClickListener mItemClickListener;
 
 
     public HomeAdapter(Context context, List<String> list) {
         this.context = context;
         this.list = list;
         data = getData();
+    }
+
+    public void setOnItemClickListener(MyItemClickListener listener) {
+        this.mItemClickListener = listener;
     }
 
     public List<Map<String, Object>> getData() {
@@ -64,11 +70,14 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(context).inflate(R.layout.item, parent, false));
+        View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        ViewHolder holder = new ViewHolder(view, mItemClickListener);
+        return holder;
     }
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
+//        UserBean user = list.get(position);
         holder.user_name.setText("Nicolas");
         Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.userImage);
         imageLoader = ImageLoader.getInstance();
@@ -95,6 +104,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, CommentActivity.class);
+//                intent.putExtra("userId", user.getId());
+//                intent.putExtra("username", user.getUsername());
+//                intent.putExtra("profilephoto", user.getProfilephoto());
 
                 context.startActivity(intent);
             }
@@ -147,7 +159,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             }
         };
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView userImage;
         TextView user_name;
         ViewPager viewPager;
@@ -159,9 +171,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         TextView contentName;
         TextView content;
         TextView  viewMore;
+        private MyItemClickListener mListener;
 
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView,MyItemClickListener listener) {
             super(itemView);
             favourite = (ImageView) itemView.findViewById(R.id.favourite);
             message = (ImageView) itemView.findViewById(R.id.message);
@@ -174,9 +187,20 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             contentName = (TextView) itemView.findViewById(R.id.contentName);
             content = (TextView) itemView.findViewById(R.id.content);
             viewMore = (TextView) itemView.findViewById(R.id.viewMore);
+            mListener = listener;
+            itemView.setOnClickListener(this);
+        }
+        @Override
+        public void onClick(View view) {
+            if (mListener != null) {
+                mListener.onItemClick(view, getPosition());
+                }
+            }
         }
 
-    }
+        public interface MyItemClickListener {
+            void onItemClick(View view, int position);
+        }
 }
 
 

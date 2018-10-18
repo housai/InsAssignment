@@ -7,7 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.klein.instagram.user.Login">
+    tools:context="com.klein.instagram.activity.LoginActivity">
     <RelativeLayout
         android:id="@+id/login_view"
     android:layout_width="400dp"

@@ -49,23 +49,29 @@
     <LinearLayout
         android:id="@+id/search_view"
         android:layout_width="400dp"
-        android:layout_height="60dp">>
+        android:layout_height="60dp"
+        android:orientation="horizontal">
 
         <EditText
             android:id="@+id/dis_input"
-            android:layout_width="266dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:hint="pleas input search user!"/>
+            android:layout_width="280dp"
+            android:layout_height="45dip"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/bg_edittext"
+            android:hint="pleas input search user!"
+            android:singleLine="true"
+            android:textColorHint="#AAAAAA"
+            android:textSize="15dip" />
 
         <Button
             android:id="@+id/search_btn"
-            android:layout_width="40dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="3dp"
-            android:background="@drawable/second_after"
+            android:text="Search"
             />
 
     </LinearLayout>
