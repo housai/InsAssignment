@@ -54,11 +54,15 @@ public class CommentActivity extends Activity {
         editComment = (EditText) findViewById(R.id.com_txt);
         com_host_name = (TextView)findViewById(R.id.com_host_name);
         com_com_name = (TextView)findViewById(R.id.com_com_name);
-
         commentRecyclerView = (RecyclerView)findViewById(R.id.commentRecyclerView);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setNestedScrollingEnabled(false);
+
+        Intent intent = getIntent();
+        intent.getStringExtra("userId");
+        intent.getStringExtra("username");
+        intent.getStringExtra("profilephoto");
 
         mCommentButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);

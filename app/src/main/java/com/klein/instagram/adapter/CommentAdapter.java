@@ -46,7 +46,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
             Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.com_userImage);
         }
-        holder.com_user_name.setText(user.getComment());
+//        holder.com_user_name.setText(user.getComment());
     }
 
     @Override
