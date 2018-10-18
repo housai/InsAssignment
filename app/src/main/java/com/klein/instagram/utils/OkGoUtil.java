@@ -16,21 +16,21 @@ import java.io.File;
 import java.util.Map;
 import java.util.logging.Level;
 /**
- * 创建者:    wangchao
- * 创建时间:   2017/11/6 16:52
- * 描述: TODO
+ * Creator:    wangchao
+ * Create time:   2017/11/6 16:52
+ * Description: TODO
  */
 public class OkGoUtil {
 
-    //默认打印级别
+    //Default print
     private static boolean isDBUG = false;
-    //默认的超时链接
+    //Default timeout
     private static int Num = 30;
-    //统一重连超时时间30s
+    //Set all reconnection time to 30s
     private static int time = 120000;
     private static OkGo go;
 
-    //暂时单例加载
+    //Temporarily load one by one
     private static OkGo getInstance() {
         if (go == null) {
             go = OkGo.getInstance();
@@ -50,7 +50,7 @@ public class OkGoUtil {
 
     ;
     /**
-     * 简单的get请求
+     * Simple GET request
      *
      * @param context
      * @param url
@@ -69,7 +69,7 @@ public class OkGoUtil {
 
 
     /**
-     * 简单的post请求
+     * Simple POST request
      *  @param context
      * @param url
      * @param map
@@ -89,7 +89,7 @@ public class OkGoUtil {
         request.execute(call);
     }
 
-    //随时关闭请求
+    //Cancel request any time
     public static void cancle(Context con) {
         getInstance().cancelTag(con);
     }

@@ -27,7 +27,7 @@
     <string name="cancel_success">Cancel Success！</string>
     <string name="login_fail">Login failed, please retry！</string>
     <string name="name_already_exist">Username【<xliff:g example="tom" id="id1">%1$s</xliff:g>】already exists, please re-enter! </string>
-    <string name="name_not_exist">Username【<xliff:g example="tom" id="id1">%1$s</xliff:g>】doesn't exist，please retry! </string>
+    <string name="name_not_exist">Username【<xliff:g example="tom" id="id1">%1$s</xliff:g>】does not exist，please retry! </string>
     <string name="user_login_success">Username：<xliff:g example="tom" id="id2">%1$s</xliff:g>login success，welcome！</string>
     <string name="title_activity_post">PostActivity</string>
 </resources>

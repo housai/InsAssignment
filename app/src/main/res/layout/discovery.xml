@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -49,25 +51,24 @@
     <LinearLayout
         android:id="@+id/search_view"
         android:layout_width="400dp"
-        android:layout_height="100dp">
+        android:layout_height="50dp">
+
         <EditText
             android:id="@+id/dis_input"
-            android:layout_width="266dp"
-            android:layout_height="60dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="20dp"
-            android:hint="pleas input search user!"
+            android:layout_width="300dp"
+            android:layout_height="match_parent"
+            android:hint="Input username..."
             android:inputType="textPersonName" />
 
-        <Button
+        <ImageView
             android:id="@+id/search_btn"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/second_after"
-            android:textColor="#ffffff"
-            android:textSize="20dp" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            app:srcCompat="@drawable/search"
+            tools:srcCompat="@drawable/search" />
+
     </LinearLayout>
     <View
         android:id="@+id/view_user_Number1"
