@@ -1,6 +1,8 @@
 package com.klein.instagram.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -19,24 +21,14 @@ import android.widget.Toast;
 
 import com.klein.instagram.EditImageActivity;
 import com.klein.instagram.R;
-import com.klein.instagram.activity.LoginActivity;
 import com.klein.instagram.activity.MainActivity;
-import com.klein.instagram.network.JsonCallback;
-import com.klein.instagram.utils.OkGoUtil;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
