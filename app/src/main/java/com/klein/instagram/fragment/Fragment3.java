@@ -143,4 +143,6 @@ public class Fragment3 extends Fragment{
         return new File(picturePath);
     }
 
+
+
 }
