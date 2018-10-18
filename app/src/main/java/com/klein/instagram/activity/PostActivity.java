@@ -71,6 +71,8 @@ public class PostActivity extends AppCompatActivity {
         map.put("postText", postText);
 
 
+
+
         OkGoUtil.jsonPost(PostActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
 
             @Override
@@ -78,7 +80,7 @@ public class PostActivity extends AppCompatActivity {
 
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
-                        UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                        UserBean user =  new Gson().fromJson(jsonObject.getString("postText"), UserBean.class);
                         if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
                             Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(imageView);
                         }

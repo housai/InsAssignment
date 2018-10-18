@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.gson.Gson;
 import com.klein.instagram.R;
 
+import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -88,6 +91,7 @@ public class LoginActivity extends Activity {                 //Login page
                 Toast.makeText(LoginActivity.this,jsonObject.toString(),Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
+                        UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
                         Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent_login_success);
                         finish();
