@@ -72,17 +72,15 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case CAMERA_REQUEST:
-                Intent intent=new Intent(getActivity(), EditImageActivity.class);
-                Bitmap photo = (Bitmap) data.getExtras().get("data");
-                intent.putExtra("camera", photo);
-                startActivity(intent);
-                break;
+                    Intent intent=new Intent(getActivity(), EditImageActivity.class);
+                    Bitmap photo = (Bitmap) data.getExtras().get("data");
+                    intent.putExtra("camera", photo);
+                    startActivity(intent);
+                    break;
 
             }
         }
     }
-
-
 
 }
 

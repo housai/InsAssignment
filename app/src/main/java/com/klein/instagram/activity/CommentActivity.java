@@ -50,7 +50,7 @@ public class CommentActivity extends Activity {
         setContentView(R.layout.comment);
         mCommentButton = (Button) findViewById(R.id.send_comment);
         mbackButton = (Button) findViewById(R.id.com_button_backward);
-        userImage = findViewById(R.id.com_userImage);
+        userImage = (ImageView) findViewById(R.id.com_userImage);
         editComment = (EditText) findViewById(R.id.com_txt);
         com_host_name = (TextView)findViewById(R.id.com_host_name);
         com_com_name = (TextView)findViewById(R.id.com_com_name);
@@ -62,8 +62,6 @@ public class CommentActivity extends Activity {
 
         mCommentButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
-
-
 
         mAdapter = new CommentAdapter(CommentActivity.this,commentList);
         commentRecyclerView.setAdapter(mAdapter);

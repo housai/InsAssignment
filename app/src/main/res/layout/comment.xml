@@ -5,6 +5,11 @@
     android:orientation="vertical"
     android:background="#FFFFFF">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/layout_titlebar"
         android:layout_width="match_parent"
@@ -36,7 +41,7 @@
     <View
         android:id="@+id/view_user_Number1"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:background="#DBDBDB"/>
 
     <LinearLayout
@@ -74,11 +79,11 @@
     <View
         android:id="@+id/view_user_Number2"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:background="#DBDBDB"/>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="330dp"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
         >
@@ -89,40 +94,43 @@
             >
         </android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.NestedScrollView>
+
+    </LinearLayout>
     <View
         android:id="@+id/view_user_Number3"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="3dp"
         android:background="#DBDBDB"/>
-
     <LinearLayout
-        android:id="@+id/bot"
-        android:layout_width="match_parent"
+        android:id="@+id/search_view"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="1dp"
-        android:layout_weight="1"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/com_txt"
-            android:layout_width="324dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:hint="Please input comment..." />
+            android:layout_width="280dp"
+            android:layout_height="45dip"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:layout_marginLeft="15dp"
+
+            android:background="@drawable/bg_edittext"
+            android:hint="pleas input comment"
+            android:singleLine="true"
+            android:textColorHint="#AAAAAA"
+            android:textSize="15dip" />
 
         <Button
             android:id="@+id/send_comment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/share"
-            android:visibility="visible" />
+            android:text="Search"
+            />
+
     </LinearLayout>
-
-
 
 </LinearLayout>
 

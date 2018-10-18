@@ -6,7 +6,6 @@ public class UserBean {
     private String username;
     private String password;
     private String profilephoto;
-    private String comment;
 
     public Integer getId() {
         return id;
@@ -16,8 +15,8 @@ public class UserBean {
     }
 
     public UserBean(String username, String password) {
-        this.username = username;
-        this.password = password;
+            this.username = username;
+            this.password = password;
 
     }
     public String getProfilephoto() {
@@ -26,14 +25,6 @@ public class UserBean {
 
     public void setProfilephoto(String profilephoto) {
         this.profilephoto = profilephoto;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public String getUsername() {
