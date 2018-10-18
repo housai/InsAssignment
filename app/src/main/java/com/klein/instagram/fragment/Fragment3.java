@@ -1,6 +1,8 @@
 package com.klein.instagram.fragment;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,7 +10,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +50,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Fragment3 extends Fragment{
     private View mView;
-    private static final int PICK_REQUEST = 53;
+    private static final int RESULT_PICK = 100;
     private static int count = 0;
 
 
@@ -61,17 +65,28 @@ public class Fragment3 extends Fragment{
 
     public void init(){
         count++;
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
+
+        if (ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    RESULT_PICK);
+
+        }else {
+            //权限已经被授予，在这里直接写要执行的相应方法即可
+            startPickPhoto();
+        }
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case PICK_REQUEST:
+                case RESULT_PICK:
                     try {
 
                         Intent intent=new Intent(getActivity(), EditImageActivity.class);
@@ -144,5 +159,29 @@ public class Fragment3 extends Fragment{
     }
 
 
+    private void startPickPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "请选择图片"), RESULT_PICK);
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        switch (requestCode) {
+
+            case RESULT_PICK:
+                // 如果权限被拒绝，grantResults 为空
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //选择图片
+                    startPickPhoto();
+                } else {
+                    Toast.makeText(getContext(), "需要读取权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+        }
+    }
 
 }
