@@ -117,17 +117,17 @@ public class Fragment3 extends Fragment{
                 .params("file",file)
                 .execute(new StringCallback() {
 
-            @Override
-            public void onSuccess(String s, Call call, Response response) {
-                //Upload Succeeds
-            }
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        //upload success
+                    }
 
 
-            @Override
-            public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
-                //Return upload progress, should be returned to main thread and update UI
-            }
-        });
+                    @Override
+                    public void upProgress(long currentSize, long totalSize, float progress, long networkSpeed) {
+                        //Return upload progress, should be returned to main thread and update UI
+                    }
+                });
     }
 
     private File uri2File(Uri uri) throws IOException {
@@ -142,7 +142,5 @@ public class Fragment3 extends Fragment{
         Toast.makeText(getContext(),picturePath,Toast.LENGTH_LONG).show();
         return new File(picturePath);
     }
-
-
 
 }
