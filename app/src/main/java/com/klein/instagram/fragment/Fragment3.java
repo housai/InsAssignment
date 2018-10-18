@@ -105,7 +105,7 @@ public class Fragment3 extends Fragment{
     public void upload(Uri uri) throws IOException {
 
         Map<String, String> map = new HashMap<>();
-        map.put("userid","1");
+        map.put("userId","1");
         map.put("location","1ssss");
         File file = uri2File(uri);
         Toast.makeText(getContext(),file.length()+"",Toast.LENGTH_LONG).show();
