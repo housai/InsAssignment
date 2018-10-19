@@ -14,6 +14,10 @@ import com.klein.instagram.bean.ActivityFeedBean;
 
 import java.util.List;
 
+/**
+ * Created by Kaven Peng 19/10/18
+ */
+
 public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapter.ViewHolder> {
     private Context context;
     private List<ActivityFeedBean> data;
@@ -32,11 +36,11 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
     public void onBindViewHolder(final ViewHolder holder, int position) {
         ActivityFeedBean act = data.get(position);
         //Set username
-        String username = "Nicolas";
-        holder.Act_user_name.setText(username);
-//        if(comment.getUserId().equals(0) || comment.getUserId() == null){
+        String username = act.getUsername();
+//        holder.Act_user_name.setText(username);
+        if(act.getProfilephoto() == "" || act.getProfilephoto() == null){
         Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.Act_user_img);
-//        }
+        }
 //        holder.com_com_name.setText(comment.getUsername());
         holder.Act_user_act.setText(username + " has recently liked " + act.getLikeCount() + " posts");
     }
@@ -48,7 +52,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView Act_user_img;
-        TextView Act_user_name;
+//        TextView Act_user_name;
         TextView Act_user_act;
 
 
@@ -56,7 +60,7 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
             super(itemView);
 
             Act_user_img = (ImageView) itemView.findViewById(R.id.Act_user_img);
-            Act_user_name = (TextView) itemView.findViewById(R.id.Act_user_name);
+//            Act_user_name = (TextView) itemView.findViewById(R.id.Act_user_name);
             Act_user_act =(TextView) itemView.findViewById(R.id.Act_user_activity);
         }
 

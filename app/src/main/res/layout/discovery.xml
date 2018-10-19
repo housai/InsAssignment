@@ -107,11 +107,11 @@
 
             <TextView
                 android:id="@+id/dis_res_user_name"
-                android:layout_width="50dp"
+                android:layout_width="wrap_content"
                 android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="7dp"
-                android:layout_gravity="center_vertical"
                 android:fontFamily="casual"
                 android:textColor="#000000" />
         </LinearLayout>
@@ -130,6 +130,17 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#DBDBDB"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="3dp"
+        android:text="Suggested Users" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,30 +1,15 @@
 package com.klein.instagram.bean;
 
-public class ActivityFeedBean {
-    private Integer followerId;
-    private String followerUsername;
+
+/**
+ * Created by Kaven Peng on 19/10/18
+ */
+public class ActivityFeedBean extends UserBean {
     private Integer likeCount;
 
-    public ActivityFeedBean(Integer followerId, String followerUsername, Integer likeCount) {
-        this.followerId = followerId;
-        this.followerUsername = followerUsername;
+    public ActivityFeedBean(String username, String password, Integer id, Integer likeCount) {
+        super(username, password);
         this.likeCount = likeCount;
-    }
-
-    public Integer getFollowerId() {
-        return followerId;
-    }
-
-    public void setFollowerId(Integer followerId) {
-        this.followerId = followerId;
-    }
-
-    public String getFollowerUsername() {
-        return followerUsername;
-    }
-
-    public void setFollowerUsername(String followerUsername) {
-        this.followerUsername = followerUsername;
     }
 
     public Integer getLikeCount() {

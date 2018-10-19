@@ -1,6 +1,5 @@
 package com.klein.instagram.adapter;
 
-
 import android.content.Context;
 
 import android.support.v7.widget.RecyclerView;
@@ -72,5 +71,3 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     }
 }
-
-

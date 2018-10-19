@@ -47,7 +47,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="3dp"
             android:background="@drawable/third_before"
-            android:visibility="invisible" />
+            android:visibility="visible" />
     </LinearLayout>
 
 

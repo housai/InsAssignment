@@ -1,6 +1,8 @@
 package com.klein.instagram.bean;
 
-
+/**
+ * Created by Kaven Peng 19/10/18
+ */
 public class CommentBean {
 
     private Integer id;

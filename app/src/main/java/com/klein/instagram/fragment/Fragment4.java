@@ -46,7 +46,6 @@ public class Fragment4 extends Fragment {
     private RecyclerView mVRecycler;
     private ActivityFeedAdapter mAdapter;
     private List<ActivityFeedBean> actList;
-    private List<Integer> followIdList;
     private View mView;
     private Integer myId = 1;
 
@@ -61,20 +60,19 @@ public class Fragment4 extends Fragment {
         mVRecycler.setNestedScrollingEnabled(false);
         mVRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         actList = new ArrayList<ActivityFeedBean>();
-        getFollowers();
-        //getActivityFeed();
+        getActivityFeed();
         //ActivityFeed Adapter
-        ActivityFeedBean act1 = new ActivityFeedBean(2, "Annie", 5);
-        actList.add(act1);
+        //ActivityFeedBean act1 = new ActivityFeedBean(2, "Annie", 5);
+//        actList.add(act1);
         mAdapter = new ActivityFeedAdapter(this.getContext(), actList);
         mVRecycler.setAdapter(mAdapter);
         return mView;
     }
 
-    public void getFollowers() {
+    public void getActivityFeed() {
         Map<String, String> map = new HashMap<>();
         map.put("userId", myId.toString());
-        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/selectFollowByUserId", map, true, new JsonCallback() {
+        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/getFollowActivityByUserId", map, true, new JsonCallback() {
 
             @Override
             public void onSucess(JSONObject jsonObject) {
@@ -85,14 +83,11 @@ public class Fragment4 extends Fragment {
                         JSONArray arr = jsonObject.getJSONArray("data");
 //                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
                         for (int i = 0; i < arr.length(); i++) {
-//
-                            Integer followId = new Gson().fromJson(arr.getString(i), Integer.class);
+                            ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
 //                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
-//
-                            followIdList.add(followId);
+                            actList.add(act);
                         }
-//                        commentList.add(new CommentBean(userId, postid, com_name, comment));
-//                        mAdapter.notifyDataSetChanged();
+                        mAdapter.notifyDataSetChanged();
                     }else{
 //                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
                         //no comments exist, do nothing

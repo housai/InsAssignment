@@ -136,12 +136,13 @@
                 android:text="哈哈哈哈"
                 android:textColor="#080808"
                 android:textStyle="bold"/>
+
             <TextView
                 android:id="@+id/content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#080808"
-                android:text="What's a beautiful day"/>
+                android:text="What's a beautiful day"
+                android:textColor="#080808" />
 
         </LinearLayout>
 

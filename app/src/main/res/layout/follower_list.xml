@@ -9,34 +9,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/down"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal">
-
             <com.klein.instagram.utils.XCRoundImageView
-                android:id="@+id/Act_user_img"
+                android:id="@+id/follower_userImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/favourite" />
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/favourite"
+                />
 
             <TextView
-                android:id="@+id/Act_user_activity"
+                android:id="@+id/follower_user_name"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="4dp"
+                android:layout_gravity="center_vertical"
+                android:textColor="#000000"
                 android:fontFamily="casual"
-                android:textColor="#000000" />
+                />
         </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>
