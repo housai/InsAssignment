@@ -39,6 +39,7 @@ public class CommentActivity extends Activity {
     private TextView com_com_name;
     private String comment;
     private String com_name;
+    private String postid;
 
     private List<UserBean> commentList = new ArrayList<UserBean>();
     private CommentAdapter mAdapter;
@@ -73,8 +74,9 @@ public class CommentActivity extends Activity {
     View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.search_btn:                            //Search button
-                    comment = editComment.getText().toString();    //Search by entered name
+                case R.id.send_comment:                            //comment button
+                    comment = editComment.getText().toString();    //get comment
+
                     comment();
                     break;
                 case R.id.com_button_backward: //Return to main page
@@ -88,10 +90,12 @@ public class CommentActivity extends Activity {
     };
     public void comment(){
         Map<String, String> map = new HashMap<>();
-        map.put("username", com_name);
-        map.put("comment",comment);
+        // post id
+        map.put("postId",postid);
+        map.put("username", com_name);// user id
+        map.put("comment",comment); // comment
         if(isCommentValid()){
-            OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/CommentController/insertComment", map, true, new JsonCallback() {
 
             @Override
             public void onSucess(JSONObject jsonObject) {
@@ -130,7 +134,7 @@ public class CommentActivity extends Activity {
     }
     public boolean isCommentValid() {
         if (comment.isEmpty()) {
-            Toast.makeText(this, getString(R.string.account_empty),
+            Toast.makeText(this, "Please input your comment!",
                     Toast.LENGTH_SHORT).show();
             return false;
         }return true;

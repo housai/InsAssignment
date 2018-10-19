@@ -31,17 +31,20 @@
             android:layout_marginLeft="10dp"
             android:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/button_forward"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
+        <Button
+            android:id="@+id/button_sort"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:drawablePadding="6dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="5dp"
             android:ellipsize="end"
             android:gravity="center"
+            android:text=". . ."
+            android:textSize="25dp"
+            android:background="@android:color/transparent"
             android:visibility="visible"
-            android:src="@drawable/share"/>
+            />
     </RelativeLayout>
 
     <View
