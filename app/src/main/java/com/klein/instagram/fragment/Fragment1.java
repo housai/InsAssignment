@@ -32,7 +32,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
     private View mView;
     private ImageView take_photo;
     private static final int CAMERA_REQUEST = 52;
-    private Button sort;
+    private Button sortByTime;
+    private Button sortByLocation;
+
 
 
 
@@ -43,9 +45,13 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
 
         mView = inflater.inflate(R.layout.fragment1, container, false);
         take_photo = mView.findViewById(R.id.take_photo);
-        sort = (Button) mView.findViewById(R.id.button_sort);
-        sort.setOnClickListener(this);
         take_photo.setOnClickListener(this);
+
+        sortByTime = (Button) mView.findViewById(R.id.but_sortByTime);
+        sortByTime.setOnClickListener(this);
+        sortByLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
+        sortByLocation.setOnClickListener(this);
+
         mVRecycler = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mVRecycler.setHasFixedSize(true);
         mVRecycler.setNestedScrollingEnabled(false);
@@ -71,7 +77,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
             case R.id.button_sort:
-//                Intent sort_location_Intent = new Intent( SortActivity.class);
+//                Intent sort_location_Intent = new Intent( getActivity(),SortActivity.class);
 //                startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
         }
