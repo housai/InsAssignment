@@ -24,7 +24,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import helpers.UserData;
+import com.klein.instagram.helpers.UserData;
 
 public class LoginActivity extends Activity {                 //Login page
     private EditText mAccount;                        //Set username

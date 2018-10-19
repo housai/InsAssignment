@@ -1,4 +1,4 @@
-package helpers;
+package com.klein.instagram.helpers;
 
 /**
  * Created Kaven Peng 19/10/18
