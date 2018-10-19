@@ -14,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 
 import com.klein.instagram.EditImageActivity;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.HomeAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,11 +55,11 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
         for (int i = 1; i < 17; i++) {
             mList.add("text" + i);
         }
-        // 设置sort相关
-        sort = (Button) mView.findViewById(R.id.button_sort);
-        sortbyTime = (Button) mView.findViewById(R.id.but_sortByTime);
-        sortbyLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
-        cancel_sort = (Button) mView.findViewById(R.id.cancel_Sort);
+//        // 设置sort相关
+//        sort = (Button) mView.findViewById(R.id.button_sort);
+//        sortbyTime = (Button) mView.findViewById(R.id.but_sortByTime);
+//        sortbyLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
+//        cancel_sort = (Button) mView.findViewById(R.id.cancel_Sort);
 
 //        sort.setOnClickListener(mListener);
 //        sortbyTime.setOnClickListener(mListener);
@@ -85,7 +84,7 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
             case R.id.button_sort:
                 //sort();
                 //finish();
-            break;
+                break;
 
         }
     }
@@ -107,4 +106,3 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
     }
 
 }
-
