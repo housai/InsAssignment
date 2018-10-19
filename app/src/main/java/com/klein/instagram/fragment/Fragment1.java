@@ -14,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 
 import com.klein.instagram.EditImageActivity;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.HomeAdapter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +33,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
     private ImageView take_photo;
     private static final int CAMERA_REQUEST = 52;
     private Button sort;
-    private Button sortbyTime;
-    private Button sortbyLocation;
-    private Button cancel_sort;
 
 
 
@@ -47,6 +43,8 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
 
         mView = inflater.inflate(R.layout.fragment1, container, false);
         take_photo = mView.findViewById(R.id.take_photo);
+        sort = (Button) mView.findViewById(R.id.button_sort);
+        sort.setOnClickListener(this);
         take_photo.setOnClickListener(this);
         mVRecycler = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mVRecycler.setHasFixedSize(true);
@@ -56,16 +54,6 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
         for (int i = 1; i < 17; i++) {
             mList.add("text" + i);
         }
-        // 设置sort相关
-        sort = (Button) mView.findViewById(R.id.button_sort);
-        //sortbyTime = (Button) mView.findViewById(R.id.but_sortByTime);
-        //sortbyLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
-        //cancel_sort = (Button) mView.findViewById(R.id.cancel_Sort);
-
-//        sort.setOnClickListener(mListener);
-//        sortbyTime.setOnClickListener(mListener);
-//        sortbyLocation.setOnClickListener(mListener);
-//        sortbyLocation.setOnClickListener(mListener);
 
 
         //Home Adapter
@@ -83,10 +71,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
             case R.id.button_sort:
-                //sort();
-                //finish();
-            break;
-
+//                Intent sort_location_Intent = new Intent( SortActivity.class);
+//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                break;
         }
     }
 
@@ -107,4 +94,3 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
     }
 
 }
-

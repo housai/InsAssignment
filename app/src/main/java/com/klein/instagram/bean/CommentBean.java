@@ -1,5 +1,6 @@
 package com.klein.instagram.bean;
 
+
 public class CommentBean {
 
     private Integer id;
@@ -17,7 +18,7 @@ public class CommentBean {
 
     public CommentBean(Integer userId, Integer postId, String username, String content) {
         this.userId = userId;
-//        this.username = username;
+        this.username = username;
         this.postId = postId;
         this.content = content;
     }
