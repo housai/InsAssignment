@@ -10,17 +10,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.FollowerAdapter;
 import com.klein.instagram.adapter.FollowingAdapter;
 import com.klein.instagram.adapter.HomeAdapter;
 import com.klein.instagram.adapter.ProfilePhotoAdapter;
+import com.klein.instagram.bean.ActivityFeedBean;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.helpers.UserData;
+import com.klein.instagram.network.JsonCallback;
+import com.klein.instagram.utils.OkGoUtil;
 import com.klein.instagram.utils.XCRoundImageView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class Fragment5 extends Fragment {
@@ -28,9 +40,10 @@ public class Fragment5 extends Fragment {
     private RecyclerView mVRecycler;
     private ProfilePhotoAdapter mAdapter;
     private List<String> mList;
-    private List<UserBean> followingUserList = new ArrayList<UserBean>();
-    private List<UserBean> followerUserList = new ArrayList<UserBean>();
+    private List<ActivityFeedBean> followingUserList;
+    private List<ActivityFeedBean> followerUserList;
     private int click = 1;
+    private Integer myId = UserData.getUserId();
     ImageView profile_photo;
     ImageView profile_myPhoto;
     ImageView following_uesr;//你关注别人
@@ -95,16 +108,87 @@ public class Fragment5 extends Fragment {
                     break;
                 case R.id.following_list:
                     click = 3;
-                    FollowingAdapter followingAdapter = new FollowingAdapter(view.getContext(), followingUserList);
-                    mVRecycler.setAdapter(followingAdapter);
+//                    FollowingAdapter followingAdapter = new FollowingAdapter(view.getContext(), followingUserList);
+//                    mVRecycler.setAdapter(followingAdapter);
+                    getFollowingUser();
                     break;
                 case R.id.follower_list:
                     click = 4;
-                    FollowerAdapter followerAdapter = new FollowerAdapter(view.getContext(), followerUserList);
-                    mVRecycler.setAdapter(followerAdapter);
+//                    FollowerAdapter followerAdapter = new FollowerAdapter(view.getContext(), followerUserList);
+//                    mVRecycler.setAdapter(followerAdapter);
+                    getFollowedUser();
                     break;
             }
         }
+    }
+    public void getFollowedUser() {
+        Map<String, String> map = new HashMap<>();
+        map.put("followedId", myId.toString());
+        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/selectFollowByFollowedId", map, true, new JsonCallback() {
+
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+//                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
+                try {
+                    if (jsonObject.getInt("resultCode") == 200) {
+                        // success in getting comments, not empty
+                        JSONArray arr = jsonObject.getJSONArray("data");
+//                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < arr.length(); i++) {
+                            ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
+//                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
+                            followerUserList.add(act);
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }else{
+//                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        //no comments exist, do nothing
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        });
+
+    }
+    public void getFollowingUser() {
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", myId.toString());
+        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/selectFollowByUserId", map, true, new JsonCallback() {
+
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+//                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
+                try {
+                    if (jsonObject.getInt("resultCode") == 200) {
+                        // success in getting comments, not empty
+                        JSONArray arr = jsonObject.getJSONArray("data");
+//                        Toast.makeText(Fragment5.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < arr.length(); i++) {
+                            ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
+                            followingUserList.add(act);
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }else{
+//                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        //no comments exist, do nothing
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        });
+
     }
 
 }

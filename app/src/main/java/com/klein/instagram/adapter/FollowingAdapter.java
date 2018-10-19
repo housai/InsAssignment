@@ -54,18 +54,14 @@ public class FollowingAdapter extends RecyclerView.Adapter<FollowingAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView following_userImage;
-        ImageView follower_userImage;
         TextView following_user_name;
-        TextView followeruser_name;
+
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             following_userImage = (ImageView) itemView.findViewById(R.id.follwing_userImage);
             following_user_name = (TextView) itemView.findViewById(R.id.following_user_name);
-
-            follower_userImage = (ImageView) itemView.findViewById(R.id.follower_userImage);
-            followeruser_name = (TextView) itemView.findViewById(R.id.follower_user_name);
         }
 
     }

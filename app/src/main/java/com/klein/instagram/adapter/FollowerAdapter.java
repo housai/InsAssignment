@@ -31,7 +31,7 @@ public class FollowerAdapter extends RecyclerView.Adapter<FollowerAdapter.ViewHo
 
         this.context = context;
         this.data = list;
-        Toast.makeText(context,list.size()+"Following Adapter",Toast.LENGTH_LONG).show();
+        Toast.makeText(context,list.size()+"Follower Adapter",Toast.LENGTH_LONG).show();
     }
 
     @Override
