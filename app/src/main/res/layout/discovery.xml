@@ -116,7 +116,7 @@
                 android:textColor="#000000" />
         </LinearLayout>
         <Button
-            android:id="@+id/follow"
+            android:id="@+id/follow1"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
