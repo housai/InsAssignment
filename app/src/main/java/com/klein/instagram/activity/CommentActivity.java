@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.CommentAdapter;
 import com.klein.instagram.adapter.DiscoveryAdapter;
+import com.klein.instagram.bean.CommentBean;
 import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
@@ -36,12 +37,13 @@ public class CommentActivity extends Activity {
     private Button mbackButton;
     private ImageView userImage;
     private TextView com_host_name;
-    private TextView com_com_name;
+    //private TextView com_com_name;
     private String comment;
     private String com_name;
-    private String postid;
+    private Integer postid;
+    private Integer userId;
 
-    private List<UserBean> commentList = new ArrayList<UserBean>();
+    private List<CommentBean> commentList = new ArrayList<CommentBean>();
     private CommentAdapter mAdapter;
     private RecyclerView commentRecyclerView;
 
@@ -54,17 +56,14 @@ public class CommentActivity extends Activity {
         userImage = (ImageView) findViewById(R.id.com_userImage);
         editComment = (EditText) findViewById(R.id.com_txt);
         com_host_name = (TextView)findViewById(R.id.com_host_name);
-        com_com_name = (TextView)findViewById(R.id.com_com_name);
+        //com_com_name = (TextView)findViewById(R.id.com_com_name);
         commentRecyclerView = (RecyclerView)findViewById(R.id.commentRecyclerView);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setNestedScrollingEnabled(false);
 
-        Intent intent = getIntent();
-        intent.getStringExtra("userId");
-        intent.getStringExtra("username");
-        intent.getStringExtra("profilephoto");
-
+        // Get all comments for this post on creation
+        getComment();
         mCommentButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
 
@@ -76,7 +75,6 @@ public class CommentActivity extends Activity {
             switch (v.getId()) {
                 case R.id.send_comment:                            //comment button
                     comment = editComment.getText().toString();    //get comment
-
                     comment();
                     break;
                 case R.id.com_button_backward: //Return to main page
@@ -91,9 +89,9 @@ public class CommentActivity extends Activity {
     public void comment(){
         Map<String, String> map = new HashMap<>();
         // post id
-        map.put("postId",postid);
-        map.put("username", com_name);// user id
-        map.put("comment",comment); // comment
+        map.put("postId",postid.toString());
+        map.put("userId", userId.toString());// user id
+        map.put("content",comment); // comment
         if(isCommentValid()){
             OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/CommentController/insertComment", map, true, new JsonCallback() {
 
@@ -103,19 +101,23 @@ public class CommentActivity extends Activity {
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
                         UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+
                         if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
                             Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
                         }
-                        com_com_name.setText(user.getUsername());
-                        JSONArray arr = jsonObject.getJSONArray("data");
-                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
-                        for (int i = 0; i < arr.length(); i++) {
+                         com_host_name.setText(user.getUsername());
+                         postid = user.getId();
 
-                            UserBean comList = new Gson().fromJson(arr.getString(i), UserBean.class);
-                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
-
-                            commentList.add(comList);
-                        }
+//                        JSONArray arr = jsonObject.getJSONArray("data");
+//                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
+//                        for (int i = 0; i < arr.length(); i++) {
+//
+//                            UserBean comList = new Gson().fromJson(arr.getString(i), UserBean.class);
+//                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
+//
+//                            commentList.add(comList);
+//                        }
+                        commentList.add(new CommentBean(userId, postid, com_name, comment));
                         mAdapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
@@ -132,6 +134,39 @@ public class CommentActivity extends Activity {
             });
         }
     }
+
+    public void getComment(){
+        Map<String, String> map = new HashMap<>();
+        map.put("postId", postid.toString());
+        OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/CommentController/selectCommentByPost", map, true, new JsonCallback() {
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+                try {
+                    if (jsonObject.getInt("resultCode") == 200){
+
+                        JSONArray arr = jsonObject.getJSONArray("data");
+                        for (int i = 0; i < arr.length(); i++) {
+                            CommentBean comBean = new Gson().fromJson(arr.getString(i), CommentBean.class);
+                            commentList.add(comBean);
+                        }
+
+                    }else{
+//                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        //no comments exist, do nothing
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(CommentActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        });
+
+    }
+
     public boolean isCommentValid() {
         if (comment.isEmpty()) {
             Toast.makeText(this, "Please input your comment!",
