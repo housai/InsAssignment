@@ -24,6 +24,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import helpers.UserData;
+
 public class LoginActivity extends Activity {                 //Login page
     private EditText mAccount;                        //Set username
     private EditText mPwd;                            //Set password
@@ -39,7 +41,6 @@ public class LoginActivity extends Activity {                 //Login page
     private EditText editPw;
     private String name;
     private String pwd;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,9 @@ public class LoginActivity extends Activity {                 //Login page
                     try {
                         if (jsonObject.getInt("resultCode") == 200) {
                             UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                            UserData.setUserId(user.getId());
+                            UserData.setUsername(user.getUsername());
+                            UserData.setProfilephoto(user.getProfilephoto());
                             Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent_login_success);
                             finish();

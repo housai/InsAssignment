@@ -41,13 +41,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import helpers.UserData;
+
 
 public class Fragment4 extends Fragment {
     private RecyclerView mVRecycler;
     private ActivityFeedAdapter mAdapter;
     private List<ActivityFeedBean> actList;
     private View mView;
-    private Integer myId = 1;
+    private Integer myId = UserData.getUserId();
 
     @Nullable
     @Override
