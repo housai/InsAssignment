@@ -18,6 +18,7 @@ import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.DiscoveryAdapter;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.helpers.UserData;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -41,6 +42,7 @@ public class DiscoverActivity extends Activity {
     private List<UserBean> recommendUserList = new ArrayList<UserBean>();
     private DiscoveryAdapter mAdapter;
     private RecyclerView recommendRecyclerView;
+    private UserBean userSearching;
 
 
     @Override
@@ -50,7 +52,7 @@ public class DiscoverActivity extends Activity {
         mSearchButton = (Button) findViewById(R.id.search_btn);
         mbackButton = (Button) findViewById(R.id.dis_but_backward);
         userImage = findViewById(R.id.dis_userImage);
-        follow = (Button)findViewById(R.id.follow);
+        follow = (Button)findViewById(R.id.follow1);
         searchUser = (EditText) findViewById(R.id.dis_input);
         dis_res_user_name = (TextView)findViewById(R.id.dis_res_user_name);
         recommendRecyclerView = (RecyclerView)findViewById(R.id.recommendRecyclerView);
@@ -65,7 +67,7 @@ public class DiscoverActivity extends Activity {
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
-    View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
+    View.OnClickListener mListener = new View.OnClickListener() {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.search_btn:                            //Search button
@@ -78,91 +80,118 @@ public class DiscoverActivity extends Activity {
                     startActivity(intent_Discover_to_Main);
                     finish();
                     break;
-                case R.id.follow: //Return a success message
-//                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
-//                    //Switch Intent to main from discover
-//                    startActivity(intent_follow_to_Main);
-                    finish();
+                case R.id.follow1: //Return a success message
+                    v.setVisibility(View.GONE);
+                    followUser();
                     break;
             }
         }
     };
 
+    public void followUser() {
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", UserData.getUserId().toString());
+        map.put("followedId", userSearching.getId().toString());
+        OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/insertFollow", map, true, new JsonCallback() {
 
-        public void search(){
-            Map<String, String> map = new HashMap<>();
-            map.put("username", sname);
-            if(isUserNameValid()) {
-                OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+                try {
+                    if (jsonObject.getInt("resultCode") == 200) {
 
-                    @Override
-                    public void onSucess(JSONObject jsonObject) {
+                        Toast.makeText(DiscoverActivity.this, "Followed" + "Success setText", Toast.LENGTH_LONG).show();
 
-                        try {
-                            if (jsonObject.getInt("resultCode") == 200) {
-                                UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
-                                if (user.getProfilephoto().equals("") || user.getProfilephoto() == null) {
-                                    Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
-                                }
-                                dis_res_user_name.setText(user.getUsername());
-                                follow.setVisibility(View.VISIBLE);
-                                JSONArray arr = jsonObject.getJSONArray("data");
-                                Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
-                                for (int i = 0; i < arr.length(); i++) {
-
-                                    UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
-                                    Toast.makeText(DiscoverActivity.this, userRecommend.getUsername() + "Success getUsername", Toast.LENGTH_LONG).show();
-
-                                    recommendUserList.add(userRecommend);
-                                }
-                                mAdapter.notifyDataSetChanged();
-                            } else {
-                                Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                    } else {
+                        Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
                     }
-
-                    @Override
-                    public void onError(Exception e) {
-                        Toast.makeText(DiscoverActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        public boolean isUserNameValid() {
-            if (sname.isEmpty()) {
-                Toast.makeText(this, getString(R.string.account_empty),
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }return true;
-        }
-        protected void onStart () {
-            super.onStart();
-            // The activity is about to become visible.
-        }
 
-        protected void onResume () {
-            super.onResume();
-            // The activity has become visible (it is now "resumed").
-        }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(DiscoverActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
-        protected void onPause () {
-            super.onPause();
-            // Another activity is taking focus (this activity is about to be "paused").
-        }
 
-        protected void onStop () {
-            super.onStop();
-            // The activity is no longer visible (it is now "stopped")
-        }
+    public void search(){
+        Map<String, String> map = new HashMap<>();
+        map.put("username", sname);
+        if(isUserNameValid()) {
+            OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
 
-        protected void onDestroy () {
-            super.onDestroy();
-            // The activity is about to be destroyed.
+                @Override
+                public void onSucess(JSONObject jsonObject) {
+
+                    try {
+                        if (jsonObject.getInt("resultCode") == 200) {
+                            UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                            userSearching = user;
+                            if (user.getProfilephoto().equals("") || user.getProfilephoto() == null) {
+                                Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
+                            }
+                            dis_res_user_name.setText(user.getUsername());
+                            follow.setVisibility(View.VISIBLE);
+                            JSONArray arr = jsonObject.getJSONArray("data");
+                            Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
+                            for (int i = 0; i < arr.length(); i++) {
+
+                                UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
+                                Toast.makeText(DiscoverActivity.this, userRecommend.getUsername() + "Success getUsername", Toast.LENGTH_LONG).show();
+
+                                recommendUserList.add(userRecommend);
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        } else {
+                            Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    Toast.makeText(DiscoverActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            });
         }
+    }
+    public boolean isUserNameValid() {
+        if (sname.isEmpty()) {
+            Toast.makeText(this, getString(R.string.account_empty),
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }return true;
+    }
+    protected void onStart () {
+        super.onStart();
+        // The activity is about to become visible.
+    }
+
+    protected void onResume () {
+        super.onResume();
+        // The activity has become visible (it is now "resumed").
+    }
+
+    protected void onPause () {
+        super.onPause();
+        // Another activity is taking focus (this activity is about to be "paused").
+    }
+
+    protected void onStop () {
+        super.onStop();
+        // The activity is no longer visible (it is now "stopped")
+    }
+
+    protected void onDestroy () {
+        super.onDestroy();
+        // The activity is about to be destroyed.
+    }
 
 }
 

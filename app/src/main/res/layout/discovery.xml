@@ -115,15 +115,16 @@
                 android:fontFamily="casual"
                 android:textColor="#000000" />
         </LinearLayout>
+
         <Button
-            android:id="@+id/follow"
+            android:id="@+id/follow1"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="3dp"
-            android:layout_gravity="center_vertical"
             android:background="@drawable/third_before"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
     </LinearLayout>
     <View
         android:id="@+id/line4"
@@ -145,13 +146,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        >
+        android:focusableInTouchMode="true">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recommendRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-        </android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
