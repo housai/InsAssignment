@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.klein.instagram.R;
+import com.klein.instagram.adapter.FollowerAdapter;
+import com.klein.instagram.adapter.FollowingAdapter;
 import com.klein.instagram.adapter.HomeAdapter;
 import com.klein.instagram.adapter.ProfilePhotoAdapter;
+import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.utils.XCRoundImageView;
 
 
@@ -25,11 +28,14 @@ public class Fragment5 extends Fragment {
     private RecyclerView mVRecycler;
     private ProfilePhotoAdapter mAdapter;
     private List<String> mList;
+    private List<UserBean> followingUserList = new ArrayList<UserBean>();
+    private List<UserBean> followerUserList = new ArrayList<UserBean>();
     private int click = 1;
     ImageView profile_photo;
     ImageView profile_myPhoto;
-    ImageView profile_other;
-    ImageView profile_otherPhoto;
+    ImageView following_uesr;//你关注别人
+    ImageView follower_user;//别人关注你
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -39,12 +45,12 @@ public class Fragment5 extends Fragment {
         XCRoundImageView imageview = mView.findViewById(R.id.roundImageView);
         profile_photo = mView.findViewById(R.id.profile_photo);
         profile_myPhoto = mView.findViewById(R.id.profile_myPhoto);
-        profile_other = mView.findViewById(R.id.profile_other);
-        profile_otherPhoto = mView.findViewById(R.id.profile_otherPhoto);
+        following_uesr = mView.findViewById(R.id.following_list);
+        follower_user = mView.findViewById(R.id.follower_list);
         profile_photo.setOnClickListener(new ImageListener());
         profile_myPhoto.setOnClickListener(new ImageListener());
-        profile_other.setOnClickListener(new ImageListener());
-        profile_otherPhoto.setOnClickListener(new ImageListener());
+        following_uesr.setOnClickListener(new ImageListener());
+        follower_user.setOnClickListener(new ImageListener());
 
         mVRecycler = (RecyclerView) mView.findViewById(R.id.recyclerview_profile);
         mVRecycler.setLayoutManager(new GridLayoutManager(this.getContext(), 3));
@@ -83,16 +89,19 @@ public class Fragment5 extends Fragment {
                     mList = new ArrayList<>();
                     for (int i = 1; i < 17; i++) {
                         mList.add("text" + i);
-
                     }
                     HomeAdapter homeAdapter = new HomeAdapter(view.getContext(), mList);
                     mVRecycler.setAdapter(homeAdapter);
                     break;
-                case R.id.profile_other:
+                case R.id.following_list:
                     click = 3;
+                    FollowingAdapter followingAdapter = new FollowingAdapter(view.getContext(), followingUserList);
+                    mVRecycler.setAdapter(followingAdapter);
                     break;
-                case R.id.profile_otherPhoto:
+                case R.id.follower_list:
                     click = 4;
+                    FollowerAdapter followerAdapter = new FollowerAdapter(view.getContext(), followerUserList);
+                    mVRecycler.setAdapter(followerAdapter);
                     break;
             }
         }
