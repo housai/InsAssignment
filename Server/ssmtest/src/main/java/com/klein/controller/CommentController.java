@@ -79,8 +79,17 @@ public class CommentController {
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Comment> commentArrayList = commentService.selectCommentByUser(Integer.parseInt(postId));
         if (commentArrayList != null){
+            ArrayList<Map> mapsArrayList = new ArrayList<Map>();
+            for (Comment comment :
+                    commentArrayList) {
+                Map<String, Object> commentMap = Maps.newHashMap();
+                User user = userService.selectUserById(comment.getUserId());
+                commentMap.put("user", user);
+                commentMap.put("comment", comment);
+                mapsArrayList.add(commentMap);
+            }
             map.put("resultCode",200);
-            map.put("data", commentArrayList);
+            map.put("data", mapsArrayList);
             return JSON.toJSONString(map);
         }
         else {

@@ -82,9 +82,10 @@ public class FollowController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/selectFollowByFollwedId", method = RequestMethod.POST)
-    public String selectFollowByFollwedId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/selectFollowByFollowedId", method = RequestMethod.POST)
+    public String selectFollowByFollowedId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String followedId = request.getParameter("followedId");
+        System.out.println(followedId);
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Follow> followArrayList = followService.selectFollowByFollwedId(Integer.parseInt(followedId));
         if (followArrayList != null){
@@ -92,7 +93,9 @@ public class FollowController {
             for (Follow follow :
                     followArrayList) {
                 users.add(userService.selectUserById(follow.getUserId()));
+
             }
+            System.out.println(users);
             map.put("resultCode",200);
             map.put("data",users);
             return JSON.toJSONString(map);
@@ -182,7 +185,7 @@ public class FollowController {
             }
         }
 
-        if (!alreadyFollowed){
+        if (!alreadyFollowed && Integer.parseInt(userId) != Integer.parseInt(followedId)){
             Follow follow = new Follow(Integer.parseInt(userId), Integer.parseInt(followedId));
             int result = followService.insertFollow(follow);
             if (result ==1){

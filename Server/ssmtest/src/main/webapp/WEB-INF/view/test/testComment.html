@@ -28,7 +28,9 @@
 }
 </style>
 <body>
-
+<script>
+    
+</script>
     <form
             action="http://localhost:8080/ssmtest/CommentController/insertComment"
             method="post" >
@@ -37,6 +39,13 @@
 		content:<input type="text" name="content">
         </p>
         userId:<input type="text" name="userId">
+        </p>
+        <input type="submit"  value="提交">
+    </form>
+    <form
+            action="http://localhost:8080/ssmtest/CommentController/selectCommentByPost"
+            method="post" >
+        postId:<input type="text" name="postId">
         </p>
         <input type="submit"  value="提交">
     </form>
