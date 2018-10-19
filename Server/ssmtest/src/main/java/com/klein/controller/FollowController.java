@@ -77,6 +77,42 @@ public class FollowController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/getFollowActivityByUserId", method = RequestMethod.POST)
+    public String getFollowActivityByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String userId = request.getParameter("userId");
+        Map<String, Object> map = Maps.newHashMap();
+        ArrayList<Follow> followArrayList = followService.selectFollowByUserId(Integer.parseInt(userId));
+        ArrayList<User> users = new ArrayList<User>();
+        ArrayList<Map> result = new ArrayList<Map>();
+        if (followArrayList != null){
+            for (Follow follow:followArrayList) {
+                users.add(userService.selectUserById(follow.getFollowedId()));
+            }
+
+            for (User user :
+                    users) {
+                Map<String, Object> userMap = Maps.newHashMap();
+                userMap.put("username", user.getUsername());
+                userMap.put("userId", user.getId());
+                userMap.put("profilephoto", user.getProfilephoto());
+                int likeCount = likeService.selectLikeByUserId(user.getId()).size();
+                userMap.put("likeCount", likeCount);
+                result.add(userMap);
+            }
+
+        }
+        if (result != null){
+            map.put("resultCode",200);
+            map.put("data",result);
+        }
+        else {
+            map.put("resultCode",400);
+            map.put("msg","fail");
+        }
+        return JSON.toJSONString(map);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/selectFollowPostByUserId", method = RequestMethod.POST)
     public String selectFollowPostByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
@@ -109,10 +145,16 @@ public class FollowController {
         Map<String, Object> map = Maps.newHashMap();
         String userId = request.getParameter("userId");
         String followedId = request.getParameter("followedId");
-        User user1 = userService.selectUserById(Integer.parseInt(userId));
-        User user2 = userService.selectUserById(Integer.parseInt(followedId));
+        ArrayList<Follow> followArrayList = followService.selectFollowByUserId(Integer.parseInt(userId));
+        boolean alreadyFollowed = false;
+        for (Follow follow :
+                followArrayList) {
+            if (Integer.parseInt(userId) == follow.getFollowedId()){
+                alreadyFollowed = true;
+            }
+        }
 
-        if (user1 != null && user2 != null){
+        if (!alreadyFollowed){
             Follow follow = new Follow(Integer.parseInt(userId), Integer.parseInt(followedId));
             int result = followService.insertFollow(follow);
             if (result ==1){
@@ -129,5 +171,7 @@ public class FollowController {
         }
         return JSON.toJSONString(map);
     }
+
+
 
 }

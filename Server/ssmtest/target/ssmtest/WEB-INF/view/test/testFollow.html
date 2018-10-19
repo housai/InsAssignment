@@ -1,59 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>Insert title here</title>
 </head>
 <style>
-.seller {
-	border: 1px black solid;
-	padding: 0.5rem;
-	margin: 0.5rem;
-	display: flex;
-	background: #F5F5F5;
-}
+    .seller {
+        border: 1px black solid;
+        padding: 0.5rem;
+        margin: 0.5rem;
+        display: flex;
+        background: #F5F5F5;
+    }
 
-.seller form {
-	width: 20%
-}
+    .seller form {
+        width: 20%
+    }
 
-.seller form p {
-	text-align: center;
-}
+    .seller form p {
+        text-align: center;
+    }
 
-.seller form p input {
-	border: none;
-	padding: 0.2rem 0;
-	border-radius: 5px;
-}
+    .seller form p input {
+        border: none;
+        padding: 0.2rem 0;
+        border-radius: 5px;
+    }
 </style>
 <body>
-	<form
-		action="http://localhost:8080/ssmtest/FollowController/selectFollowById"
-		method="post" >
-			postId:<input type="text" name="postId">
-		</p>
-		<input type="submit"  value="提交">
-	</form>
-	<form
-			action="http://localhost:8080/ssmtest/FollowController/selectFollowPostByUserId"
-			method="post" >
-		userId:<input type="text" name="userId">
-		</p>
-		<input type="submit"  value="提交">
-	</form>
-    <form
-            action="http://localhost:8080/ssmtest/FollowController/insertFollow"
-            method="post" >
-        postId:<input type="text" name="photourl">
-        </p>
-        username:<input type="text" name="userId">
-        </p>
-        userId:<input type="text" name="location">
-        </p>
-        <input type="submit"  value="提交">
-    </form>
+<form
+        action="http://localhost:8080/ssmtest/FollowController/selectFollowById"
+        method="post" >
+    followId:<input type="text" name="followId">
+    </p>
+    <input type="submit"  value="提交">
+</form>
+<form
+        action="http://localhost:8080/ssmtest/FollowController/selectFollowByUserId"
+        method="post" >
+    userId:<input type="text" name="userId">
+    </p>
+    <input type="submit"  value="提交">
+</form>
+<form
+        action="http://localhost:8080/ssmtest/FollowController/selectFollowPostByUserId"
+        method="post" >
+    userId:<input type="text" name="userId">
+    </p>
+    <input type="submit"  value="提交">
+</form>
+<form
+        action="http://localhost:8080/ssmtest/FollowController/insertFollow"
+        method="post" >
+
+    followedId:<input type="text" name="followedId">
+    </p>
+    userId:<input type="text" name="userId">
+    </p>
+    <input type="submit"  value="提交">
+</form>
+<form
+        action="http://localhost:8080/ssmtest/FollowController/getFollowActivityByUserId"
+        method="post" >
+
+    userId:<input type="text" name="userId">
+    </p>
+    <input type="submit"  value="提交">
+</form>
 </body>
 
-	
+
 </html>

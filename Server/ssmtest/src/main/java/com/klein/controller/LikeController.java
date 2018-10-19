@@ -80,9 +80,11 @@ public class LikeController {
         String userId = request.getParameter("userId");
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Like> likeList = likeService.selectLikeByUserId(Integer.parseInt(userId));
+
         if (likeList != null){
             map.put("resultCode",200);
             map.put("data", likeList);
+            map.put("likeCount", likeList.size());
             return JSON.toJSONString(map);
         }
         else {
