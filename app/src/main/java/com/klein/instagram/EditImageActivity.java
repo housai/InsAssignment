@@ -71,6 +71,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintLayout mRootView;
     private ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
+    private Uri savedImg;
 
 
     @Override
@@ -238,7 +239,9 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 break;
 
             case R.id.button_forward:
+                saveImage();
                 Intent intent_to_post = new	Intent(EditImageActivity.this, PostActivity.class);
+                intent_to_post.putExtra("imagePath", savedImg.toString());
                 startActivity(intent_to_post);
                 break;
         }
@@ -264,7 +267,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                     public void onSuccess(@NonNull String imagePath) {
                         hideLoading();
                         showSnackbar("Image Saved Successfully");
-                        mPhotoEditorView.getSource().setImageURI(Uri.fromFile(new File(imagePath)));
+                        savedImg = Uri.fromFile(new File(imagePath));
+                        mPhotoEditorView.getSource().setImageURI(savedImg);
                     }
 
                     @Override
