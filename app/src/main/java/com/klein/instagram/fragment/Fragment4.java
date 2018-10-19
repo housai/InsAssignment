@@ -48,9 +48,6 @@ public class Fragment4 extends Fragment {
         mVRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         actList = new ArrayList<ActivityFeedBean>();
         getActivityFeed();
-        //ActivityFeed Adapter
-        //ActivityFeedBean act1 = new ActivityFeedBean(2, "Annie", 5);
-//        actList.add(act1);
         mAdapter = new ActivityFeedAdapter(this.getContext(), actList);
         mVRecycler.setAdapter(mAdapter);
         return mView;
@@ -63,20 +60,16 @@ public class Fragment4 extends Fragment {
 
             @Override
             public void onSucess(JSONObject jsonObject) {
-//                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200) {
                         // success in getting comments, not empty
                         JSONArray arr = jsonObject.getJSONArray("data");
-//                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
                         for (int i = 0; i < arr.length(); i++) {
                             ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
-//                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
                             actList.add(act);
                         }
                         mAdapter.notifyDataSetChanged();
                     }else{
-//                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
                         //no comments exist, do nothing
                     }
                 } catch (JSONException e) {

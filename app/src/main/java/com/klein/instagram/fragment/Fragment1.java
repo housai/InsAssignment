@@ -47,10 +47,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
         take_photo = mView.findViewById(R.id.take_photo);
         take_photo.setOnClickListener(this);
 
-        sortByTime = (Button) mView.findViewById(R.id.but_sortByTime);
-        sortByTime.setOnClickListener(this);
-        sortByLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
-        sortByLocation.setOnClickListener(this);
+//        sortByTime = (Button) mView.findViewById(R.id.but_sortByTime);
+//        sortByTime.setOnClickListener(this);
+//        sortByLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
+//        sortByLocation.setOnClickListener(this);
 
         mVRecycler = (RecyclerView) mView.findViewById(R.id.recyclerview);
         mVRecycler.setHasFixedSize(true);
@@ -76,10 +76,10 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
                 Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
                 break;
-            case R.id.button_sort:
-//                Intent sort_location_Intent = new Intent( getActivity(),SortActivity.class);
-//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-                break;
+//            case R.id.button_sort:
+////                Intent sort_location_Intent = new Intent( getActivity(),SortActivity.class);
+////                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//                break;
         }
     }
 

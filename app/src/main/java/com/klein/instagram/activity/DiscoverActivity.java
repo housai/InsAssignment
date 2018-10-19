@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.DiscoveryAdapter;
 import com.klein.instagram.bean.UserBean;

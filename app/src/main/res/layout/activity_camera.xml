@@ -9,14 +9,5 @@
         android:layout_height="match_parent"
         android:background="#000"
         tools:context="com.example.android.camera2basic.CameraActivity" />
-    <!-- Reference Lines -->
-    <!--<com.burhanrashid52.imageeditor.Camera.ReferenceLine-->
-        <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/id_cl"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:lineWidth="1dp"-->
-        <!--app:lineCrossWidth="1dp"-->
-        <!--app:lineCrossLength="5dp"-->
-        <!--/>-->
+
 </android.support.constraint.ConstraintLayout>

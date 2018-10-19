@@ -61,14 +61,14 @@
                         android:src="@drawable/favourite" />
 
                     <TextView
-                        android:id="@+id/username"
+                        android:id="@+id/this_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/roundImageView"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="25dp"
-                        android:textColor="#000000"
-                        android:text="username" />
+                        android:layout_marginBottom="10dp"
+
+                        android:textColor="#000000" />
 
                 </LinearLayout>
 
@@ -100,7 +100,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_gravity="center_horizontal"
-                                android:text="25" />
+                                 />
 
                             <TextView
                                 android:id="@+id/posts"
@@ -128,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_gravity="center_horizontal"
-                                android:text="89" />
+                                 />
 
                             <TextView
                                 android:id="@+id/followers"
@@ -155,7 +155,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="5dp"
                                 android:layout_gravity="center_horizontal"
-                                android:text="189" />
+                                 />
 
                             <TextView
                                 android:id="@+id/following"
