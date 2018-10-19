@@ -6,6 +6,7 @@ package com.klein.instagram.bean;
  */
 public class ActivityFeedBean extends UserBean {
     private Integer likeCount;
+    private Boolean isFollower = false;
 
     public ActivityFeedBean(String username, String password, Integer id, Integer likeCount) {
         super(username, password);
@@ -18,5 +19,13 @@ public class ActivityFeedBean extends UserBean {
 
     public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public Boolean getFollower() {
+        return isFollower;
+    }
+
+    public void setFollower(Boolean follower) {
+        isFollower = follower;
     }
 }

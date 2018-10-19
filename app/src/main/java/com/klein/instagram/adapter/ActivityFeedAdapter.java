@@ -38,11 +38,16 @@ public class ActivityFeedAdapter extends RecyclerView.Adapter<ActivityFeedAdapte
         //Set username
         String username = act.getUsername();
 //        holder.Act_user_name.setText(username);
-        if(act.getProfilephoto() == "" || act.getProfilephoto() == null){
-        Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.Act_user_img);
+        if (act.getProfilephoto() == "" || act.getProfilephoto() == null){
+            Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.Act_user_img);
+        } else {
+            Glide.with(context).load(act.getProfilephoto()).into(holder.Act_user_img);
         }
-//        holder.com_com_name.setText(comment.getUsername());
-        holder.Act_user_act.setText(username + " has recently liked " + act.getLikeCount() + " posts");
+        if (act.getFollower()) {
+            holder.Act_user_act.setText(username + " has started following you!");
+        } else {
+            holder.Act_user_act.setText(username + " has recently liked " + act.getLikeCount() + " posts.");
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.klein.instagram.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.klein.instagram.R;
+import com.klein.instagram.activity.MainActivity;
 import com.klein.instagram.adapter.ActivityFeedAdapter;
 import com.klein.instagram.bean.ActivityFeedBean;
 import com.klein.instagram.network.JsonCallback;
@@ -22,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +32,7 @@ import java.util.Map;
 import com.klein.instagram.helpers.UserData;
 
 
-public class Fragment4 extends Fragment {
+public class Fragment4 extends Fragment implements View.OnClickListener {
     private RecyclerView mVRecycler;
     private ActivityFeedAdapter mAdapter;
     private List<ActivityFeedBean> actList;
@@ -47,31 +50,28 @@ public class Fragment4 extends Fragment {
         mVRecycler.setNestedScrollingEnabled(false);
         mVRecycler.setLayoutManager(new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false));
         actList = new ArrayList<ActivityFeedBean>();
+        getFollowers();
         getActivityFeed();
-        //ActivityFeed Adapter
-        //ActivityFeedBean act1 = new ActivityFeedBean(2, "Annie", 5);
-//        actList.add(act1);
         mAdapter = new ActivityFeedAdapter(this.getContext(), actList);
         mVRecycler.setAdapter(mAdapter);
         return mView;
     }
 
-    public void getActivityFeed() {
+    public void getFollowers() {
         Map<String, String> map = new HashMap<>();
-        map.put("userId", myId.toString());
-        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/getFollowActivityByUserId", map, true, new JsonCallback() {
+        map.put("followedId", myId.toString());
+        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/selectFollowByFollowedId", map, true, new JsonCallback() {
 
             @Override
             public void onSucess(JSONObject jsonObject) {
 //                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
                 try {
                     if (jsonObject.getInt("resultCode") == 200) {
-                        // success in getting comments, not empty
                         JSONArray arr = jsonObject.getJSONArray("data");
 //                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
                         for (int i = 0; i < arr.length(); i++) {
                             ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
-//                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
+                            act.setFollower(true);
                             actList.add(act);
                         }
                         mAdapter.notifyDataSetChanged();
@@ -92,60 +92,52 @@ public class Fragment4 extends Fragment {
 
     }
 
-    // Waiting for server side to be written
-//    public void getActivityFeed() {
-//        Map<String, String> map = new HashMap<>();
-//        map.put("", postid.toString());
-//        OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/CommentController/selectCommentByPost", map, true, new JsonCallback() {
-//
-//            @Override
-//            public void onSucess(JSONObject jsonObject) {
-////                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
-//                try {
-//                    if (jsonObject.getInt("resultCode") == 200){
-//                        // success in getting comments, not empty
-//                        JSONArray arr = jsonObject.getJSONArray("data");
-////                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
-//                        for (int i = 0; i < arr.length(); i++) {
-////
-//                            CommentBean comBean = new Gson().fromJson(arr.getString(i), CommentBean.class);
-////                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
-////
-//                            commentList.add(comBean);
-//                        }
-////                        commentList.add(new CommentBean(userId, postid, com_name, comment));
-////                        mAdapter.notifyDataSetChanged();
-//                    }else{
-////                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
-//                        //no comments exist, do nothing
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            @Override
-//            public void onError(Exception e) {
-//                Toast.makeText(CommentActivity.this,e.getMessage(),Toast.LENGTH_LONG).show();
-//            }
-//
-//        });
-//
-//    }
+    public void getActivityFeed() {
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", myId.toString());
+        OkGoUtil.jsonPost(this.getContext(), "http://10.12.170.91:8080/ssmtest/FollowController/getFollowActivityByUserId", map, true, new JsonCallback() {
 
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.take_photo:
-//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
-//                break;
-//            case R.id.button_sort:
-//                //sort();
-//                //finish();
-//                break;
-//
-//        }
-//    }
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+//                Toast.makeText(CommentActivity.this,"Success setText",Toast.LENGTH_LONG).show();
+                try {
+                    if (jsonObject.getInt("resultCode") == 200) {
+                        JSONArray arr = jsonObject.getJSONArray("data");
+//                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
+                        for (int i = 0; i < arr.length(); i++) {
+                            ActivityFeedBean act = new Gson().fromJson(arr.getString(i), ActivityFeedBean.class);
+                            act.setFollower(false);
+                            if (act.getLikeCount() > 0) {
+                                actList.add(act);
+                            }
+                        }
+                        mAdapter.notifyDataSetChanged();
+                    }else{
+//                        Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
+                        //no comments exist, do nothing
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(getContext(), e.getMessage(),Toast.LENGTH_LONG).show();
+            }
+
+        });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.act_back:
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
 
 //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
