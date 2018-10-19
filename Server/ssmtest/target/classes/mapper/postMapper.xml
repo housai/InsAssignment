@@ -23,6 +23,7 @@
     <select id="selectPostByLocation" parameterType="String" resultType="com.klein.model.Post">
         SELECT * FROM t_post WHERE location = #{location}
     </select>
+
     <insert id="insertPost" parameterType="com.klein.model.Post" useGeneratedKeys="true" keyProperty="postId" keyColumn="postId">
         INSERT INTO t_post (photourl,userId,location,content)
         VALUES   (#{photourl},#{userId},#{location},#{content})

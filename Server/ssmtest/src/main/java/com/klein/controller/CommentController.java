@@ -37,15 +37,14 @@ public class CommentController {
     private UserService userService;
 
     @ResponseBody
-    @RequestMapping(value = "/selectPostById", method = RequestMethod.POST)
-    public String selectPostById (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String postId = request.getParameter("postId");
-        System.out.println(postId);
+    @RequestMapping(value = "/selectCommentById", method = RequestMethod.POST)
+    public String selectCommentById (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String commentId = request.getParameter("commentId");
         Map<String, Object> map = Maps.newHashMap();
-        Post post = postService.selectPostById(Integer.parseInt(postId));
-        if (post != null){
+        Comment comment = commentService.selectCommentById(Integer.parseInt(commentId));
+        if (comment != null){
             map.put("resultCode",200);
-            map.put("data",post);
+            map.put("data",comment);
             return JSON.toJSONString(map);
         }
         else {
@@ -56,14 +55,14 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/selectPostByUserId", method = RequestMethod.POST)
+    @RequestMapping(value = "/selectCommentByUser", method = RequestMethod.POST)
     public String selectPostByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
         Map<String, Object> map = Maps.newHashMap();
-        ArrayList<Post> postArrayList = postService.selectPostByUserId(Integer.parseInt(userId));
-        if (postArrayList != null){
+        ArrayList<Comment> commentArrayList = commentService.selectCommentByUser(Integer.parseInt(userId));
+        if (commentArrayList != null){
             map.put("resultCode",200);
-            map.put("data", postArrayList);
+            map.put("data", commentArrayList);
             return JSON.toJSONString(map);
         }
         else {
@@ -74,40 +73,21 @@ public class CommentController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/selectPostByTime", method = RequestMethod.POST)
-    public String selectLikeByName (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String time = request.getParameter("time");
+    @RequestMapping(value = "/selectCommentByPost", method = RequestMethod.POST)
+    public String selectCommentByPost (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String postId = request.getParameter("postId");
         Map<String, Object> map = Maps.newHashMap();
-        String nowTime = new SimpleDateFormat("yyyy-MM-ddHH:mm:ss").format(time);
-        Timestamp date =Timestamp.valueOf(nowTime);
-        ArrayList<Post> postArrayList = postService.selectPostByTime(date);
-        if (postArrayList != null){
+        ArrayList<Comment> commentArrayList = commentService.selectCommentByUser(Integer.parseInt(postId));
+        if (commentArrayList != null){
             map.put("resultCode",200);
-            map.put("data", postArrayList);
+            map.put("data", commentArrayList);
+            return JSON.toJSONString(map);
         }
         else {
             map.put("resultCode",400);
             map.put("msg","fail");
+            return JSON.toJSONString(map);
         }
-        return JSON.toJSONString(map);
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/selectPostByLocation", method = RequestMethod.POST)
-    public String selectPostByLocation (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String location = request.getParameter("location");
-        Map<String, Object> map = Maps.newHashMap();
-        ArrayList<Post> postArrayList = postService.selectPostByLocation(location);
-        if (postArrayList != null){
-            map.put("resultCode",200);
-            map.put("data", postArrayList);
-        }
-        else {
-            map.put("resultCode",400);
-            map.put("msg","fail");
-        }
-
-        return JSON.toJSONString(map);
     }
 
     @ResponseBody

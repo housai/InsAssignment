@@ -35,7 +35,6 @@ public class UserController {
         Map<String, Object> map = Maps.newHashMap();
 	    String username = request.getParameter("username");
         User user = userService.selectUserByName(username);
-
         if (user != null){
             map.put("resultCode",200);
             map.put("msg","success");
