@@ -58,9 +58,9 @@ public class Fragment1 extends Fragment implements View.OnClickListener{
         }
         // 设置sort相关
         sort = (Button) mView.findViewById(R.id.button_sort);
-        sortbyTime = (Button) mView.findViewById(R.id.but_sortByTime);
-        sortbyLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
-        cancel_sort = (Button) mView.findViewById(R.id.cancel_Sort);
+        //sortbyTime = (Button) mView.findViewById(R.id.but_sortByTime);
+        //sortbyLocation = (Button) mView.findViewById(R.id.but_sortByLocation);
+        //cancel_sort = (Button) mView.findViewById(R.id.cancel_Sort);
 
 //        sort.setOnClickListener(mListener);
 //        sortbyTime.setOnClickListener(mListener);

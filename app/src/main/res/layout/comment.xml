@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -44,38 +45,44 @@
         android:layout_height="3dp"
         android:background="#DBDBDB"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="vertical">
-
         <LinearLayout
-            android:id="@+id/top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="horizontal">
-            <com.klein.instagram.utils.XCRoundImageView
-                android:id="@+id/com_userImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="centerCrop"
-                android:layout_marginLeft="10dp"
-                />
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/com_host_name"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="7dp"
-                android:fontFamily="casual"
-                android:textColor="#000000" />
+            <LinearLayout
+                android:id="@+id/top"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.klein.instagram.utils.XCRoundImageView
+                    android:id="@+id/com_userImage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:id="@+id/com_host_name"
+                    android:layout_width="64dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="8dp"
+                    android:fontFamily="casual"
+                    android:textColor="#000000"
+                    app:autoSizeMaxTextSize="16dp"
+                    app:autoSizeMinTextSize="14dp"
+                    app:autoSizeTextType="none"
+                    app:fontFamily="serif-monospace" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
     <View
         android:id="@+id/view_user_Number2"
         android:layout_width="match_parent"
