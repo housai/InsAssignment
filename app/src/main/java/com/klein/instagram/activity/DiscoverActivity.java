@@ -50,7 +50,7 @@ public class DiscoverActivity extends Activity {
         mSearchButton = (Button) findViewById(R.id.search_btn);
         mbackButton = (Button) findViewById(R.id.dis_but_backward);
         userImage = findViewById(R.id.dis_userImage);
-        follow = (Button)findViewById(R.id.follow);
+        follow = (Button)findViewById(R.id.follow1);
         searchUser = (EditText) findViewById(R.id.dis_input);
         dis_res_user_name = (TextView)findViewById(R.id.dis_res_user_name);
         recommendRecyclerView = (RecyclerView)findViewById(R.id.recommendRecyclerView);
@@ -78,7 +78,7 @@ public class DiscoverActivity extends Activity {
                     startActivity(intent_Discover_to_Main);
                     finish();
                     break;
-                case R.id.follow: //Return a success message
+                case R.id.follow1: //Return a success message
 //                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
 //                    //Switch Intent to main from discover
 //                    startActivity(intent_follow_to_Main);
