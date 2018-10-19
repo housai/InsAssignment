@@ -105,6 +105,7 @@ public class DiscoverActivity extends Activity {
                                     Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
                                 }
                                 dis_res_user_name.setText(user.getUsername());
+                                follow.setVisibility(View.VISIBLE);
                                 JSONArray arr = jsonObject.getJSONArray("data");
                                 Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < arr.length(); i++) {
