@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.klein.dao.CommentDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.klein.model.Comment">
+        <id column="commentId" property="commentId" jdbcType="INTEGER" />
+        <id column="userId" property="userId" jdbcType="INTEGER" />
+        <id column="content" property="content" jdbcType="VARCHAR" />
+        <id column="postId" property="postId" jdbcType="INTEGER" />
+    </resultMap>
+    <!-- 查询单条记录 -->
+    <select id="selectCommentById" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE commentId = #{commentId}
+    </select>
+    <select id="selectCommentByUser" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE userId = #{userId}
+    </select>
+    <select id="selectCommentByPost" parameterType="int" resultType="com.klein.model.Comment">
+        SELECT * FROM t_comment WHERE postId = #{postId}
+    </select>
+    <insert id="insertComment" parameterType="com.klein.model.Comment" useGeneratedKeys="true" keyProperty="commentId" keyColumn="commentId">
+        INSERT INTO t_comment (content,userId,postId)
+        VALUES   (#{content},#{userId},#{postId})
+    </insert>
+
+</mapper>

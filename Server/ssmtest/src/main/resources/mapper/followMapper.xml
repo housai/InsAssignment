@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.klein.dao.FollowDao">
+    <!--设置domain类和数据库中表的字段一一对应，注意数据库字段和domain类中的字段名称不致，此处一定要！-->
+    <resultMap id="BaseResultMap" type="com.klein.model.Follow">
+        <id column="followId" property="followId" jdbcType="INTEGER" />
+        <id column="followedId" property="followedId" jdbcType="INTEGER" />
+        <id column="userId" property="userId" jdbcType="INTEGER" />
+    </resultMap>
+    <!-- 查询单条记录 -->
+    <select id="selectFollowById" parameterType="int" resultType="com.klein.model.Follow">
+        SELECT * FROM t_follow WHERE followId = #{followId}
+    </select>
+    <select id="selectFollowByUserId" parameterType="int" resultType="com.klein.model.Follow">
+        SELECT * FROM t_follow WHERE userId = #{userId}
+    </select>
+    <select id="selectFollowByFollwedId" parameterType="int" resultType="com.klein.model.Follow">
+        SELECT * FROM t_follow WHERE followedId = #{followedId}
+    </select>
+    <insert id="insertFollow" parameterType="com.klein.model.Follow" useGeneratedKeys="true" keyProperty="followId" keyColumn="followId">
+        INSERT INTO t_follow (userId,followedId)
+        VALUES   (#{userId},#{followedId})
+    </insert>
+
+</mapper>
