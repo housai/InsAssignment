@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
 import com.klein.model.Post;
+import com.klein.model.User;
 import com.klein.service.PostService;
+import com.klein.service.UserService;
 import com.klein.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,9 @@ public class LikeController {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private UserService userService;
 
     @ResponseBody
     @RequestMapping(value = "/selectLikeById", method = RequestMethod.POST)
@@ -118,19 +123,25 @@ public class LikeController {
         likeArrayList.addAll(likeArrayList2);
         likeArrayList.addAll(likeArrayList3);
         HashSet hashSet = new HashSet(likeArrayList);
+        Post post = postService.selectPostById(Integer.parseInt(postId));
+        User user = userService.selectUserById(Integer.parseInt(userId));
         System.out.println(hashSet.size());
-        if (hashSet.size()==0){
+        if (hashSet.size()==0 && user != null && post != null){
             Like like = new Like(username, Integer.parseInt(postId), Integer.parseInt(userId));
-            likeService.insertLike(like);
-            map.put("resultCode",200);
-            map.put("msg","success");
-            return JSON.toJSONString(map);
+            int result =  likeService.insertLike(like);
+            if (result ==1){
+                map.put("resultCode",200);
+                map.put("msg","success");
+            }else {
+
+                map.put("resultCode",400);
+                map.put("msg","db failed");
+            }
         }else {
             map.put("resultCode",400);
-            map.put("msg","user exists");
-            return JSON.toJSONString(map);
+            map.put("msg","already liked");
         }
-
+        return JSON.toJSONString(map);
     }
 
 }

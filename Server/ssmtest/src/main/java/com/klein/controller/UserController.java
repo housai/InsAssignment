@@ -31,7 +31,7 @@ public class UserController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/selectUserByName", method = RequestMethod.POST)
-    public String getIndex (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    public String selectUserByName (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
         Map<String, Object> map = Maps.newHashMap();
 	    String username = request.getParameter("username");
         User user = userService.selectUserByName(username);
@@ -90,16 +90,22 @@ public class UserController {
         User user = userService.selectUserByName(userName);
         if (user == null){
             User newUser = new User(userName,password);
-            userService.insertUser(newUser);
-            map.put("resultCode",200);
-            map.put("msg","success");
-            return JSON.toJSONString(map);
+            int result = userService.insertUser(newUser);
+            if (result == 1){
+                map.put("resultCode",200);
+                map.put("msg","success");
+            }else {
+                map.put("resultCode",400);
+                map.put("msg","failed to insert data to db");
+            }
+
         }
         else {
             map.put("resultCode",400);
             map.put("msg","user exists");
-            return JSON.toJSONString(map);
         }
+
+        return JSON.toJSONString(map);
     }
 
     @ResponseBody

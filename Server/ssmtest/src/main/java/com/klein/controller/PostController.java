@@ -93,6 +93,7 @@ public class PostController {
         String location = request.getParameter("location");
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Post> postArrayList = postService.selectPostByLocation(location);
+
         if (postArrayList != null){
             map.put("resultCode",200);
             map.put("data", postArrayList);

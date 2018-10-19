@@ -98,7 +98,8 @@ public class CommentController {
         String postId = request.getParameter("postId");
         String content = request.getParameter("content");
         User user = userService.selectUserById(Integer.parseInt(userId));
-        if (user != null){
+        Post post = postService.selectPostById(Integer.parseInt(postId));
+        if (user != null && post != null){
             Comment comment = new Comment(content, Integer.parseInt(userId), Integer.parseInt(postId));
             int result = commentService.insertComment(comment);
             if (result==1){

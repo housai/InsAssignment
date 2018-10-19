@@ -29,35 +29,21 @@
 </style>
 <body>
 	<form
-		action="http://localhost:8080/ssmtest/PostController/selectPostById"
+		action="http://localhost:8080/ssmtest/FollowController/selectFollowById"
 		method="post" >
 			postId:<input type="text" name="postId">
 		</p>
 		<input type="submit"  value="提交">
 	</form>
 	<form
-			action="http://localhost:8080/ssmtest/PostController/selectPostByUserId"
+			action="http://localhost:8080/ssmtest/FollowController/selectFollowPostByUserId"
 			method="post" >
 		userId:<input type="text" name="userId">
 		</p>
 		<input type="submit"  value="提交">
 	</form>
-	<form
-			action="http://localhost:8080/ssmtest/LikeController/selectLikeByName"
-			method="post" >
-        username:<input type="text" name="username">
-		</p>
-		<input type="submit"  value="提交">
-	</form>
-	<form
-            action="http://localhost:8080/ssmtest/LikeController/selectLikeByUserId"
-            method="post" >
-        userId:<input type="text" name="userId">
-        </p>
-        <input type="submit"  value="提交">
-    </form>
     <form
-            action="http://localhost:8080/ssmtest/PostController/insertPost"
+            action="http://localhost:8080/ssmtest/FollowController/insertFollow"
             method="post" >
         postId:<input type="text" name="photourl">
         </p>
