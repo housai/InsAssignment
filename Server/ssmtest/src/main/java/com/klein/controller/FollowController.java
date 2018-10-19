@@ -65,8 +65,36 @@ public class FollowController {
         Map<String, Object> map = Maps.newHashMap();
         ArrayList<Follow> followArrayList = followService.selectFollowByUserId(Integer.parseInt(userId));
         if (followArrayList != null){
+            ArrayList<User> users = new ArrayList<User>();
+            for (Follow follow :
+                    followArrayList) {
+                users.add(userService.selectUserById(follow.getFollowedId()));
+            }
             map.put("resultCode",200);
-            map.put("data",followArrayList);
+            map.put("data",users);
+            return JSON.toJSONString(map);
+        }
+        else {
+            map.put("resultCode",400);
+            map.put("msg","fail");
+            return JSON.toJSONString(map);
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/selectFollowByFollwedId", method = RequestMethod.POST)
+    public String selectFollowByFollwedId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String followedId = request.getParameter("followedId");
+        Map<String, Object> map = Maps.newHashMap();
+        ArrayList<Follow> followArrayList = followService.selectFollowByFollwedId(Integer.parseInt(followedId));
+        if (followArrayList != null){
+            ArrayList<User> users = new ArrayList<User>();
+            for (Follow follow :
+                    followArrayList) {
+                users.add(userService.selectUserById(follow.getUserId()));
+            }
+            map.put("resultCode",200);
+            map.put("data",users);
             return JSON.toJSONString(map);
         }
         else {

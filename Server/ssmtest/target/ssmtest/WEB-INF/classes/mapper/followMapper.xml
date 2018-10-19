@@ -15,6 +15,9 @@
     <select id="selectFollowByUserId" parameterType="int" resultType="com.klein.model.Follow">
         SELECT * FROM t_follow WHERE userId = #{userId}
     </select>
+    <select id="selectFollowByFollwedId" parameterType="int" resultType="com.klein.model.Follow">
+        SELECT * FROM t_follow WHERE followedId = #{followedId}
+    </select>
     <insert id="insertFollow" parameterType="com.klein.model.Follow" useGeneratedKeys="true" keyProperty="followId" keyColumn="followId">
         INSERT INTO t_follow (userId,followedId)
         VALUES   (#{userId},#{followedId})

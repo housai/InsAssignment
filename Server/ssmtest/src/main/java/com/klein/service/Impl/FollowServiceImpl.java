@@ -26,6 +26,10 @@ public class FollowServiceImpl implements FollowService {
         return followDao.selectFollowByUserId(userId);
     }
 
+    public ArrayList<Follow> selectFollowByFollwedId(Integer followedId) {
+        return followDao.selectFollowByFollwedId(followedId);
+    }
+
     public Integer insertFollow(Follow follow) {
         return followDao.insertFollow(follow);
     }

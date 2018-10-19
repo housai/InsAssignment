@@ -8,5 +8,6 @@ import java.util.ArrayList;
 public interface FollowDao {
     Follow selectFollowById(Integer followId);
     ArrayList<Follow> selectFollowByUserId(Integer userId);
+    ArrayList<Follow> selectFollowByFollwedId(Integer followedId);
     Integer insertFollow(Follow follow);
 }
