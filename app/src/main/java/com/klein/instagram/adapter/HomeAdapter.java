@@ -104,9 +104,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, CommentActivity.class);
-//                intent.putExtra("userId", user.getId());
-//                intent.putExtra("username", user.getUsername());
-//                intent.putExtra("profilephoto", user.getProfilephoto());
+                intent.putExtra("userId", 1);
+                intent.putExtra("username", "Nicolas");
+                intent.putExtra("postId", 1);
+                //intent.putExtra("profilephoto", user.getProfilephoto());
 
                 context.startActivity(intent);
             }

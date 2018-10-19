@@ -1,32 +1,19 @@
 package com.klein.instagram.fragment;
 
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.klein.instagram.R;
-import com.klein.instagram.activity.DiscoverActivity;
 import com.klein.instagram.adapter.ActivityFeedAdapter;
 import com.klein.instagram.bean.ActivityFeedBean;
-import com.klein.instagram.bean.UserBean;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -34,12 +21,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.klein.instagram.helpers.UserData;
 
 
 public class Fragment4 extends Fragment {
@@ -47,7 +34,7 @@ public class Fragment4 extends Fragment {
     private ActivityFeedAdapter mAdapter;
     private List<ActivityFeedBean> actList;
     private View mView;
-    private Integer myId = 1;
+    private Integer myId = UserData.getUserId();
 
     @Nullable
     @Override
