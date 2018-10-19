@@ -79,9 +79,9 @@ public class DiscoverActivity extends Activity {
                     finish();
                     break;
                 case R.id.follow: //Return a success message
-                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
-                    //Switch Intent to main from discover
-                    startActivity(intent_follow_to_Main);
+//                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
+//                    //Switch Intent to main from discover
+//                    startActivity(intent_follow_to_Main);
                     finish();
                     break;
             }
