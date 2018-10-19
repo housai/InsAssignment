@@ -79,9 +79,9 @@ public class DiscoverActivity extends Activity {
                     finish();
                     break;
                 case R.id.follow: //Return a success message
-                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
-                    //Switch Intent to main from discover
-                    startActivity(intent_follow_to_Main);
+//                    Intent intent_follow_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
+//                    //Switch Intent to main from discover
+//                    startActivity(intent_follow_to_Main);
                     finish();
                     break;
             }
@@ -105,6 +105,7 @@ public class DiscoverActivity extends Activity {
                                     Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
                                 }
                                 dis_res_user_name.setText(user.getUsername());
+                                follow.setVisibility(View.VISIBLE);
                                 JSONArray arr = jsonObject.getJSONArray("data");
                                 Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
                                 for (int i = 0; i < arr.length(); i++) {

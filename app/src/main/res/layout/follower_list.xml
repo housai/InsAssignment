@@ -19,7 +19,7 @@
             android:gravity="left"
             android:orientation="horizontal">
             <com.klein.instagram.utils.XCRoundImageView
-                android:id="@+id/follwing_userImage"
+                android:id="@+id/follower_userImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -29,7 +29,7 @@
                 />
 
             <TextView
-                android:id="@+id/following_user_name"
+                android:id="@+id/follower_user_name"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="7dp"
                 android:layout_width="wrap_content"
