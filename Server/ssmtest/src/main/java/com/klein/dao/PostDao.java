@@ -11,4 +11,5 @@ public interface PostDao {
     ArrayList<Post> selectPostByTime(Date time);
     ArrayList<Post> selectPostByLocation(String location);
     Integer insertPost(Post post);
+    ArrayList<Post> selectAllPost();
 }

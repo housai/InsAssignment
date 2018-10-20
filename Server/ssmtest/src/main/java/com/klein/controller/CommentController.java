@@ -77,15 +77,17 @@ public class CommentController {
     public String selectCommentByPost (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String postId = request.getParameter("postId");
         Map<String, Object> map = Maps.newHashMap();
-        ArrayList<Comment> commentArrayList = commentService.selectCommentByUser(Integer.parseInt(postId));
+        ArrayList<Comment> commentArrayList = commentService.selectCommentByPost(Integer.parseInt(postId));
         if (commentArrayList != null){
             ArrayList<Map> mapsArrayList = new ArrayList<Map>();
             for (Comment comment :
                     commentArrayList) {
                 Map<String, Object> commentMap = Maps.newHashMap();
                 User user = userService.selectUserById(comment.getUserId());
-                commentMap.put("user", user);
-                commentMap.put("comment", comment);
+                commentMap.put("username", user.getUsername());
+                commentMap.put("userId", user.getId());
+                commentMap.put("profilephoto", user.getProfilephoto());
+                commentMap.put("comment", comment.getContent());
                 mapsArrayList.add(commentMap);
             }
             map.put("resultCode",200);

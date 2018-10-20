@@ -11,6 +11,9 @@
         <id column="location" property="location" jdbcType="VARCHAR" />
     </resultMap>
     <!-- 查询单条记录 -->
+    <select id="selectAllPost"  resultType="com.klein.model.Post">
+        SELECT * FROM t_post
+    </select>
     <select id="selectPostById" parameterType="int" resultType="com.klein.model.Post">
         SELECT * FROM t_post WHERE postId = #{postId}
     </select>

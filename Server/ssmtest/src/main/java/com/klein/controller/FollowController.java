@@ -1,6 +1,7 @@
 package com.klein.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.klein.model.Follow;
 import com.klein.model.Like;
 import com.klein.model.Post;
@@ -77,7 +78,7 @@ public class FollowController {
         else {
             map.put("resultCode",400);
             map.put("msg","fail");
-            return JSON.toJSONString(map);
+            return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
         }
     }
 
@@ -95,16 +96,15 @@ public class FollowController {
                 users.add(userService.selectUserById(follow.getUserId()));
 
             }
-            System.out.println(users);
             map.put("resultCode",200);
             map.put("data",users);
-            return JSON.toJSONString(map);
         }
         else {
             map.put("resultCode",400);
             map.put("msg","fail");
-            return JSON.toJSONString(map);
+
         }
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
     @ResponseBody
@@ -140,7 +140,7 @@ public class FollowController {
             map.put("resultCode",400);
             map.put("msg","fail");
         }
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
     @ResponseBody
@@ -167,7 +167,7 @@ public class FollowController {
             map.put("resultCode",400);
             map.put("msg","fail");
         }
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
     @ResponseBody

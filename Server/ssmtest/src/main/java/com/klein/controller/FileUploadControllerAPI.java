@@ -45,7 +45,6 @@ public class FileUploadControllerAPI{
         String pathRoot = request.getSession().getServletContext().getRealPath("/");
         String newPath = MyUtil.uploadString(pathRoot);
         System.out.println(file.getSize()+"");
-        System.out.println(request.getParameter("description"));
         System.out.println(file.getOriginalFilename());
         System.out.println(pathRoot);
         File temp=new File(newPath);
@@ -61,7 +60,7 @@ public class FileUploadControllerAPI{
                 File localFile = new File(newPath+newImageName);
                 System.out.println("最后的名字："+newPath+newImageName);
                 file.transferTo(localFile);
-                Post post = new Post(newPath+newImageName, Integer.parseInt(userId), location,content);
+                Post post = new Post(newImageName, Integer.parseInt(userId), location,content);
                 int result = postService.insertPost(post);
                 if (result == 1){
                     map.put("resultMsg", "成功");

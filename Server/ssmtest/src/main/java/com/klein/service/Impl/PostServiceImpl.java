@@ -22,7 +22,9 @@ public class PostServiceImpl implements PostService {
     public ArrayList<Post> selectPostByUserId(Integer userId) {
         return PostDao.selectPostByUserId(userId);
     }
-
+    public ArrayList<Post> selectAllPost() {
+        return PostDao.selectAllPost();
+    }
     public ArrayList<Post> selectPostByTime(Date time) {
         return PostDao.selectPostByTime(time);
     }

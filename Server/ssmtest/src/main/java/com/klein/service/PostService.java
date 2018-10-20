@@ -12,5 +12,6 @@ public interface PostService {
     ArrayList<Post> selectPostByUserId(Integer userId);
     ArrayList<Post> selectPostByTime(Date time);
     ArrayList<Post> selectPostByLocation(String location);
+    ArrayList<Post> selectAllPost();
     Integer insertPost(Post post);
 }

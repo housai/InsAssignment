@@ -7,7 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.klein.model.Follow;
 import com.klein.model.Like;
+import com.klein.service.FollowService;
 import com.klein.service.LikeService;
 import com.klein.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +31,10 @@ public class UserController {
 	
 	@Autowired
     private LikeService likeService;
-	
+
+	@Autowired
+    private FollowService followService;
+
 	@ResponseBody
 	@RequestMapping(value = "/selectUserByName", method = RequestMethod.POST)
     public String selectUserByName (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
@@ -43,7 +49,7 @@ public class UserController {
         else {
             map.put("resultCode",400);
             map.put("msg","user exists");
-            return JSON.toJSONString(map);
+            return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
         }
     }
 
@@ -52,11 +58,20 @@ public class UserController {
     public String suggestUserByLike (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
         Map<String, Object> map = Maps.newHashMap();
         String username = request.getParameter("username");
-        System.out.println(username);
+        String userId = request.getParameter("userId");
         User user = userService.selectUserByName(username);
         ArrayList<User> suggestedUsers = new ArrayList<User>();
         if (user != null){
-//            the like list of posts liked by this user
+            int isFollowing = 0;
+            ArrayList<Follow> followArrayList1 = followService.selectFollowByUserId(Integer.parseInt(userId));
+            for (Follow follow :
+                    followArrayList1) {
+                if (follow.getFollowedId() == user.getId()){
+                    isFollowing = 1;
+                    break;
+                }
+            }
+           //the like list of posts liked by this user
             ArrayList<Like> likeArrayList = likeService.selectLikeByName(username);
             for (Like like:
                  likeArrayList) {
@@ -65,20 +80,34 @@ public class UserController {
                 for (Like like1 :
                         likeArrayList1) {
                     if (like1.getUserId() != like.getUserId()){
-                        suggestedUsers.add(userService.selectUserById(like1.getUserId()));
+                        User suggestedUser = userService.selectUserById(like1.getUserId());
+                        ArrayList<Follow> followArrayList = followService.selectFollowByUserId(user.getId());
+                        boolean alreadyFollowed = false;
+                        for (Follow follow:
+                             followArrayList) {
+                            if (suggestedUser.getId() == follow.getFollowedId()){
+                                alreadyFollowed = true;
+                            }
+                        }
+                        if (!alreadyFollowed){
+                            suggestedUsers.add(suggestedUser);
+
+                        }
                     }
                 }
             }
+
             map.put("resultCode", 200);
             map.put("user", user);
             map.put("data", suggestedUsers);
+            map.put("isFollowing", isFollowing);
         }
         else {
             map.put("resultCode",400);
             map.put("msg","user exists");
         }
-        System.out.println(JSON.toJSONString(map));
-        return JSON.toJSONString(map);
+        System.out.println(JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty));
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
     @ResponseBody
@@ -126,7 +155,7 @@ public class UserController {
         }
         map.put("resultCode",400);
         map.put("msg","login fail");
-        return JSON.toJSONString(map);
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
 
     }
 
