@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,12 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity">
-
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+        <activity android:name=".activity.MainActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
@@ -42,8 +38,8 @@
         <activity
             android:name=".activity.DiscoverActivity"
             android:label="DiscoverActivity" />
-        <activity android:name=".activity.PostActivity" />
-
+        <activity android:name=".activity.PostActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.klein.instagram.fileprovider"

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.network.HttpContent;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -47,10 +48,8 @@ public class RegisterActivity extends AppCompatActivity {
         mAccount = (EditText) findViewById(R.id.resetpwd_edit_name);
         mPwd = (EditText) findViewById(R.id.resetpwd_edit_pwd_old);
         mPwdCheck = (EditText) findViewById(R.id.resetpwd_edit_pwd_new);
-
         mSureButton = (Button) findViewById(R.id.register_btn_sure);
         mCancelButton = (Button) findViewById(R.id.register_btn_cancel);
-
         mSureButton.setOnClickListener(m_register_Listener);      //Register listeners for 2 buttons
         mCancelButton.setOnClickListener(m_register_Listener);
 
@@ -92,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (isUserNameAndPwdValid()) {
 
 
-            OkGoUtil.jsonPost(RegisterActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/register", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(RegisterActivity.this, HttpContent.Register, map, true, new JsonCallback() {
 
 
                 @Override

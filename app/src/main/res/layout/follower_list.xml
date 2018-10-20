@@ -19,7 +19,7 @@
             android:gravity="left"
             android:orientation="horizontal">
             <com.klein.instagram.utils.XCRoundImageView
-                android:id="@+id/sug_userImage"
+                android:id="@+id/follower_userImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
@@ -29,24 +29,16 @@
                 />
 
             <TextView
-                android:id="@+id/sug_res_user_name"
+                android:id="@+id/follower_user_name"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="7dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="#000000"
+                android:fontFamily="casual"
                 />
         </LinearLayout>
-        <Button
-            android:id="@+id/follow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/third_before"
-            android:visibility="visible" />
     </LinearLayout>
 
 

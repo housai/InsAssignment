@@ -1,12 +1,14 @@
 package com.klein.instagram.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,8 +20,10 @@ import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.DiscoveryAdapter;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.network.HttpContent;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
+import com.klein.instagram.utils.UserData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +44,9 @@ public class DiscoverActivity extends Activity {
     private List<UserBean> recommendUserList = new ArrayList<UserBean>();
     private DiscoveryAdapter mAdapter;
     private RecyclerView recommendRecyclerView;
+    private Button follow1;
+    private String follow1Id;
+    private int isFollowing;
 
 
     @Override
@@ -51,6 +58,7 @@ public class DiscoverActivity extends Activity {
         userImage = findViewById(R.id.dis_userImage);
         searchUser = (EditText) findViewById(R.id.dis_input);
         dis_res_user_name = (TextView)findViewById(R.id.dis_res_user_name);
+        follow1 = (Button)findViewById(R.id.follow1);
         recommendRecyclerView = (RecyclerView)findViewById(R.id.recommendRecyclerView);
         recommendRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recommendRecyclerView.setHasFixedSize(true);
@@ -59,6 +67,7 @@ public class DiscoverActivity extends Activity {
         mAdapter = new DiscoveryAdapter(DiscoverActivity.this,recommendUserList);
         recommendRecyclerView.setAdapter(mAdapter);
 
+        follow1.setOnClickListener(mListener);
         mSearchButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
     }
@@ -68,6 +77,8 @@ public class DiscoverActivity extends Activity {
                 case R.id.search_btn:                            //Search button
                     sname = searchUser.getText().toString();    //Search by entered name
                     search();
+                    searchUser.setText("");
+                    closeInputMethod(DiscoverActivity.this,searchUser);
                     break;
                 case R.id.dis_but_backward: //Return to main page
                     Intent intent_Discover_to_Main = new Intent(DiscoverActivity.this,MainActivity.class) ;
@@ -75,16 +86,51 @@ public class DiscoverActivity extends Activity {
                     startActivity(intent_Discover_to_Main);
                     finish();
                     break;
+                case R.id.follow1: //Return to main page
+
+                    followSearchUser();
+                    break;
             }
         }
     };
 
+        public void followSearchUser(){
 
+                Map<String, String> map = new HashMap<>();
+
+                map.put("userId", UserData.getUserId()+"");// user id
+                map.put("followedId",follow1Id); // comment
+                OkGoUtil.jsonPost(DiscoverActivity.this, HttpContent.InsertFollow, map, true, new JsonCallback() {
+
+                    @Override
+                    public void onSucess(JSONObject jsonObject) {
+
+                        try {
+                            if (jsonObject.getInt("resultCode") == 200) {
+                                Toast.makeText(DiscoverActivity.this, "followed", Toast.LENGTH_LONG).show();
+                                follow1.setVisibility(View.INVISIBLE);
+
+                            } else {
+                                Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(DiscoverActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                });
+            }
         public void search(){
             Map<String, String> map = new HashMap<>();
             map.put("username", sname);
+            map.put("userId", UserData.getUserId()+"");
             if(isUserNameValid()) {
-                OkGoUtil.jsonPost(DiscoverActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/suggestUserByLike", map, true, new JsonCallback() {
+                OkGoUtil.jsonPost(DiscoverActivity.this, HttpContent.SuggestUserByLike, map, true, new JsonCallback() {
 
                     @Override
                     public void onSucess(JSONObject jsonObject) {
@@ -95,17 +141,24 @@ public class DiscoverActivity extends Activity {
                                 if (user.getProfilephoto().equals("") || user.getProfilephoto() == null) {
                                     Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
                                 }
-                                dis_res_user_name.setText(user.getUsername());
+                                if(jsonObject.getInt("isFollowing")==0){
+                                    isFollowing = jsonObject.getInt("isFollowing");
+                                    follow1.setVisibility(View.VISIBLE);
+                                }else{
+                                    follow1.setVisibility(View.INVISIBLE);
+                                }
+
+                                follow1Id = user.getId()+"";
+                                dis_res_user_name.setText(sname);
                                 JSONArray arr = jsonObject.getJSONArray("data");
-                                Toast.makeText(DiscoverActivity.this, arr.length() + "Success setText", Toast.LENGTH_LONG).show();
+                                recommendUserList = new ArrayList<UserBean>();
                                 for (int i = 0; i < arr.length(); i++) {
 
                                     UserBean userRecommend = new Gson().fromJson(arr.getString(i), UserBean.class);
-                                    Toast.makeText(DiscoverActivity.this, userRecommend.getUsername() + "Success getUsername", Toast.LENGTH_LONG).show();
-
                                     recommendUserList.add(userRecommend);
                                 }
-                                mAdapter.notifyDataSetChanged();
+                                mAdapter = new DiscoveryAdapter(DiscoverActivity.this,recommendUserList);
+                                recommendRecyclerView.setAdapter(mAdapter);
                             } else {
                                 Toast.makeText(DiscoverActivity.this, "Error", Toast.LENGTH_LONG).show();
                             }
@@ -153,6 +206,15 @@ public class DiscoverActivity extends Activity {
             super.onDestroy();
             // The activity is about to be destroyed.
         }
+
+    public static void closeInputMethod(Context context, EditText tv_works_name) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if(isOpen) {
+            imm.hideSoftInputFromWindow(tv_works_name.getWindowToken(), 0); //强制隐藏键盘
+            isOpen=false;
+        }
+    }
 
 }
 

@@ -15,6 +15,7 @@ import com.klein.instagram.R;
 import com.bumptech.glide.Glide;
 
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.bean.UserComment;
 
 import java.util.List;
 
@@ -24,14 +25,12 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
     private Context context;
-    private List<UserBean> data;
+    private List<UserComment> data;
 
-    public CommentAdapter(Context context, List<UserBean> list) {
+    public CommentAdapter(Context context, List<UserComment> list) {
 
         this.context = context;
         this.data = list;
-        Toast.makeText(context,list.size()+"Comment Adapter",Toast.LENGTH_LONG).show();
-
     }
 
     @Override
@@ -41,12 +40,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        UserBean user = data.get(position);
-        holder.com_user_name.setText(user.getUsername());
-        if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
+        UserComment userComment = data.get(position);
+        holder.com_user_name.setText(userComment.getUsername());
+        if(userComment.getProfilephoto().equals("") || userComment.getProfilephoto() == null){
             Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.com_userImage);
         }
-//        holder.com_user_name.setText(user.getComment());
+        holder.com_user_comment.setText(userComment.getComment());
     }
 
     @Override

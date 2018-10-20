@@ -9,45 +9,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/down"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="center"
             android:orientation="horizontal">
+
             <com.klein.instagram.utils.XCRoundImageView
-                android:id="@+id/sug_userImage"
+                android:id="@+id/Act_user_img"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/favourite"
-                />
+                android:src="@drawable/favourite" />
 
             <TextView
-                android:id="@+id/sug_res_user_name"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="7dp"
+                android:id="@+id/Act_user_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:textColor="#000000"
-                />
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="4dp"
+                android:textColor="#000000" />
         </LinearLayout>
-        <Button
-            android:id="@+id/follow"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/third_before"
-            android:visibility="visible" />
     </LinearLayout>
-
 
 </LinearLayout>

@@ -47,12 +47,12 @@ public class Fragment3 extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment3, container, false);
+        init();
         return mView;
 
     }
 
     public void init(){
-        count++;
 
         if (ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -76,10 +76,9 @@ public class Fragment3 extends Fragment{
             switch (requestCode) {
                 case RESULT_PICK:
                     try {
-
                         Intent intent=new Intent(getActivity(), EditImageActivity.class);
                         Uri uri = data.getData();
-                        upload(uri);
+//                        upload(uri);
                         intent.putExtra("gallery", uri);
                         startActivity(intent);
                     } catch (Exception e) {
@@ -91,19 +90,6 @@ public class Fragment3 extends Fragment{
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        if(count==0){
-            init();
-        }else{
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            startActivity(intent);
-            count = 0;
-        }
-
-    }
 
     public void upload(Uri uri) throws IOException {
 

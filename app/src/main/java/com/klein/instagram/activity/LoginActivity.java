@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.klein.instagram.R;
 
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.network.HttpContent;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
 
@@ -23,6 +24,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import com.klein.instagram.utils.UserData;
 
 public class LoginActivity extends Activity {                 //Login page
     private EditText mAccount;                        //Set username
@@ -39,7 +41,6 @@ public class LoginActivity extends Activity {                 //Login page
     private EditText editPw;
     private String name;
     private String pwd;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,15 +84,18 @@ public class LoginActivity extends Activity {                 //Login page
         map.put("username", name);
         map.put("password", pwd);
         if (isUserNameAndPwdValid()) {
-            OkGoUtil.jsonPost(LoginActivity.this, "http://10.12.170.91:8080/ssmtest/UserController/login", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(LoginActivity.this, HttpContent.Login, map, true, new JsonCallback() {
 
 
                 @Override
                 public void onSucess(JSONObject jsonObject) {
-                    Toast.makeText(LoginActivity.this, jsonObject.toString(), Toast.LENGTH_LONG).show();
+
                     try {
                         if (jsonObject.getInt("resultCode") == 200) {
                             UserBean user = new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
+                            UserData.setUserId(user.getId());
+                            UserData.setUsername(user.getUsername());
+                            UserData.setProfilephoto(user.getProfilephoto());
                             Intent intent_login_success = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent_login_success);
                             finish();

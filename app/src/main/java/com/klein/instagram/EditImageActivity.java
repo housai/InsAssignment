@@ -58,6 +58,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     public static final String EXTRA_IMAGE_PATHS = "extra_image_paths";
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
+    private static final int PHOTO_REQUEST_CUT = 100;
     private PhotoEditor mPhotoEditor;
     private PhotoEditorView mPhotoEditorView;
     private PropertiesBSFragment mPropertiesBSFragment;
@@ -72,6 +73,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
     private Uri savedImg;
+    private Uri uri;
 
 
     @Override
@@ -117,7 +119,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         }
 
 
-        Uri uri = intent.getParcelableExtra("gallery");
+        uri = intent.getParcelableExtra("gallery");
         if(uri!=null) {
             Bitmap bitmap = null;
             try {
@@ -219,6 +221,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 break;
 
             case R.id.imgSave:
+                //crop(uri);
                 saveImage();
                 break;
 
@@ -240,9 +243,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
             case R.id.button_forward:
                 saveImage();
-                Intent intent_to_post = new	Intent(EditImageActivity.this, PostActivity.class);
-                intent_to_post.putExtra("imagePath", savedImg.toString());
-                startActivity(intent_to_post);
+
                 break;
         }
     }
@@ -265,10 +266,11 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 mPhotoEditor.saveAsFile(file.getAbsolutePath(), saveSettings, new PhotoEditor.OnSaveListener() {
                     @Override
                     public void onSuccess(@NonNull String imagePath) {
-                        hideLoading();
-                        showSnackbar("Image Saved Successfully");
                         savedImg = Uri.fromFile(new File(imagePath));
                         mPhotoEditorView.getSource().setImageURI(savedImg);
+                        Intent intent_to_post = new	Intent(EditImageActivity.this, PostActivity.class);
+                        intent_to_post.putExtra("imagePath", imagePath);
+                        startActivity(intent_to_post);
                     }
 
                     @Override
@@ -448,5 +450,17 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             Intent intent = new Intent(EditImageActivity.this, MainActivity.class);
             startActivity(intent);
         }
+    }
+
+        private void crop(Uri uri) {
+            Intent intent = new Intent("com.android.camera.action.CROP");
+            intent.setDataAndType(uri, "image/*");
+            intent.putExtra("crop", true);
+            intent.putExtra("aspectX", 1);
+            intent.putExtra("aspectY", 1);
+            intent.putExtra("outputX", 150);
+            intent.putExtra("outputY", 150);
+            intent.putExtra("return-data", true);
+            startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 }

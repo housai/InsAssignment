@@ -1,11 +1,13 @@
 package com.klein.instagram.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,9 +19,13 @@ import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.klein.instagram.adapter.CommentAdapter;
 import com.klein.instagram.adapter.DiscoveryAdapter;
+import com.klein.instagram.bean.Comment;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.bean.UserComment;
+import com.klein.instagram.network.HttpContent;
 import com.klein.instagram.network.JsonCallback;
 import com.klein.instagram.utils.OkGoUtil;
+import com.klein.instagram.utils.UserData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,11 +43,17 @@ public class CommentActivity extends Activity {
     private ImageView userImage;
     private TextView com_host_name;
     private TextView com_com_name;
+    private TextView com_host_content;
     private String comment;
     private String com_name;
-    private String postid;
 
-    private List<UserBean> commentList = new ArrayList<UserBean>();
+    private String UserId;
+    private String postId;
+    private String username;
+    private String profilephoto;
+    private String content;
+
+    private List<UserComment> commentList = new ArrayList<UserComment>();
     private CommentAdapter mAdapter;
     private RecyclerView commentRecyclerView;
 
@@ -53,34 +65,45 @@ public class CommentActivity extends Activity {
         mbackButton = (Button) findViewById(R.id.com_button_backward);
         userImage = (ImageView) findViewById(R.id.com_userImage);
         editComment = (EditText) findViewById(R.id.com_txt);
-        com_host_name = (TextView)findViewById(R.id.com_host_name);
-        com_com_name = (TextView)findViewById(R.id.com_com_name);
-        commentRecyclerView = (RecyclerView)findViewById(R.id.commentRecyclerView);
+        com_host_name = (TextView) findViewById(R.id.com_host_name);
+        com_host_content = (TextView) findViewById(R.id.com_host_content);
+        com_com_name = (TextView) findViewById(R.id.com_com_name);
+        commentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         commentRecyclerView.setHasFixedSize(true);
         commentRecyclerView.setNestedScrollingEnabled(false);
 
         Intent intent = getIntent();
-        intent.getStringExtra("userId");
-        intent.getStringExtra("username");
-        intent.getStringExtra("profilephoto");
+        UserId = intent.getStringExtra("userId");
+        username = intent.getStringExtra("username");
+        profilephoto = intent.getStringExtra("profilephoto");
+        content = intent.getStringExtra("content");
+        postId = intent.getStringExtra("postId") + "";
 
+        com_host_name.setText(username);
+        com_host_content.setText(content);
+        Glide.with(this).load("http://goo.gl/gEgYUd").into(userImage);
+        getComment();
         mCommentButton.setOnClickListener(mListener);
         mbackButton.setOnClickListener(mListener);
 
-        mAdapter = new CommentAdapter(CommentActivity.this,commentList);
+        mAdapter = new CommentAdapter(CommentActivity.this, commentList);
         commentRecyclerView.setAdapter(mAdapter);
+
     }
+
     View.OnClickListener mListener = new View.OnClickListener() {                  //不同按钮按下的监听事件选择
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.send_comment:                            //comment button
                     comment = editComment.getText().toString();    //get comment
-
                     comment();
+                    editComment.setText("");
+                    Toast.makeText(CommentActivity.this,"Comment successful",Toast.LENGTH_LONG).show();
+                    closeInputMethod(CommentActivity.this,editComment);
                     break;
                 case R.id.com_button_backward: //Return to main page
-                    Intent intent_Com_to_Main = new Intent(CommentActivity.this,MainActivity.class) ;
+                    Intent intent_Com_to_Main = new Intent(CommentActivity.this, MainActivity.class);
                     //Switch Intent to main from discover
                     startActivity(intent_Com_to_Main);
                     finish();
@@ -88,34 +111,68 @@ public class CommentActivity extends Activity {
             }
         }
     };
+
+    public void getComment() {
+        Map<String, String> map = new HashMap<>();
+        // post id
+        map.put("postId", postId);
+        OkGoUtil.jsonPost(CommentActivity.this, HttpContent.SelectCommentByPost, map, true, new JsonCallback() {
+
+            @Override
+            public void onSucess(JSONObject jsonObject) {
+
+                try {
+                    if (jsonObject.getInt("resultCode") == 200) {
+                        JSONArray arr = jsonObject.getJSONArray("data");
+                        commentList = new ArrayList<UserComment>();
+                        for (int i = 0; i < arr.length(); i++) {
+
+                            UserComment userComment = new Gson().fromJson(arr.getString(i), UserComment.class);
+                            commentList.add(userComment);
+                        }
+                        mAdapter = new CommentAdapter(CommentActivity.this, commentList);
+                        commentRecyclerView.setAdapter(mAdapter);
+                        mAdapter.notifyDataSetChanged();
+
+                    } else {
+                        Toast.makeText(CommentActivity.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Toast.makeText(CommentActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+
+        });
+    }
+
+
+
+
     public void comment(){
         Map<String, String> map = new HashMap<>();
         // post id
-        map.put("postId",postid);
-        map.put("username", com_name);// user id
-        map.put("comment",comment); // comment
+        map.put("postId",postId);
+        map.put("userId", UserData.getUserId()+"");// user id
+        map.put("content",comment); // comment
         if(isCommentValid()){
-            OkGoUtil.jsonPost(CommentActivity.this, "http://10.12.170.91:8080/ssmtest/CommentController/insertComment", map, true, new JsonCallback() {
+            OkGoUtil.jsonPost(CommentActivity.this, HttpContent.InsertComment, map, true, new JsonCallback() {
 
             @Override
             public void onSucess(JSONObject jsonObject) {
 
                 try {
                     if (jsonObject.getInt("resultCode") == 200){
-                        UserBean user =  new Gson().fromJson(jsonObject.getString("user"), UserBean.class);
-                        if(user.getProfilephoto().equals("") || user.getProfilephoto() == null){
-                            Glide.with(getApplicationContext()).load("http://goo.gl/gEgYUd").into(userImage);
-                        }
-                        com_com_name.setText(user.getUsername());
-                        JSONArray arr = jsonObject.getJSONArray("data");
-                        Toast.makeText(CommentActivity.this,arr.length()+"Success setText",Toast.LENGTH_LONG).show();
-                        for (int i = 0; i < arr.length(); i++) {
+                        UserComment userComment = new UserComment();
+                        userComment.setComment(comment);
+                        userComment.setUsername(UserData.getUsername());
+                        userComment.setProfilephoto("");
 
-                            UserBean comList = new Gson().fromJson(arr.getString(i), UserBean.class);
-                            Toast.makeText(CommentActivity.this,comList.getUsername()+"Success getUsername",Toast.LENGTH_LONG).show();
-
-                            commentList.add(comList);
-                        }
+                        commentList.add(userComment);
                         mAdapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(CommentActivity.this,"Error",Toast.LENGTH_LONG).show();
@@ -163,5 +220,13 @@ public class CommentActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         // The activity is about to be destroyed.
+    }
+    public static void closeInputMethod(Context context, EditText tv_works_name) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();
+        if(isOpen) {
+            imm.hideSoftInputFromWindow(tv_works_name.getWindowToken(), 0); //强制隐藏键盘
+            isOpen=false;
+        }
     }
 }

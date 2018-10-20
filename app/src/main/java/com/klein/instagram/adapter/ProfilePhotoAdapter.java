@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.klein.instagram.R;
+import com.klein.instagram.bean.Post;
+import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.bean.UserPost;
+import com.klein.instagram.network.HttpContent;
 
 /**
  * Created by klein on 2018/8/28.
@@ -22,33 +26,12 @@ import com.klein.instagram.R;
 public class ProfilePhotoAdapter extends RecyclerView.Adapter<ProfilePhotoAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> list;
-    List<Map<String, Object>> data;
+    private ArrayList<Post> list;
 
 
-    public ProfilePhotoAdapter(Context context, List<String> list) {
+    public ProfilePhotoAdapter(Context context,ArrayList<Post> list) {
         this.context = context;
         this.list = list;
-        data = getData();
-    }
-
-    public List<Map<String, Object>> getData() {
-        List<Map<String, Object>> mdata = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", "http://img2.duitang.com/uploads/item/201207/19/20120719132725_UkzCN.jpeg");
-        map.put("view", new ImageView(context));
-        mdata.add(map);
-
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("url", "http://img4.duitang.com/uploads/item/201404/24/20140424195028_vtvZu.jpeg");
-        map1.put("view", new ImageView(context));
-        mdata.add(map1);
-
-        Map<String, Object> map3 = new HashMap<String, Object>();
-        map3.put("url", "http://www.mangowed.com/uploads/allimg/130425/572-130425105311304.jpg");
-        map3.put("view", new ImageView(context));
-        mdata.add(map3);
-        return  mdata;
     }
 
     @Override
@@ -57,8 +40,8 @@ public class ProfilePhotoAdapter extends RecyclerView.Adapter<ProfilePhotoAdapte
     }
 
     public void onBindViewHolder(ViewHolder holder, int position) {
-
-        Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.profile_photo);
+        Post post = list.get(position);
+        Glide.with(context).load(HttpContent.uploadImage+post.getPhotourl()).into(holder.profile_photo);
 
     }
 

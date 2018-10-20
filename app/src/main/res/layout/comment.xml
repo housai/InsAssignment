@@ -59,8 +59,8 @@
             android:orientation="horizontal">
             <com.klein.instagram.utils.XCRoundImageView
                 android:id="@+id/com_userImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
                 android:layout_marginLeft="10dp"
@@ -72,7 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="1dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="casual"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/com_host_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="7dp"
                 android:textColor="#000000" />
         </LinearLayout>
     </LinearLayout>
@@ -115,7 +122,6 @@
             android:layout_weight="1"
             android:layout_marginTop="3dp"
             android:layout_marginLeft="15dp"
-
             android:background="@drawable/bg_edittext"
             android:hint="pleas input comment"
             android:singleLine="true"
@@ -124,10 +130,10 @@
 
         <Button
             android:id="@+id/send_comment"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/share"
+            android:text="Comment"
 
             />
 

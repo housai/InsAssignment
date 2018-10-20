@@ -12,7 +12,7 @@
         <ImageView
             android:id="@+id/profile_photo"
             android:layout_width="match_parent"
-            android:layout_height="182dp" />
+            android:layout_height="182dp"/>
 
     </LinearLayout>
 

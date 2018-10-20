@@ -26,6 +26,7 @@ public class Fragment2 extends Fragment{
         Intent intent = new Intent(getActivity(), DiscoverActivity.class);
         startActivity(intent);
 
+
         return mView;
 
     }

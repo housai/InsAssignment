@@ -5,20 +5,33 @@ import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 import com.klein.instagram.R;
 import com.bumptech.glide.Glide;
 import com.klein.instagram.activity.CommentActivity;
 import com.klein.instagram.R;
 import com.klein.instagram.activity.CommentActivity;
 import com.klein.instagram.bean.UserBean;
+import com.klein.instagram.bean.UserPost;
+import com.klein.instagram.network.HttpContent;
+import com.klein.instagram.network.JsonCallback;
+import com.klein.instagram.utils.OkGoUtil;
+import com.klein.instagram.utils.UserData;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +44,7 @@ import java.util.Map;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     private Context context;
-    private List<String> list;
+    private ArrayList<UserPost> list;
     protected ImageLoader imageLoader = ImageLoader.getInstance();
     DisplayImageOptions options;
     ViewPagerAdapter adapter;
@@ -39,34 +52,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     private MyItemClickListener mItemClickListener;
 
 
-    public HomeAdapter(Context context, List<String> list) {
+    public HomeAdapter(Context context, ArrayList<UserPost> list) {
         this.context = context;
         this.list = list;
-        data = getData();
     }
 
     public void setOnItemClickListener(MyItemClickListener listener) {
         this.mItemClickListener = listener;
     }
 
-    public List<Map<String, Object>> getData() {
-        List<Map<String, Object>> mdata = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("url", "http://img2.duitang.com/uploads/item/201207/19/20120719132725_UkzCN.jpeg");
-        map.put("view", new ImageView(context));
-        mdata.add(map);
-
-        Map<String, Object> map1 = new HashMap<String, Object>();
-        map1.put("url", "http://img4.duitang.com/uploads/item/201404/24/20140424195028_vtvZu.jpeg");
-        map1.put("view", new ImageView(context));
-        mdata.add(map1);
-
-        Map<String, Object> map3 = new HashMap<String, Object>();
-        map3.put("url", "http://www.mangowed.com/uploads/allimg/130425/572-130425105311304.jpg");
-        map3.put("view", new ImageView(context));
-        mdata.add(map3);
-        return  mdata;
-    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -77,8 +71,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
-//        UserBean user = list.get(position);
-        holder.user_name.setText("Nicolas");
+        final UserPost userPost = list.get(position);
+        holder.user_name.setText(userPost.getUsername());
+        holder.content.setText(userPost.getContent());
+        holder.contentName.setText(userPost.getUsername());
         Glide.with(context).load("http://goo.gl/gEgYUd").into(holder.userImage);
         imageLoader = ImageLoader.getInstance();
         imageLoader.init(ImageLoaderConfiguration.createDefault(context));
@@ -89,13 +85,45 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
                 .cacheInMemory(true) // cache image in memory
                 .cacheOnDisc(true) // cache image on disk
                 .build();
+
+        data = new ArrayList<Map<String, Object>>();
+        Log.e("哈哈哈",HttpContent.uploadImage + userPost.getPhotourl());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("url", HttpContent.uploadImage + userPost.getPhotourl());
+        map.put("view", new ImageView(context));
+        data.add(map);
         adapter = new ViewPagerAdapter(data);
         holder.viewPager.setAdapter(adapter);
         holder.favourite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                holder.favourite.setImageResource(R.drawable.dianzan_after);
+                Map<String, String> map = new HashMap<>();
+                map.put("userId", UserData.getUserId()+"");
+                map.put("postId", userPost.getPostId()+"");
+                map.put("username", userPost.getUsername()+"");
+                OkGoUtil.jsonPost(context, HttpContent.InsertLike, map, true, new JsonCallback() {
+
+                    @Override
+                    public void onSucess(JSONObject jsonObject) {
+                        try {
+                            if (jsonObject.getInt("resultCode") == 200) {
+                                holder.favourite.setImageResource(R.drawable.dianzan_after);
+
+                            } else {
+                                Toast.makeText(context, jsonObject.getString("msg"), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+
+                });
             }
         });
 
@@ -103,11 +131,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, CommentActivity.class);
-//                intent.putExtra("userId", user.getId());
-//                intent.putExtra("username", user.getUsername());
-//                intent.putExtra("profilephoto", user.getProfilephoto());
 
+                Intent intent = new Intent(context, CommentActivity.class);
+                intent.putExtra("userId", userPost.getUserId()+"");
+                intent.putExtra("username", userPost.getUsername());
+                intent.putExtra("profilephoto", userPost.getProfilephoto());
+                intent.putExtra("postId", userPost.getPostId()+"");
+                intent.putExtra("content", userPost.getContent());
                 context.startActivity(intent);
             }
         });
@@ -178,15 +208,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
             super(itemView);
             favourite = (ImageView) itemView.findViewById(R.id.favourite);
             message = (ImageView) itemView.findViewById(R.id.message);
-            share = (ImageView) itemView.findViewById(R.id.share);
+           // share = (ImageView) itemView.findViewById(R.id.share);
             userImage = (ImageView) itemView.findViewById(R.id.userImage);
             user_name = (TextView) itemView.findViewById(R.id.user_name);
             viewPager = (ViewPager) itemView.findViewById(R.id.viewPager);
-            likeNumber = (TextView) itemView.findViewById(R.id.likeNumber);
-            like = (TextView) itemView.findViewById(R.id.like);
             contentName = (TextView) itemView.findViewById(R.id.contentName);
             content = (TextView) itemView.findViewById(R.id.content);
-            viewMore = (TextView) itemView.findViewById(R.id.viewMore);
+            //viewMore = (TextView) itemView.findViewById(R.id.viewMore);
             mListener = listener;
             itemView.setOnClickListener(this);
         }

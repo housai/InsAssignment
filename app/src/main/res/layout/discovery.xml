@@ -48,13 +48,13 @@
 
     <LinearLayout
         android:id="@+id/search_view"
-        android:layout_width="400dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/dis_input"
-            android:layout_width="290dp"
+            android:layout_width="250dp"
             android:layout_height="45dip"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="3dp"
@@ -66,12 +66,12 @@
 
         <Button
             android:id="@+id/search_btn"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="3dp"
             android:layout_marginBottom="3dp"
-            android:background="@drawable/search"
+            android:text="Search"
             />
 
     </LinearLayout>
@@ -80,44 +80,76 @@
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#DBDBDB"/>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="3dp"
+        android:text="Search list" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/top"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:gravity="left"
             android:orientation="horizontal">
+
             <com.klein.instagram.utils.XCRoundImageView
                 android:id="@+id/dis_userImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop"
-                android:layout_marginLeft="10dp"
 
                 />
 
             <TextView
                 android:id="@+id/dis_res_user_name"
-                android:layout_width="64dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="casual"
                 android:textColor="#000000" />
         </LinearLayout>
+        <Button
+            android:id="@+id/follow1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="3dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/third_before"
+            android:visibility="invisible"/>
     </LinearLayout>
     <View
         android:id="@+id/line4"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#DBDBDB"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="3dp"
+        android:text="Suggested Users" />
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -11,7 +11,11 @@
         android:layout_weight="1">
 
     </FrameLayout>
-
+    <View
+        android:id="@+id/line111"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#DBDBDB"/>
     <com.klein.instagram.utils.BottomBar
         android:background="#FFFFFF"
         android:id="@+id/bottom_bar"
