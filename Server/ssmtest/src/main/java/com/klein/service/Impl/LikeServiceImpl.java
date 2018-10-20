@@ -32,4 +32,7 @@ public class LikeServiceImpl implements LikeService {
     public Integer insertLike(Like like) {
         return likeDao.insertLike(like);
     }
+    public ArrayList<Like> checkLike(Integer userId, Integer postId) {
+        return likeDao.checkLike(userId,postId);
+    }
 }

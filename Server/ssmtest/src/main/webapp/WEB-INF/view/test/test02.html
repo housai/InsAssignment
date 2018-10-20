@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 </head>
-<style>
-	.seller {
-		border: 1px black solid;
-		padding: 0.5rem;
-		margin: 0.5rem;
-		display: flex;
-		background: #F5F5F5;
-	}
-
-	.seller form {
-		width: 20%
-	}
-
-	.seller form p {
-		text-align: center;
-	}
-
-	.seller form p input {
-		border: none;
-		padding: 0.2rem 0;
-		border-radius: 5px;
-	}
-</style>
 <body>
-<form
-		action="http://localhost:8080/ssmtest/UserController/register"
-		method="post" >
-	<p>我的用户立标
-	<p>
-		user name:<input type="text" name="username">
-	</p>
-	<p>
-		password:<input type="text" name="password">
-	</p>
-	<input type="submit"  value="提交">
-</form>
+
+	
+	 <form action="http://localhost:8080/hspt/deliverControllerAPI/appeal" method="post">
+		用户投诉：
+	   userId(用户Id,必填):<input type="text" name="userId">
+	   orderType（申诉的订单类型；0：帮取送 1：帮我买 2：线上选购,必填）:<input type="text" name="orderType">
+	   orderId（订单号，必填）:<input type="text" name="orderId">
+	   content(申诉内容，必填)：<input type="text" name="content">
+	   appealType（申诉类型，1:跑男，2:商家，必填）:<input type="text" name="appealType" >
+	   objectId（申诉对象Id,必填）：<input type="text" name="objectId">
+	   picture1（图片1）：<input type="text" name="picture1">
+	   picture2：<input type="text" name="picture2">
+	   picture3：<input type="text" name="picture3">
+    	<input type="submit" name="提交">
+	</form> 
+	
+	<form action="http://localhost:8080/hspt/deliverControllerAPI/replyAppeal" method="post">
+	 	申诉留言：
+	   appealId(投诉Id,必填):<input type="text" name="appealId">
+	   replyerType（回复者类型，1：投诉发起者，2：被投诉对象，必填）:<input type="text" name="replyerType">
+	   replyerId(回复者Id，必填)：<input type="text" name="replyerId">
+	   replyContent（回复内容，必填）:<input type="text" name="replyContent" >
+    	<input type="submit" name="提交">
+	</form>
+	
+	
+	<form action="http://localhost:8080/hspt/deliverControllerAPI/userCloseAppeal" method="post">
+	 	用户关闭申诉：
+	   appealId(投诉Id,必填):<input type="text" name="appealId">
+    	<input type="submit" name="提交">
+	</form>
+	
+	
 </body>
-
-
 </html>

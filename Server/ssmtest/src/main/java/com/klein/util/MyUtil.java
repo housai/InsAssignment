@@ -492,13 +492,13 @@ public class MyUtil {
     public static String uploadString(String pathRoot){
     	
     	//-------------windows服务器
-    	String newPath1 = pathRoot.substring(0, pathRoot.lastIndexOf("\\"));
-		String newPath = newPath1.substring(0, newPath1.lastIndexOf("\\"));
-		newPath = newPath + "\\userPost\\";
+//    	String newPath1 = pathRoot.substring(0, pathRoot.lastIndexOf("\\"));
+//		String newPath = newPath1.substring(0, newPath1.lastIndexOf("\\"));
+//		newPath = newPath + "\\userPost\\";
     	//--------------Linux服务器--------------
-//    		String newPath1= pathRoot.substring(0, pathRoot.lastIndexOf("/"));
-//        String newPath=newPath1.substring(0, newPath1.lastIndexOf("/"));
-//	    newPath=newPath+"/userPost/";
+    		String newPath1= pathRoot.substring(0, pathRoot.lastIndexOf("/"));
+        String newPath=newPath1.substring(0, newPath1.lastIndexOf("/"));
+	    newPath=newPath+"/userPost/";
     	return newPath;
     }
     

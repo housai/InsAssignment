@@ -12,6 +12,7 @@ import com.klein.model.Follow;
 import com.klein.model.Like;
 import com.klein.service.FollowService;
 import com.klein.service.LikeService;
+import com.klein.service.PostService;
 import com.klein.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,10 @@ public class UserController {
 	
 	@Autowired
     private UserService userService; 
+	
+
+	@Autowired
+    private PostService postService; 
 	
 	@Autowired
     private LikeService likeService;
@@ -152,11 +157,32 @@ public class UserController {
                 return JSON.toJSONString(map);
             }
 
-        }
-        map.put("resultCode",400);
-        map.put("msg","login fail");
-        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
+        }else {
+        		 map.put("resultCode",400);
+             map.put("msg","login fail");
+             return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
 
+        }
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
+       
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "/getUserStats", method = RequestMethod.POST)
+    public String getUserStats (HttpSession session, HttpServletRequest request,HttpServletResponse response) throws Exception {
+        Map<String, Object> map = Maps.newHashMap();
+        String userId = request.getParameter("userId");
+        User user = userService.selectUserById(Integer.parseInt(userId));
+        if (user != null) {
+            map.put("follow", followService.selectFollowByUserId(user.getId()).size());
+            map.put("followed", followService.selectFollowByFollwedId(user.getId()).size());
+            map.put("post", postService.selectPostByUserId(user.getId()).size());
+            map.put("resultCode", 200);
+        }else{
+            map.put("msg", "user not exist");
+            map.put("resultCode", 400);
+        }
+        return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
 }

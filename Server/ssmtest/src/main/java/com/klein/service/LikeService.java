@@ -10,4 +10,5 @@ public interface LikeService {
     ArrayList<Like> selectLikeByPostId(Integer postId);
     ArrayList<Like> selectLikeByUserId(Integer userId);
     Integer insertLike(Like like);
+    ArrayList<Like> checkLike(Integer userId, Integer postId);
 }

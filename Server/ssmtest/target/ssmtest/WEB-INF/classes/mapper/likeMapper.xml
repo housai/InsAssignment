@@ -19,6 +19,9 @@
     <select id="selectLikeByPostId" parameterType="int" resultType="com.klein.model.Like">
         SELECT * FROM t_like WHERE postId = #{postId}
     </select>
+    <select id="checkLike" parameterType="int" resultType="com.klein.model.Like">
+        SELECT * FROM t_like WHERE userId = #{param1} AND postId =#{param2}
+    </select>
     <select id="selectLikeByUserId" parameterType="int" resultType="com.klein.model.Like">
         SELECT * FROM t_like WHERE userId = #{userId}
     </select>

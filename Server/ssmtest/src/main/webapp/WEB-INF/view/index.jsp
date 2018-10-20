@@ -4,8 +4,8 @@
 <html>
 <body>
 	<h2>Hello World!</h2>
-	用户名： ${user.name}
-	<br> 密码：${user.password}
+	用户名： ${user.username}
+	<br> 密码：${user.userpassword}
 	<br>
 </body>
 </html>

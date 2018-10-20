@@ -1,5 +1,6 @@
 package com.klein.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Post {
@@ -59,8 +60,9 @@ public class Post {
         this.location = location;
     }
 
-    public Date getTime() {
-        return time;
+    public String getTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(this.time);
     }
 
     public void setTime(Date time) {

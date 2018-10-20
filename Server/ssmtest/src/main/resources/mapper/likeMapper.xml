@@ -26,5 +26,8 @@
         INSERT INTO t_like (username,postId,userId)
         VALUES   (#{username},#{postId},#{userId})
     </insert>
+    <select id="checkLike" resultType="com.klein.model.Like">
+   		 SELECT * FROM t_like WHERE postId = #{postId} AND userId = #{userId}
+	</select>
 
 </mapper>

@@ -29,26 +29,67 @@
 </style>
 <body>
 	<form
+		action="http://localhost:8080/ssmtest/UserController/getUser"
+		method="post" >
+		<p>获得某个用户
+		<p>
+			id:<input type="text" name="id">
+		</p>
+		
+		
+		<input type="submit"  value="提交">
+	</form>
+	
+	<form
 		action="http://localhost:8080/ssmtest/UserController/login"
 		method="post" >
-		<p>我的用户立标
+		<p>登陆
 		<p>
-			user name:<input type="text" name="username">
+			username:<input type="text" name="username">
 		</p>
-		<p>
-			password:<input type="text" name="password">
-		</p>
+		
+		
 		<input type="submit"  value="提交">
 	</form>
+	
 	<form
-			action="http://localhost:8080/ssmtest/UserController/suggestUserByLike"
-			method="post" >
-		<p>我的用户立标
+		action="http://localhost:8080/ssmtest/fileUploadControllerAPI/upload"
+		method="post" >
+		<p>上传post
 		<p>
-			user name:<input type="text" name="username">
+			username:<input type="text" name="username">
 		</p>
+		
+		
 		<input type="submit"  value="提交">
 	</form>
+	
+	<form
+		action="http://localhost:8080/ssmtest/PostController/selectPostById"
+		method="post" >
+		<p>获得某个具体的post
+		<p>
+			postId:<input type="text" name="postId">
+		</p>
+		
+		
+		<input type="submit"  value="提交">
+	</form>
+	
+	
+	<form
+		action="http://localhost:8080/ssmtest/LikeController/insertLike"
+		method="post" >
+		<p>获得某个具体的post
+		<p>
+			userId:<input type="text" name="userId">
+			postId:<input type="text" name="postId">
+			username:<input type="text" name="username">
+		</p>
+		
+		<input type="submit"  value="提交">
+	</form>
+	
 </body>
 
 	

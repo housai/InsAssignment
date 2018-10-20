@@ -118,17 +118,10 @@ public class LikeController {
         String userId = request.getParameter("userId");
         String postId = request.getParameter("postId");
         String username = request.getParameter("username");
-        ArrayList<Like> likeArrayList = likeService.selectLikeByName(username);
-        ArrayList<Like> likeArrayList2 = likeService.selectLikeByPostId(Integer.parseInt(postId));
-        ArrayList<Like> likeArrayList3 = likeService.selectLikeByUserId(Integer.parseInt(userId));
-
-        likeArrayList.addAll(likeArrayList2);
-        likeArrayList.addAll(likeArrayList3);
-        HashSet hashSet = new HashSet(likeArrayList);
+        ArrayList<Like> likeArrayList = likeService.checkLike(Integer.parseInt(userId),Integer.parseInt(postId));
         Post post = postService.selectPostById(Integer.parseInt(postId));
         User user = userService.selectUserById(Integer.parseInt(userId));
-        System.out.println(hashSet.size());
-        if (hashSet.size()==0 && user != null && post != null){
+        if (likeArrayList.size()==0 && user != null && post != null){
             Like like = new Like(username, Integer.parseInt(postId), Integer.parseInt(userId));
             int result =  likeService.insertLike(like);
             if (result ==1){

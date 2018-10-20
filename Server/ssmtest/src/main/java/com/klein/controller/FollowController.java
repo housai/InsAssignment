@@ -6,6 +6,7 @@ import com.klein.model.Follow;
 import com.klein.model.Like;
 import com.klein.model.Post;
 import com.klein.model.User;
+import com.klein.model.common.UserPost;
 import com.klein.service.FollowService;
 import com.klein.service.LikeService;
 import com.klein.service.PostService;
@@ -112,14 +113,24 @@ public class FollowController {
     public String getFollowActivityByUserId (HttpSession session, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("userId");
         Map<String, Object> map = Maps.newHashMap();
+       
         ArrayList<Follow> followArrayList = followService.selectFollowByUserId(Integer.parseInt(userId));
+        ArrayList<Follow> followedArrayList = followService.selectFollowByFollwedId(Integer.parseInt(userId));
         ArrayList<User> users = new ArrayList<User>();
+        ArrayList<User> follower = new ArrayList<User>();
         ArrayList<Map> result = new ArrayList<Map>();
         if (followArrayList != null){
             for (Follow follow:followArrayList) {
                 users.add(userService.selectUserById(follow.getFollowedId()));
             }
+            for (Follow follow :
+                    followedArrayList) {
+                follower.add(userService.selectUserById(follow.getUserId()));
 
+            }
+            if (follower != null){
+                map.put("data1",follower);
+            }
             for (User user :
                     users) {
                 Map<String, Object> userMap = Maps.newHashMap();
@@ -140,6 +151,7 @@ public class FollowController {
             map.put("resultCode",400);
             map.put("msg","fail");
         }
+        System.out.println(JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty));
         return JSON.toJSONString(map, SerializerFeature.WriteNullStringAsEmpty);
     }
 
@@ -151,6 +163,7 @@ public class FollowController {
         ArrayList<Follow> followArrayList = followService.selectFollowByUserId(Integer.parseInt(userId));
         ArrayList<Post> posts = new ArrayList<Post>();
         ArrayList<Post> postArrayList = postService.selectPostByUserId(Integer.parseInt(userId));
+       
         posts.addAll(postArrayList);
         if (followArrayList != null){
             for (Follow follow:followArrayList) {
@@ -159,9 +172,26 @@ public class FollowController {
             }
 
         }
-        if (posts != null){
+        
+        ArrayList<UserPost> upList = new ArrayList<UserPost>();
+        for(int i = 0;i<posts.size();i++) {
+            UserPost up = new UserPost();
+            Post post = posts.get(i);
+            User user = userService.selectUserById(post.getUserId());
+            up.setContent(post.getContent());
+            up.setLocation(post.getLocation());
+            up.setPassword(user.getPassword());
+            up.setPhotourl(post.getPhotourl());
+            up.setPostId(post.getPostId());
+            up.setProfilephoto(user.getProfilephoto());
+//    			up.setTime(new Date(post.getTime()));
+            up.setUserId(post.getUserId());
+            up.setUsername(user.getUsername());
+            upList.add(up);
+        }
+        if (upList != null){
             map.put("resultCode",200);
-            map.put("data",posts);
+            map.put("data",upList);
         }
         else {
             map.put("resultCode",400);
