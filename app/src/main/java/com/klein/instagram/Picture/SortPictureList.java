@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 /**
  * Image sort by modified
- * Created by hupei on 2016/7/14.
+ * Created by Weikang on 2018/10/10.
  */
 class SortPictureList implements Comparator {
     @Override

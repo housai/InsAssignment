@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 /**
- * Created by Burhanuddin Rashid on 1/17/2018.
+ * Created by Weikang on 2018/10/10.
  */
 
 public class BaseActivity extends AppCompatActivity {

@@ -16,9 +16,7 @@ import java.io.File;
 import java.util.Map;
 import java.util.logging.Level;
 /**
- * Creator:    wangchao
- * Create time:   2017/11/6 16:52
- * Description: TODO
+ * Created by Weikang on 2018/10/10.
  */
 public class OkGoUtil {
 

@@ -16,12 +16,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.klein.instagram.R;
-
-/**
- * Custom Round ImageView，can be used as a part of layout
- * @author caizhiming
- *
- */
 public class XCRoundImageView extends android.support.v7.widget.AppCompatImageView{
 
     private Paint mPaint;//set paint

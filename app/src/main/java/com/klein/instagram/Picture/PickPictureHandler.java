@@ -6,7 +6,7 @@ import android.os.Message;
 import java.util.List;
 
 /**
- * Created by hupei on 2016/7/14.
+ * Created by Weikang on 2018/10/10.
  */
 class PickPictureHandler extends Handler {
     final static int SCAN_OK = 1;

@@ -24,17 +24,7 @@ public abstract class JsonCallback extends AbsCallback<JSONObject> {
 
     @Override
     public void onSuccess(JSONObject jsonObject, Call call, Response response) {
-        Log.d("oldma", "*");
-        Log.d("oldma", "**");
-        Log.d("oldma", "***");
-        Log.d("oldma", "****");
-        Log.d("oldma", "*****");
-        Log.d("oldma", jsonObject.toString());
-        Log.d("oldma", "*****");
-        Log.d("oldma", "****");
-        Log.d("oldma", "***");
-        Log.d("oldma", "**");
-        Log.d("oldma", "*");
+        Log.d("Weikang", jsonObject.toString());
         try {
             onSucess(jsonObject);
         } catch (Exception e) {
@@ -48,18 +38,8 @@ public abstract class JsonCallback extends AbsCallback<JSONObject> {
         String url = request.getBaseUrl();
         HttpParams params = request.getParams();
         params.toString();
-        Log.d("oldma", "*");
-        Log.d("oldma", "**");
-        Log.d("oldma", "***");
-        Log.d("oldma", "****");
-        Log.d("oldma", "*****");
-        Log.d("oldma", url.toString());
-        Log.d("oldma", params.toString());
-        Log.d("oldma", "*****");
-        Log.d("oldma", "****");
-        Log.d("oldma", "***");
-        Log.d("oldma", "**");
-        Log.d("oldma", "*");
+        Log.d("Weikang", url.toString());
+        Log.d("Weikang", params.toString());
     }
 
     @Override

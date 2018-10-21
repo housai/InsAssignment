@@ -9,15 +9,6 @@ import android.view.View;
 
 import com.klein.instagram.utils.PhotoUtil;
 
-
-
-
-/**
- * @Class: ReferenceLine
- * @Description: Grid Reference Lines
- * @author: leiqi
- * @Date: 2016/3/4
- */
 public class ReferenceLine extends View {
 
     private Paint mLinePaint;

@@ -17,7 +17,8 @@ public class PickPicture {
 
 
     /**
-     * * Created by hupei on 2016/7/14.
+     * * Created by Weikang on 2018/10/10.
+     *
      * */
         private Context mContext;
         private HashMap<String, List<String>> mGroupMap = new HashMap<>();
